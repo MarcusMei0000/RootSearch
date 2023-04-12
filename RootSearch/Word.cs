@@ -10,7 +10,7 @@ namespace RootSearch
     internal class Word
     {
         string[] prefixes;
-        string root;
+        public string root;
         string[] suffixes;
         string[] endings;
         string word;
@@ -39,6 +39,11 @@ namespace RootSearch
             suffixes = w.suffixes;
             endings = w.endings;
         }
+        
+        /*
+         * бахнуть здесь компоратор
+         */
+
 
         //переписать, чтобы сравнение начиналось с последнего
         public bool IsClassifiedPreffixes(string[] pref)
@@ -61,6 +66,20 @@ namespace RootSearch
                 return false;
             bool b = Enumerable.SequenceEqual(suffixes, suf);
             return Enumerable.SequenceEqual(suffixes, suf);
+        }
+
+        public bool IsClassified(string[] pref, string[] suf)
+        {
+            //если приставки уже не подходят, нет смысла проверять дальше
+            if (!IsClassifiedPreffixes(pref))
+                return false;
+
+            //обе проверки успешно пройдены
+            if (IsClassifiedSuffixes(suf))
+                return true;
+
+            //вторая проверка не пройдена
+            return false;
         }
 
         public string ToStringRoot()

@@ -32,14 +32,10 @@
             this.textBoxPref0 = new System.Windows.Forms.TextBox();
             this.textBoxSuf0 = new System.Windows.Forms.TextBox();
             this.errorProviderPrefix = new System.Windows.Forms.ErrorProvider(this.components);
-            this.errorProviderSuffix = new System.Windows.Forms.ErrorProvider(this.components);
-            this.buttonInput = new System.Windows.Forms.Button();
-            this.textBoxOutput = new System.Windows.Forms.TextBox();
-            this.labelPrefix = new System.Windows.Forms.Label();
-            this.labelSuffix = new System.Windows.Forms.Label();
             this.textBoxPref1 = new System.Windows.Forms.TextBox();
             this.textBoxPref2 = new System.Windows.Forms.TextBox();
             this.textBoxPref3 = new System.Windows.Forms.TextBox();
+            this.errorProviderSuffix = new System.Windows.Forms.ErrorProvider(this.components);
             this.textBoxSuf1 = new System.Windows.Forms.TextBox();
             this.textBoxSuf2 = new System.Windows.Forms.TextBox();
             this.textBoxSuf3 = new System.Windows.Forms.TextBox();
@@ -48,6 +44,23 @@
             this.textBoxSuf6 = new System.Windows.Forms.TextBox();
             this.textBoxSuf7 = new System.Windows.Forms.TextBox();
             this.textBoxSuf8 = new System.Windows.Forms.TextBox();
+            this.buttonInput = new System.Windows.Forms.Button();
+            this.textBoxOutput = new System.Windows.Forms.TextBox();
+            this.labelPrefix = new System.Windows.Forms.Label();
+            this.labelSuffix = new System.Windows.Forms.Label();
+            this.comboBoxPref0 = new System.Windows.Forms.ComboBox();
+            this.comboBoxPref1 = new System.Windows.Forms.ComboBox();
+            this.comboBoxPref2 = new System.Windows.Forms.ComboBox();
+            this.comboBoxPref3 = new System.Windows.Forms.ComboBox();
+            this.comboBoxSuf0 = new System.Windows.Forms.ComboBox();
+            this.comboBoxSuf1 = new System.Windows.Forms.ComboBox();
+            this.comboBoxSuf2 = new System.Windows.Forms.ComboBox();
+            this.comboBoxSuf3 = new System.Windows.Forms.ComboBox();
+            this.comboBoxSuf4 = new System.Windows.Forms.ComboBox();
+            this.comboBoxSuf5 = new System.Windows.Forms.ComboBox();
+            this.comboBoxSuf6 = new System.Windows.Forms.ComboBox();
+            this.comboBoxSuf7 = new System.Windows.Forms.ComboBox();
+            this.comboBoxSuf8 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderPrefix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderSuffix)).BeginInit();
             this.SuspendLayout();
@@ -56,7 +69,7 @@
             // 
             this.errorProviderPrefix.SetError(this.textBoxPref0, "Неверный ввод");
             this.textBoxPref0.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxPref0.Location = new System.Drawing.Point(13, 49);
+            this.textBoxPref0.Location = new System.Drawing.Point(294, 21);
             this.textBoxPref0.Name = "textBoxPref0";
             this.textBoxPref0.Size = new System.Drawing.Size(76, 30);
             this.textBoxPref0.TabIndex = 0;
@@ -65,7 +78,7 @@
             // 
             this.errorProviderSuffix.SetError(this.textBoxSuf0, "Неверный ввод");
             this.textBoxSuf0.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxSuf0.Location = new System.Drawing.Point(12, 125);
+            this.textBoxSuf0.Location = new System.Drawing.Point(12, 156);
             this.textBoxSuf0.Name = "textBoxSuf0";
             this.textBoxSuf0.Size = new System.Drawing.Size(77, 30);
             this.textBoxSuf0.TabIndex = 3;
@@ -75,15 +88,114 @@
             this.errorProviderPrefix.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProviderPrefix.ContainerControl = this;
             // 
+            // textBoxPref1
+            // 
+            this.errorProviderPrefix.SetError(this.textBoxPref1, "Неверный ввод");
+            this.textBoxPref1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxPref1.Location = new System.Drawing.Point(395, 21);
+            this.textBoxPref1.Name = "textBoxPref1";
+            this.textBoxPref1.Size = new System.Drawing.Size(76, 30);
+            this.textBoxPref1.TabIndex = 8;
+            // 
+            // textBoxPref2
+            // 
+            this.errorProviderPrefix.SetError(this.textBoxPref2, "Неверный ввод");
+            this.textBoxPref2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxPref2.Location = new System.Drawing.Point(500, 21);
+            this.textBoxPref2.Name = "textBoxPref2";
+            this.textBoxPref2.Size = new System.Drawing.Size(76, 30);
+            this.textBoxPref2.TabIndex = 9;
+            // 
+            // textBoxPref3
+            // 
+            this.errorProviderPrefix.SetError(this.textBoxPref3, "Неверный ввод");
+            this.textBoxPref3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxPref3.Location = new System.Drawing.Point(625, 21);
+            this.textBoxPref3.Name = "textBoxPref3";
+            this.textBoxPref3.Size = new System.Drawing.Size(76, 30);
+            this.textBoxPref3.TabIndex = 10;
+            // 
             // errorProviderSuffix
             // 
             this.errorProviderSuffix.BlinkStyle = System.Windows.Forms.ErrorBlinkStyle.NeverBlink;
             this.errorProviderSuffix.ContainerControl = this;
             // 
+            // textBoxSuf1
+            // 
+            this.errorProviderSuffix.SetError(this.textBoxSuf1, "Неверный ввод");
+            this.textBoxSuf1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxSuf1.Location = new System.Drawing.Point(113, 156);
+            this.textBoxSuf1.Name = "textBoxSuf1";
+            this.textBoxSuf1.Size = new System.Drawing.Size(77, 30);
+            this.textBoxSuf1.TabIndex = 11;
+            // 
+            // textBoxSuf2
+            // 
+            this.errorProviderSuffix.SetError(this.textBoxSuf2, "Неверный ввод");
+            this.textBoxSuf2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxSuf2.Location = new System.Drawing.Point(212, 156);
+            this.textBoxSuf2.Name = "textBoxSuf2";
+            this.textBoxSuf2.Size = new System.Drawing.Size(77, 30);
+            this.textBoxSuf2.TabIndex = 12;
+            // 
+            // textBoxSuf3
+            // 
+            this.errorProviderSuffix.SetError(this.textBoxSuf3, "Неверный ввод");
+            this.textBoxSuf3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxSuf3.Location = new System.Drawing.Point(313, 156);
+            this.textBoxSuf3.Name = "textBoxSuf3";
+            this.textBoxSuf3.Size = new System.Drawing.Size(77, 30);
+            this.textBoxSuf3.TabIndex = 13;
+            // 
+            // textBoxSuf4
+            // 
+            this.errorProviderSuffix.SetError(this.textBoxSuf4, "Неверный ввод");
+            this.textBoxSuf4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxSuf4.Location = new System.Drawing.Point(418, 156);
+            this.textBoxSuf4.Name = "textBoxSuf4";
+            this.textBoxSuf4.Size = new System.Drawing.Size(77, 30);
+            this.textBoxSuf4.TabIndex = 14;
+            // 
+            // textBoxSuf5
+            // 
+            this.errorProviderSuffix.SetError(this.textBoxSuf5, "Неверный ввод");
+            this.textBoxSuf5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxSuf5.Location = new System.Drawing.Point(519, 156);
+            this.textBoxSuf5.Name = "textBoxSuf5";
+            this.textBoxSuf5.Size = new System.Drawing.Size(77, 30);
+            this.textBoxSuf5.TabIndex = 15;
+            // 
+            // textBoxSuf6
+            // 
+            this.errorProviderSuffix.SetError(this.textBoxSuf6, "Неверный ввод");
+            this.textBoxSuf6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxSuf6.Location = new System.Drawing.Point(625, 156);
+            this.textBoxSuf6.Name = "textBoxSuf6";
+            this.textBoxSuf6.Size = new System.Drawing.Size(77, 30);
+            this.textBoxSuf6.TabIndex = 16;
+            // 
+            // textBoxSuf7
+            // 
+            this.errorProviderSuffix.SetError(this.textBoxSuf7, "Неверный ввод");
+            this.textBoxSuf7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxSuf7.Location = new System.Drawing.Point(739, 156);
+            this.textBoxSuf7.Name = "textBoxSuf7";
+            this.textBoxSuf7.Size = new System.Drawing.Size(77, 30);
+            this.textBoxSuf7.TabIndex = 17;
+            // 
+            // textBoxSuf8
+            // 
+            this.errorProviderSuffix.SetError(this.textBoxSuf8, "Неверный ввод");
+            this.textBoxSuf8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxSuf8.Location = new System.Drawing.Point(834, 156);
+            this.textBoxSuf8.Name = "textBoxSuf8";
+            this.textBoxSuf8.Size = new System.Drawing.Size(77, 30);
+            this.textBoxSuf8.TabIndex = 18;
+            // 
             // buttonInput
             // 
             this.buttonInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonInput.Location = new System.Drawing.Point(418, 258);
+            this.buttonInput.Location = new System.Drawing.Point(418, 272);
             this.buttonInput.Name = "buttonInput";
             this.buttonInput.Size = new System.Drawing.Size(112, 48);
             this.buttonInput.TabIndex = 4;
@@ -94,7 +206,7 @@
             // textBoxOutput
             // 
             this.textBoxOutput.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.textBoxOutput.Location = new System.Drawing.Point(13, 192);
+            this.textBoxOutput.Location = new System.Drawing.Point(13, 206);
             this.textBoxOutput.Multiline = true;
             this.textBoxOutput.Name = "textBoxOutput";
             this.textBoxOutput.ReadOnly = true;
@@ -121,110 +233,129 @@
             this.labelSuffix.TabIndex = 7;
             this.labelSuffix.Text = "Введите суффиксы";
             // 
-            // textBoxPref1
+            // comboBoxPref0
             // 
-            this.errorProviderPrefix.SetError(this.textBoxPref1, "Неверный ввод");
-            this.textBoxPref1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxPref1.Location = new System.Drawing.Point(113, 49);
-            this.textBoxPref1.Name = "textBoxPref1";
-            this.textBoxPref1.Size = new System.Drawing.Size(76, 30);
-            this.textBoxPref1.TabIndex = 8;
+            this.comboBoxPref0.FormattingEnabled = true;
+            this.comboBoxPref0.Location = new System.Drawing.Point(17, 49);
+            this.comboBoxPref0.Name = "comboBoxPref0";
+            this.comboBoxPref0.Size = new System.Drawing.Size(85, 24);
+            this.comboBoxPref0.TabIndex = 19;
+            this.comboBoxPref0.SelectedIndexChanged += new System.EventHandler(this.comboBoxPref0_SelectedIndexChanged);
             // 
-            // textBoxPref2
+            // comboBoxPref1
             // 
-            this.errorProviderPrefix.SetError(this.textBoxPref2, "Неверный ввод");
-            this.textBoxPref2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxPref2.Location = new System.Drawing.Point(212, 49);
-            this.textBoxPref2.Name = "textBoxPref2";
-            this.textBoxPref2.Size = new System.Drawing.Size(76, 30);
-            this.textBoxPref2.TabIndex = 9;
+            this.comboBoxPref1.FormattingEnabled = true;
+            this.comboBoxPref1.Location = new System.Drawing.Point(113, 49);
+            this.comboBoxPref1.Name = "comboBoxPref1";
+            this.comboBoxPref1.Size = new System.Drawing.Size(85, 24);
+            this.comboBoxPref1.TabIndex = 20;
             // 
-            // textBoxPref3
+            // comboBoxPref2
             // 
-            this.errorProviderPrefix.SetError(this.textBoxPref3, "Неверный ввод");
-            this.textBoxPref3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxPref3.Location = new System.Drawing.Point(313, 49);
-            this.textBoxPref3.Name = "textBoxPref3";
-            this.textBoxPref3.Size = new System.Drawing.Size(76, 30);
-            this.textBoxPref3.TabIndex = 10;
+            this.comboBoxPref2.FormattingEnabled = true;
+            this.comboBoxPref2.Location = new System.Drawing.Point(212, 49);
+            this.comboBoxPref2.Name = "comboBoxPref2";
+            this.comboBoxPref2.Size = new System.Drawing.Size(85, 24);
+            this.comboBoxPref2.TabIndex = 21;
             // 
-            // textBoxSuf1
+            // comboBoxPref3
             // 
-            this.errorProviderSuffix.SetError(this.textBoxSuf1, "Неверный ввод");
-            this.textBoxSuf1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxSuf1.Location = new System.Drawing.Point(113, 125);
-            this.textBoxSuf1.Name = "textBoxSuf1";
-            this.textBoxSuf1.Size = new System.Drawing.Size(77, 30);
-            this.textBoxSuf1.TabIndex = 11;
+            this.comboBoxPref3.FormattingEnabled = true;
+            this.comboBoxPref3.Location = new System.Drawing.Point(322, 49);
+            this.comboBoxPref3.Name = "comboBoxPref3";
+            this.comboBoxPref3.Size = new System.Drawing.Size(85, 24);
+            this.comboBoxPref3.TabIndex = 22;
             // 
-            // textBoxSuf2
+            // comboBoxSuf0
             // 
-            this.errorProviderSuffix.SetError(this.textBoxSuf2, "Неверный ввод");
-            this.textBoxSuf2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxSuf2.Location = new System.Drawing.Point(212, 125);
-            this.textBoxSuf2.Name = "textBoxSuf2";
-            this.textBoxSuf2.Size = new System.Drawing.Size(77, 30);
-            this.textBoxSuf2.TabIndex = 12;
+            this.comboBoxSuf0.FormattingEnabled = true;
+            this.comboBoxSuf0.Location = new System.Drawing.Point(12, 125);
+            this.comboBoxSuf0.Name = "comboBoxSuf0";
+            this.comboBoxSuf0.Size = new System.Drawing.Size(85, 24);
+            this.comboBoxSuf0.TabIndex = 23;
             // 
-            // textBoxSuf3
+            // comboBoxSuf1
             // 
-            this.errorProviderSuffix.SetError(this.textBoxSuf3, "Неверный ввод");
-            this.textBoxSuf3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxSuf3.Location = new System.Drawing.Point(313, 125);
-            this.textBoxSuf3.Name = "textBoxSuf3";
-            this.textBoxSuf3.Size = new System.Drawing.Size(77, 30);
-            this.textBoxSuf3.TabIndex = 13;
+            this.comboBoxSuf1.FormattingEnabled = true;
+            this.comboBoxSuf1.Location = new System.Drawing.Point(113, 125);
+            this.comboBoxSuf1.Name = "comboBoxSuf1";
+            this.comboBoxSuf1.Size = new System.Drawing.Size(85, 24);
+            this.comboBoxSuf1.TabIndex = 24;
             // 
-            // textBoxSuf4
+            // comboBoxSuf2
             // 
-            this.errorProviderSuffix.SetError(this.textBoxSuf4, "Неверный ввод");
-            this.textBoxSuf4.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxSuf4.Location = new System.Drawing.Point(418, 125);
-            this.textBoxSuf4.Name = "textBoxSuf4";
-            this.textBoxSuf4.Size = new System.Drawing.Size(77, 30);
-            this.textBoxSuf4.TabIndex = 14;
+            this.comboBoxSuf2.FormattingEnabled = true;
+            this.comboBoxSuf2.Location = new System.Drawing.Point(212, 126);
+            this.comboBoxSuf2.Name = "comboBoxSuf2";
+            this.comboBoxSuf2.Size = new System.Drawing.Size(85, 24);
+            this.comboBoxSuf2.TabIndex = 25;
             // 
-            // textBoxSuf5
+            // comboBoxSuf3
             // 
-            this.errorProviderSuffix.SetError(this.textBoxSuf5, "Неверный ввод");
-            this.textBoxSuf5.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxSuf5.Location = new System.Drawing.Point(521, 125);
-            this.textBoxSuf5.Name = "textBoxSuf5";
-            this.textBoxSuf5.Size = new System.Drawing.Size(77, 30);
-            this.textBoxSuf5.TabIndex = 15;
+            this.comboBoxSuf3.FormattingEnabled = true;
+            this.comboBoxSuf3.Location = new System.Drawing.Point(322, 126);
+            this.comboBoxSuf3.Name = "comboBoxSuf3";
+            this.comboBoxSuf3.Size = new System.Drawing.Size(85, 24);
+            this.comboBoxSuf3.TabIndex = 26;
             // 
-            // textBoxSuf6
+            // comboBoxSuf4
             // 
-            this.errorProviderSuffix.SetError(this.textBoxSuf6, "Неверный ввод");
-            this.textBoxSuf6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxSuf6.Location = new System.Drawing.Point(624, 125);
-            this.textBoxSuf6.Name = "textBoxSuf6";
-            this.textBoxSuf6.Size = new System.Drawing.Size(77, 30);
-            this.textBoxSuf6.TabIndex = 16;
+            this.comboBoxSuf4.FormattingEnabled = true;
+            this.comboBoxSuf4.Location = new System.Drawing.Point(430, 125);
+            this.comboBoxSuf4.Name = "comboBoxSuf4";
+            this.comboBoxSuf4.Size = new System.Drawing.Size(85, 24);
+            this.comboBoxSuf4.TabIndex = 27;
             // 
-            // textBoxSuf7
+            // comboBoxSuf5
             // 
-            this.errorProviderSuffix.SetError(this.textBoxSuf7, "Неверный ввод");
-            this.textBoxSuf7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxSuf7.Location = new System.Drawing.Point(728, 125);
-            this.textBoxSuf7.Name = "textBoxSuf7";
-            this.textBoxSuf7.Size = new System.Drawing.Size(77, 30);
-            this.textBoxSuf7.TabIndex = 17;
+            this.comboBoxSuf5.FormattingEnabled = true;
+            this.comboBoxSuf5.Location = new System.Drawing.Point(539, 125);
+            this.comboBoxSuf5.Name = "comboBoxSuf5";
+            this.comboBoxSuf5.Size = new System.Drawing.Size(85, 24);
+            this.comboBoxSuf5.TabIndex = 28;
             // 
-            // textBoxSuf8
+            // comboBoxSuf6
             // 
-            this.errorProviderSuffix.SetError(this.textBoxSuf8, "Неверный ввод");
-            this.textBoxSuf8.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxSuf8.Location = new System.Drawing.Point(834, 125);
-            this.textBoxSuf8.Name = "textBoxSuf8";
-            this.textBoxSuf8.Size = new System.Drawing.Size(77, 30);
-            this.textBoxSuf8.TabIndex = 18;
+            this.comboBoxSuf6.FormattingEnabled = true;
+            this.comboBoxSuf6.Location = new System.Drawing.Point(640, 126);
+            this.comboBoxSuf6.Name = "comboBoxSuf6";
+            this.comboBoxSuf6.Size = new System.Drawing.Size(85, 24);
+            this.comboBoxSuf6.TabIndex = 29;
+            // 
+            // comboBoxSuf7
+            // 
+            this.comboBoxSuf7.FormattingEnabled = true;
+            this.comboBoxSuf7.Location = new System.Drawing.Point(739, 125);
+            this.comboBoxSuf7.Name = "comboBoxSuf7";
+            this.comboBoxSuf7.Size = new System.Drawing.Size(85, 24);
+            this.comboBoxSuf7.TabIndex = 30;
+            // 
+            // comboBoxSuf8
+            // 
+            this.comboBoxSuf8.FormattingEnabled = true;
+            this.comboBoxSuf8.Location = new System.Drawing.Point(837, 125);
+            this.comboBoxSuf8.Name = "comboBoxSuf8";
+            this.comboBoxSuf8.Size = new System.Drawing.Size(85, 24);
+            this.comboBoxSuf8.TabIndex = 31;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(934, 332);
+            this.Controls.Add(this.comboBoxSuf8);
+            this.Controls.Add(this.comboBoxSuf7);
+            this.Controls.Add(this.comboBoxSuf6);
+            this.Controls.Add(this.comboBoxSuf5);
+            this.Controls.Add(this.comboBoxSuf4);
+            this.Controls.Add(this.comboBoxSuf3);
+            this.Controls.Add(this.comboBoxSuf2);
+            this.Controls.Add(this.comboBoxSuf1);
+            this.Controls.Add(this.comboBoxSuf0);
+            this.Controls.Add(this.comboBoxPref3);
+            this.Controls.Add(this.comboBoxPref2);
+            this.Controls.Add(this.comboBoxPref1);
+            this.Controls.Add(this.comboBoxPref0);
             this.Controls.Add(this.textBoxSuf8);
             this.Controls.Add(this.textBoxSuf7);
             this.Controls.Add(this.textBoxSuf6);
@@ -273,6 +404,19 @@
         private System.Windows.Forms.TextBox textBoxSuf3;
         private System.Windows.Forms.TextBox textBoxSuf2;
         private System.Windows.Forms.TextBox textBoxSuf1;
+        private System.Windows.Forms.ComboBox comboBoxPref0;
+        private System.Windows.Forms.ComboBox comboBoxSuf8;
+        private System.Windows.Forms.ComboBox comboBoxSuf7;
+        private System.Windows.Forms.ComboBox comboBoxSuf6;
+        private System.Windows.Forms.ComboBox comboBoxSuf5;
+        private System.Windows.Forms.ComboBox comboBoxSuf4;
+        private System.Windows.Forms.ComboBox comboBoxSuf3;
+        private System.Windows.Forms.ComboBox comboBoxSuf2;
+        private System.Windows.Forms.ComboBox comboBoxSuf1;
+        private System.Windows.Forms.ComboBox comboBoxSuf0;
+        private System.Windows.Forms.ComboBox comboBoxPref3;
+        private System.Windows.Forms.ComboBox comboBoxPref2;
+        private System.Windows.Forms.ComboBox comboBoxPref1;
     }
 }
 

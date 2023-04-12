@@ -16,32 +16,58 @@ namespace RootSearch
     {
         StreamReader streamReader;
         StreamWriter streamWriterYes, streamWriterNo;
-        const string suffixes = "suffixes.txt";
-        const string prefixes = "prefixes.txt";
 
         const string output_yes = "сочетающиеся.txt";
         const string output_no = "несочетающиеся.txt";
-        public Parser(string filePath)
+        const string proclicticsPath = "proclictic.txt";
+        string filePath = "";
+        List<string> proclitic = new List<string>();
+
+        List<string> setYes = new List<string>();
+        List<string> setNo = new List<string>();
+
+        private List<string> CreateProclicticsList(string filePath)
         {
-            streamReader = new StreamReader(filePath, Encoding.Default);
-            streamWriterYes = File.CreateText(output_yes);
-            streamWriterNo = File.CreateText(output_no);
+            var list = new List<string>();
+            //StreamReader sr = File.OpenText(filePath);
+            String input;
+          //  while ((input = sr.ReadLine()) != null)
+            {
+          //      list.Add(input);
+            }
+            return list;
         }
 
-        //проблемы с открытием файла могут возникнуть
-        public void Test(string[] prefixes, string[] suffixies)
+        public Parser(string filePath)
+        {
+            this.filePath = filePath;
+            proclitic = CreateProclicticsList(proclicticsPath);
+        }
+
+        private bool IsProclitic(Word w)
+        {
+            return proclitic.Contains(w.root);
+        }
+
+        public List<string> ParseFile(string[] prefixes, string[] suffixies, out List<string> setNoComplimentary)
         {
             String remainder = null, fullWord = null, transcription = null;
             Word word;
             string s;
+
             while ((s = streamReader.ReadLine()) != null)
             {
                 word = ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
                 if (word != null)
                 {
-                    if (word.IsClassifiedPreffixes(prefixes) && word.IsClassifiedSuffixes(suffixies))
-                        streamWriterYes.WriteLine(word.ToStringRoot());
-                    else streamWriterNo.WriteLine(word.ToStringRoot());
+                    if (word.IsClassifiedPreffixes(prefixes) && word.IsClassifiedSuffixes(suffixies) && !IsProclitic(word))
+                    {
+                        setYes.Add(word.ToStringRoot());
+                    }
+                    else
+                    {
+                        setNo.Add(word.ToStringRoot());
+                    }
                 }
 
                 while (remainder != null)
@@ -49,54 +75,44 @@ namespace RootSearch
                     word = ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
                     if (word != null)
                     {
-                        if (word.IsClassifiedPreffixes(prefixes) && word.IsClassifiedSuffixes(suffixies))
-                            streamWriterYes.WriteLine(word.ToStringRoot());
-                        else streamWriterNo.WriteLine(word.ToStringRoot());
+                        if (word.IsClassifiedPreffixes(prefixes) && word.IsClassifiedSuffixes(suffixies) && !IsProclitic(word))
+                        {
+                            setYes.Add(word.ToStringRoot());
+                        }
+                        else
+                        {
+                            setNo.Add(word.ToStringRoot());
+                        }
                     }
                 }
                 remainder = null;
             }
+
+            setNoComplimentary = setNo;
+            return setYes;
+        }
+
+        public void Print(List<string> set, StreamWriter stream)
+        {
+            foreach (string s in set)
+                stream.WriteLine(s);
+            stream.Close();
+        }
+
+        public void MainTask(string[] prefixes, string[] suffixies)
+        {
+            streamReader = new StreamReader(filePath, Encoding.Default);
+            streamWriterYes = File.CreateText(output_yes);
+            streamWriterNo = File.CreateText(output_no);
+
+            List<string> setNoComplimantery = new List<string>();
+            List<string> setYesComplimentary = ParseFile(prefixes, suffixies, out setNoComplimantery);
+            Print(setYesComplimentary, streamWriterYes);
+            Print(setNoComplimantery, streamWriterNo);
+
             streamWriterYes.Close();
             streamWriterNo.Close();
             streamReader.Close();
-        }
-
-        public void OldTest(string[] prefixes, string[] suffixies)
-        {
-            String remainder = null, fullWord = null, transcription = null;
-            Word word;
-            string s;
-            while ((s = streamReader.ReadLine()) != null)
-            {
-                word = ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
-                if (word != null)
-                {
-                        streamWriterYes.WriteLine(word.ToString());
-                }
-
-                while (remainder != null)
-                {
-                    word = ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
-                    if (word != null)
-                            streamWriterYes.WriteLine(word.ToString());
-                }
-                remainder = null;
-            }
-        }
-
-
-        private HashSet<string> CreateSet(out HashSet<string> complementarySet)
-        {
-            const int N = 1000;
-            String secondRootWord = "", fullWord = "", transcription = "";
-            complementarySet = new HashSet<string>();
-            Word word;
-            for (int i = 0; i < N; i++)
-            {
-                word = ParseStringIntoWords(streamReader.ReadLine(), out secondRootWord, ref fullWord, ref transcription);
-            }
-
-            return complementarySet;
         }
 
         /*
@@ -121,7 +137,7 @@ namespace RootSearch
             return prefixes;
         }
 
-        //Нахождение суффиксов, корень не обрезается?
+        //Нахождение суффиксов
         private string[] ParseWordSuffix(string word, out string remainder, out string root)
         {
             string[] suffixes = null;
@@ -177,7 +193,7 @@ namespace RootSearch
                 secondRootWord = part.Substring(part.IndexOf('[') + 2, part.Length - part.IndexOf('[') - 2);
                 return ParsePartWord(remainder, fullWord, transcription);
             }
-            else if (part.Contains(' ')) //постфиксы
+            else if (part.Contains(' ')) //постфиксы и проклитики?
             {
                 remainder = part.Substring(0, part.IndexOf(' '));
                 secondRootWord = part.Substring(part.IndexOf(' ') + 1, part.Length - part.IndexOf(' ') - 1);
@@ -190,7 +206,10 @@ namespace RootSearch
                 return ParsePartWord(remainder, fullWord, transcription);
             }
         }
-
+    }
+}
+/*logs
+ * 
         private bool Check(string s, char c)
         {
             foreach (char st in s)
@@ -208,9 +227,44 @@ namespace RootSearch
                 streamWriterYes.WriteLine(s);
             }
         }
-    }
-}
-/*logs
+ * 
+
+        private HashSet<string> CreateSet(out HashSet<string> complementarySet)
+        {
+            const int N = 1000;
+            String secondRootWord = "", fullWord = "", transcription = "";
+            complementarySet = new HashSet<string>();
+            Word word;
+            for (int i = 0; i < N; i++)
+            {
+                word = ParseStringIntoWords(streamReader.ReadLine(), out secondRootWord, ref fullWord, ref transcription);
+            }
+
+            return complementarySet;
+        }
+ * 
+ *         public void OldTest(string[] prefixes, string[] suffixies)
+        {
+            String remainder = null, fullWord = null, transcription = null;
+            Word word;
+            string s;
+            while ((s = streamReader.ReadLine()) != null)
+            {
+                word = ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
+                if (word != null)
+                {
+                        streamWriterYes.WriteLine(word.ToString());
+                }
+
+                while (remainder != null)
+                {
+                    word = ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
+                    if (word != null)
+                            streamWriterYes.WriteLine(word.ToString());
+                }
+                remainder = null;
+            }
+        }
 private Word ParseWord(string word, out string secondRootWord)
         {
             string[] prefixes = null;
