@@ -174,7 +174,7 @@ namespace RootSearch
 
         private void comboBoxPref0_SelectedIndexChanged(object sender, EventArgs e)
         {
-            comboBoxPref1.Enabled = true;
+            comboBoxPref1.Enabled = ((System.Windows.Forms.ComboBox) sender).SelectedIndex != 0;
         }
     }
 }
