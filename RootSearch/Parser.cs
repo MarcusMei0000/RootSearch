@@ -21,6 +21,7 @@ namespace RootSearch
         const string output_no = "несочетающиеся.txt";
         const string proclicticsPath = "proclictic.txt";
         string filePath = "";
+
         List<string> proclitic = new List<string>();
 
         List<string> setYes = new List<string>();
@@ -29,11 +30,11 @@ namespace RootSearch
         private List<string> CreateProclicticsList(string filePath)
         {
             var list = new List<string>();
-            //StreamReader sr = File.OpenText(filePath);
+            StreamReader sr = File.OpenText(filePath);
             String input;
-          //  while ((input = sr.ReadLine()) != null)
+            while ((input = sr.ReadLine()) != null)
             {
-          //      list.Add(input);
+                list.Add(input);
             }
             return list;
         }
@@ -46,7 +47,7 @@ namespace RootSearch
 
         private bool IsProclitic(Word w)
         {
-            return proclitic.Contains(w.root);
+            return proclitic.Contains(w.Root);
         }
 
         public List<string> ParseFile(string[] prefixes, string[] suffixies, out List<string> setNoComplimentary)
@@ -193,7 +194,7 @@ namespace RootSearch
                 secondRootWord = part.Substring(part.IndexOf('[') + 2, part.Length - part.IndexOf('[') - 2);
                 return ParsePartWord(remainder, fullWord, transcription);
             }
-            else if (part.Contains(' ')) //постфиксы и проклитики?
+            else if (part.Contains(' '))
             {
                 remainder = part.Substring(0, part.IndexOf(' '));
                 secondRootWord = part.Substring(part.IndexOf(' ') + 1, part.Length - part.IndexOf(' ') - 1);

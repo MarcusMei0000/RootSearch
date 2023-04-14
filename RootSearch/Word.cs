@@ -10,11 +10,13 @@ namespace RootSearch
     internal class Word
     {
         string[] prefixes;
-        public string root;
+        string root;
         string[] suffixes;
         string[] endings;
         string word;
         string transcription;
+
+        public String Root { get; }
 
         public Word(string w, string t, string[] p, string r, string[] s, string[] e = null)
         {
@@ -39,33 +41,47 @@ namespace RootSearch
             suffixes = w.suffixes;
             endings = w.endings;
         }
-        
-        /*
-         * бахнуть здесь компоратор
-         */
-
-
-        //переписать, чтобы сравнение начиналось с последнего
-        public bool IsClassifiedPreffixes(string[] pref)
+       
+        /*Аналогично суффиксам, но с конца, т. к. надо сравнивать, начиная от корня (ближе к корню)*/
+        public bool IsClassifiedPreffixes(string[] givenPrefixes)
         {
-            if (prefixes == pref)
+            if (prefixes == null && givenPrefixes == null)
                 return true;
-            if (prefixes == null || pref == null)
+
+            if (prefixes == null || givenPrefixes == null)
                 return false;
-            bool b = Enumerable.SequenceEqual(prefixes, pref);
-            return Enumerable.SequenceEqual(prefixes, pref);
+
+            if (givenPrefixes.Length > prefixes.Length) 
+                return false;
+
+            for (int i = givenPrefixes.Length-1; i >= 0; i--)
+                if (givenPrefixes[i] != prefixes[i]) 
+                    return false;
+
+            return true;
         }
 
-        //переписать, чтобы сравнение начиналось с первого
-        //Если слово например сожержит [пре-от-под], ввели [от-под], то такой корень я считаю сочетающимся с [от-под], верно?
-        public bool IsClassifiedSuffixes(string[] suf)
+        /*Если суффиксов нигде нет - true
+          Если суффиксов у одного есть, у другого нет - false
+          Если количество введённых суффиксов больше, чем суффиксов в слове - false
+          Если данные суффиксы по очереди совпадают с суффиксами словами - true
+        */
+        public bool IsClassifiedSuffixes(string[] givenSuffixes)
         {
-            if (suffixes == suf)
+            if (suffixes == null && givenSuffixes == null)
                 return true;
-            if (suffixes == null || suf == null) 
+
+            if (suffixes == null || givenSuffixes == null)
                 return false;
-            bool b = Enumerable.SequenceEqual(suffixes, suf);
-            return Enumerable.SequenceEqual(suffixes, suf);
+
+            if (givenSuffixes.Length > suffixes.Length)
+                return false;
+
+            for (int i = 0; i < givenSuffixes.Length; i++)
+                if (givenSuffixes[i] != suffixes[i])
+                    return false;
+
+            return true;
         }
 
         public bool IsClassified(string[] pref, string[] suf)
@@ -110,3 +126,31 @@ namespace RootSearch
         }
     }
 }
+
+
+
+
+
+/*public bool IsClassifiedPreffixes(string[] pref)
+        {
+           // if (prefixes == pref)
+           //     return true;
+            if (prefixes == null && pref == null)
+               return true;
+            if (prefixes == null || pref == null) 
+                return false;
+            bool b = Enumerable.SequenceEqual(prefixes, pref);
+            return Enumerable.SequenceEqual(prefixes, pref);
+        }
+
+        //переписать, чтобы сравнение начиналось с первого
+        //Если слово например сожержит [пре-от-под], ввели [от-под], то такой корень я считаю сочетающимся с [от-под], верно?
+        public bool IsClassifiedSuffixes(string[] suf)
+        {
+           // if (suffixes == suf)
+             //   return true;
+            if (suffixes == null || suf == null) 
+                return false;
+            bool b = Enumerable.SequenceEqual(suffixes, suf);
+            return Enumerable.SequenceEqual(suffixes, suf);
+        }*/
