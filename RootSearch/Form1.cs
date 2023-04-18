@@ -140,20 +140,8 @@ namespace RootSearch
             }
         }
 
-        private void ReadComboboxes()
-        {
-          //  if (.SelectedIndex == -1)
-            {
-                //error
-            }
-        }
+        //4 или 9 объектов, которые должны быть заполнены подряд (без пробелов)
 
-
-        private void ValidatePrefixes()
-        {
-            //4 или 9 объектов, которые должны быть заполнены подряд (без пробелов)
-            //
-        }
 
         /*дб функция, которая при заполнении постепенно разрешает вводить в комбобоксы 
           и проверяет их все на правильность (т.е. не -1 индекс)
@@ -195,25 +183,33 @@ namespace RootSearch
 
         private void buttonInput_Click(object sender, EventArgs e)
         {
-           // string[] prefixes = validator.PrefixValidate(textBoxPref0.Text);
-            //string[] suffixes = validator.SuffixValidate(textBoxSuf0.Text);
+            string[] prefixes = ValidateComboBoxes(comboBoxesPref);
+            string[] suffixes = ValidateComboBoxes(comboBoxesSuf);
 
-            HashSet<string> words;
+            Parser parser = new Parser(filePath);
+            string[] filePathes = parser.MainTask(prefixes, suffixes);
 
-            //if (prefixes != null)
-            //words = parser.RootsForPrefixSet();
-
-            //if (suffixes != null)
-            //words = parser.RootsForPrefixSet();
-
-            //Parser parser = new Parser(filePath);
-            //parser.Test();
-
+            textBoxOutput.Text = "";
+            foreach (string s in filePathes)
+                textBoxOutput.Text += s + Environment.NewLine;
         }
 
-        private void ValidateSuffixes()
+        private string[] ValidateComboBoxes(List<System.Windows.Forms.ComboBox> comboBoxes)
         {
+            string[] suffixes = new string[comboBoxes.Count];
+            int i = 0;
+            foreach (var combo in comboBoxes)
+            {
+                if (combo.SelectedIndex != -1)
+                {
+                    if (combo.SelectedIndex != 0)
+                        suffixes[i] = combo.Text;
+                    else suffixes[i] = "";
+                    i++;
+                }
+            }                
 
+            return suffixes;
         }
 
         //Если нажать на <пусто> второй раз, то следующее поле разблокируется

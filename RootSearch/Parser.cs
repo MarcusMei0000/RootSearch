@@ -9,6 +9,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Drawing.Printing;
 using System.Web;
 using RootSearch;
+using System.Security.Permissions;
 
 namespace RootSearch
 {
@@ -100,11 +101,61 @@ namespace RootSearch
             stream.Close();
         }
 
-        public void MainTask(string[] prefixes, string[] suffixies)
+
+        //съ+пер_vA+н_сочетающиеся_корни.txt
+        // /aж\ и аж будутт одинаковые из-за проблемы с путём :(
+        public string CreateFileName (string[] prefixes, string[] suffixies, string end)
         {
+            string outp = "";
+            char c = '\\';
+            char d = '/';
+            string tmp;
+            foreach (string s in prefixes)
+            {
+                if (s != null && s != "")
+                {
+                    tmp = s.Replace(c.ToString(), String.Empty);
+                    tmp = tmp.Replace(d.ToString(), String.Empty);
+
+                    outp += tmp + "+";
+                }
+            }
+            if (outp != "")
+            {
+                outp = outp.Remove(outp.Length - 1);
+                outp += "_";
+            }
+
+            foreach (string s in suffixies)
+            {
+                if (s != null && s != "")
+                {
+                    tmp = s.Replace(c.ToString(), String.Empty);
+                    tmp = tmp.Replace(d.ToString(), String.Empty);
+
+                    outp += tmp + "+";
+                }
+            }
+            if (outp != "")
+            {
+                outp = outp.Remove(outp.Length - 1);
+            }
+
+            outp += "_" + end;
+
+            return outp;
+        }
+
+        public string[] MainTask(string[] prefixes, string[] suffixies)
+        {
+            string[] filePathes = new string[2];
+            filePathes[0] = CreateFileName(prefixes, suffixies, output_yes);
+            filePathes[1] = CreateFileName(prefixes, suffixies, output_no);
+
             streamReader = new StreamReader(filePath, Encoding.Default);
-            streamWriterYes = File.CreateText(output_yes);
-            streamWriterNo = File.CreateText(output_no);
+            
+            streamWriterYes = new StreamWriter(filePathes[0], false);
+            streamWriterNo = new StreamWriter(filePathes[1], false);
 
             List<string> setNoComplimantery = new List<string>();
             List<string> setYesComplimentary = ParseFile(prefixes, suffixies, out setNoComplimantery);
@@ -114,6 +165,8 @@ namespace RootSearch
             streamWriterYes.Close();
             streamWriterNo.Close();
             streamReader.Close();
+
+            return filePathes;
         }
 
         /*
