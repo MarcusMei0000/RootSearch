@@ -103,7 +103,7 @@ namespace RootSearch
 
 
         //съ+пер_vA+н_сочетающиеся_корни.txt
-        // /aж\ и аж будутт одинаковые из-за проблемы с путём :(
+        // /aж\ и аж будут одинаковые из-за проблем с путём :(
         public string CreateFileName (string[] prefixes, string[] suffixies, string end)
         {
             string outp = "";
