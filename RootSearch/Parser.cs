@@ -110,35 +110,41 @@ namespace RootSearch
             char c = '\\';
             char d = '/';
             string tmp;
-            foreach (string s in prefixes)
+            if (prefixes != null)
             {
-                if (s != null && s != "")
+                foreach (string s in prefixes)
                 {
-                    tmp = s.Replace(c.ToString(), String.Empty);
-                    tmp = tmp.Replace(d.ToString(), String.Empty);
+                    if (s != null && s != "")
+                    {
+                        tmp = s.Replace(c.ToString(), String.Empty);
+                        tmp = tmp.Replace(d.ToString(), String.Empty);
 
-                    outp += tmp + "+";
+                        outp += tmp + "+";
+                    }
+                }
+                if (outp != "")
+                {
+                    outp = outp.Remove(outp.Length - 1);
+                    outp += "_";
                 }
             }
-            if (outp != "")
-            {
-                outp = outp.Remove(outp.Length - 1);
-                outp += "_";
-            }
 
-            foreach (string s in suffixies)
+            if (suffixies != null)
             {
-                if (s != null && s != "")
+                foreach (string s in suffixies)
                 {
-                    tmp = s.Replace(c.ToString(), String.Empty);
-                    tmp = tmp.Replace(d.ToString(), String.Empty);
+                    if (s != null && s != "")
+                    {
+                        tmp = s.Replace(c.ToString(), String.Empty);
+                        tmp = tmp.Replace(d.ToString(), String.Empty);
 
-                    outp += tmp + "+";
+                        outp += tmp + "+";
+                    }
                 }
-            }
-            if (outp != "")
-            {
-                outp = outp.Remove(outp.Length - 1);
+                if (outp != "")
+                {
+                    outp = outp.Remove(outp.Length - 1);
+                }
             }
 
             outp += "_" + end;

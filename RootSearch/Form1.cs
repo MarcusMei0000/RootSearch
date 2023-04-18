@@ -104,24 +104,12 @@ namespace RootSearch
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //SetErrorProvidersFalse();
             Parser parser = new Parser(filePath);
 
             FillComboBoxes(filePathPref, filePathSuf);
             SetSelectedIndex();
             BlockComboBoxes();
             SetEvents();
-
-            // string[] pref = null;
-            // string[] suf = { "ьн" };
-
-            string[] pref = { "от"};
-            string[] suf = { "И", "тел", "ьн" };
-
-            List<string> list = new List<string>();
-
-            //parser.Test(pref, suf, out list);
-           // parser.MainTask(pref, suf);
         }
 
 
@@ -140,7 +128,6 @@ namespace RootSearch
 
         private string[] ValidateComboBoxes(List<System.Windows.Forms.ComboBox> comboBoxes)
         {
-          //  string[] affixes = new string[comboBoxes.Count];
             List<string> affixes = new List<string>();
 
             foreach (var combo in comboBoxes)
@@ -162,46 +149,13 @@ namespace RootSearch
                 affixes.RemoveAt(j);
                 j--;
             }
-          //  affixes.RemoveRange(j, affixes.Count - j - 1);
             
             return affixes.ToArray();
         }
-        /* private string[] ValidateComboBoxes(List<System.Windows.Forms.ComboBox> comboBoxes)
-        {
-            string[] affixes = new string[comboBoxes.Count];
-            
-            int i = 0;
-            foreach (var combo in comboBoxes)
-            {
-                if (combo.SelectedIndex != -1)
-                {
-                    if (combo.SelectedIndex != 0)
-                        affixes[i] = combo.Text;
-                    else affixes[i] = null;
-                    i++;
-                }
-            }
 
-            if (affixes[0] == null)
-                return null;
-
-            int j = comboBoxes.Count - 1;
-            while (j >= 1 && comboBoxes[j] == null)
-                j--;
-            List<string> s;
-            
-            string[] outp = null;
-            Array.Copy(affixes, outp, j);
-            return affixes;
-        }*/
-
-        //Если нажать на <пусто> второй раз, то следующее поле разблокируется
         //Если пользователь ввёл и стёр или ввёл лабуду, то Index = -1 и ничего не выбрано
         //поэтому надо заставлять его обратно выбирать <пусто>
-        //если пользователь ввёл лабуду, то подсвечивать ему красным и говорить, что он дурак
-
-        /*вставить проверку, что если comboBox.Text = ""; или null???
-        то заполнять эту ячейку, как <пусто> и затем соответствующе обрабатывать*/
+        //если пользователь ввёл лабуду, то подсвечивать ему красным и говорить, что он дурак*/
 
         //какие ещё функции надо добавить?
 
@@ -213,14 +167,20 @@ namespace RootSearch
             int index = comboBoxesPref.IndexOf(combo);
             if (index != -1 && index != comboBoxesPref.Count - 1)
             {
-                comboBoxesPref[index + 1].Enabled = true;
+                if (comboBoxesPref[index].SelectedIndex != 0)
+                {
+                    comboBoxesPref[index + 1].Enabled = true;
+                }
                 return;
             }
 
             index = comboBoxesSuf.IndexOf(combo);
             if (index != -1 && index != comboBoxesSuf.Count - 1)
             {
-                comboBoxesSuf[index + 1].Enabled = true;
+                if (comboBoxesSuf[index].SelectedIndex != 0)
+                {
+                    comboBoxesSuf[index + 1].Enabled = true;
+                }
                 return;
             }
         }
@@ -279,4 +239,33 @@ namespace RootSearch
     errorProviderPrefix.SetError(textBoxSuf6, "");
     errorProviderSuffix.SetError(textBoxSuf7, "");
     errorProviderSuffix.SetError(textBoxSuf8, "");
+}*/
+
+/* private string[] ValidateComboBoxes(List<System.Windows.Forms.ComboBox> comboBoxes)
+{
+    string[] affixes = new string[comboBoxes.Count];
+
+    int i = 0;
+    foreach (var combo in comboBoxes)
+    {
+        if (combo.SelectedIndex != -1)
+        {
+            if (combo.SelectedIndex != 0)
+                affixes[i] = combo.Text;
+            else affixes[i] = null;
+            i++;
+        }
+    }
+
+    if (affixes[0] == null)
+        return null;
+
+    int j = comboBoxes.Count - 1;
+    while (j >= 1 && comboBoxes[j] == null)
+        j--;
+    List<string> s;
+
+    string[] outp = null;
+    Array.Copy(affixes, outp, j);
+    return affixes;
 }*/
