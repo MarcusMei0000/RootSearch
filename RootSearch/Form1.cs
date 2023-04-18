@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using System.Globalization;
 
 namespace RootSearch
 {
@@ -44,50 +45,10 @@ namespace RootSearch
                 Controls.Add(comboBoxes[j]);
                 j++;
             }
-
         }
-        /*
-
-            for (int i = 0; i < 9; i++)
-            {
-                this.comboBoxesSuf.Add(new System.Windows.Forms.ComboBox());
-            }
-
-            j = 0;
-            foreach (var combo in comboBoxesSuf)
-            {
-                combo.Location = new System.Drawing.Point(10 + j * 90, 100);
-                combo.Name = "ComboS" + j.ToString();
-                combo.Size = new System.Drawing.Size(60, 23);
-                comboBoxesSuf[j].TabIndex = j;
-                comboBoxesSuf[j].Text = "comboS" + j.ToString();
-                Controls.Add(comboBoxesSuf[j]);
-                j++;
-            }*/
-        /*private void SetErrorProvidersFalse()
-        {
-            errorProviderPrefix.SetError(textBoxPref0, "");
-            errorProviderSuffix.SetError(textBoxSuf0, "");
-
-            errorProviderPrefix.SetError(textBoxPref1, "");
-            errorProviderSuffix.SetError(textBoxSuf1, "");
-
-            errorProviderPrefix.SetError(textBoxPref2, "");
-            errorProviderSuffix.SetError(textBoxSuf2, "");
-
-            errorProviderPrefix.SetError(textBoxPref3, "");
-            errorProviderSuffix.SetError(textBoxSuf3, "");
-
-            errorProviderPrefix.SetError(textBoxSuf4, "");
-            errorProviderSuffix.SetError(textBoxSuf5, "");
-            errorProviderPrefix.SetError(textBoxSuf6, "");
-            errorProviderSuffix.SetError(textBoxSuf7, "");
-            errorProviderSuffix.SetError(textBoxSuf8, "");
-        }*/
 
         private void FillComboBoxes(string filePref, string fileSuf)
         {
-            var list = new List<string>();
             StreamReader sr = File.OpenText(filePref);
             String input;
             while ((input = sr.ReadLine()) != null)
@@ -124,24 +85,8 @@ namespace RootSearch
             foreach (var combo in comboBoxesSuf)
                 combo.SelectedIndex = 0;
         }
-
-        public static IEnumerable<Control> GetAllControls(Control root)
-        {
-            var stack = new Stack<Control>();
-            stack.Push(root);
-
-            while (stack.Any())
-            {
-                var next = stack.Pop();
-                foreach (Control child in next.Controls)
-                    stack.Push(child);
-
-                yield return next;
-            }
-        }
-
+        
         //4 или 9 объектов, которые должны быть заполнены подряд (без пробелов)
-
 
         /*дб функция, которая при заполнении постепенно разрешает вводить в комбобоксы 
           и проверяет их все на правильность (т.е. не -1 индекс)
@@ -150,14 +95,13 @@ namespace RootSearch
 
         private void SetEvents()
         {
-
             foreach (var combo in comboBoxesPref)
                 combo.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
 
             foreach (var combo in comboBoxesSuf)
                 combo.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
-
         }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             //SetErrorProvidersFalse();
@@ -196,21 +140,60 @@ namespace RootSearch
 
         private string[] ValidateComboBoxes(List<System.Windows.Forms.ComboBox> comboBoxes)
         {
-            string[] suffixes = new string[comboBoxes.Count];
+          //  string[] affixes = new string[comboBoxes.Count];
+            List<string> affixes = new List<string>();
+
+            foreach (var combo in comboBoxes)
+            {
+                if (combo.SelectedIndex != -1)
+                {
+                    if (combo.SelectedIndex != 0)
+                        affixes.Add(combo.Text);
+                    else affixes.Add(null);
+                }
+            }
+
+            if (affixes[0] == null)
+                return null;
+
+            int j = comboBoxes.Count - 1;
+            while (j >= 1 && affixes[j] == null)
+            {
+                affixes.RemoveAt(j);
+                j--;
+            }
+          //  affixes.RemoveRange(j, affixes.Count - j - 1);
+            
+            return affixes.ToArray();
+        }
+        /* private string[] ValidateComboBoxes(List<System.Windows.Forms.ComboBox> comboBoxes)
+        {
+            string[] affixes = new string[comboBoxes.Count];
+            
             int i = 0;
             foreach (var combo in comboBoxes)
             {
                 if (combo.SelectedIndex != -1)
                 {
                     if (combo.SelectedIndex != 0)
-                        suffixes[i] = combo.Text;
-                    else suffixes[i] = "";
+                        affixes[i] = combo.Text;
+                    else affixes[i] = null;
                     i++;
                 }
-            }                
+            }
 
-            return suffixes;
-        }
+            if (affixes[0] == null)
+                return null;
+
+            int j = comboBoxes.Count - 1;
+            while (j >= 1 && comboBoxes[j] == null)
+                j--;
+            List<string> s;
+            
+            string[] outp = null;
+            Array.Copy(affixes, outp, j);
+            return affixes;
+        }*/
 
         //Если нажать на <пусто> второй раз, то следующее поле разблокируется
         //Если пользователь ввёл и стёр или ввёл лабуду, то Index = -1 и ничего не выбрано
@@ -243,3 +226,57 @@ namespace RootSearch
         }
     }
 }
+
+//logs
+/* public static IEnumerable<Control> GetAllControls(Control root)
+        {
+            var stack = new Stack<Control>();
+            stack.Push(root);
+
+            while (stack.Any())
+            {
+                var next = stack.Pop();
+                foreach (Control child in next.Controls)
+                    stack.Push(child);
+
+                yield return next;
+            }
+        }*/
+
+/*  for (int i = 0; i < 9; i++)
+    {
+        this.comboBoxesSuf.Add(new System.Windows.Forms.ComboBox());
+    }
+
+    j = 0;
+    foreach (var combo in comboBoxesSuf)
+    {
+        combo.Location = new System.Drawing.Point(10 + j * 90, 100);
+        combo.Name = "ComboS" + j.ToString();
+        combo.Size = new System.Drawing.Size(60, 23);
+        comboBoxesSuf[j].TabIndex = j;
+        comboBoxesSuf[j].Text = "comboS" + j.ToString();
+        Controls.Add(comboBoxesSuf[j]);
+        j++;
+    }*/
+
+/*private void SetErrorProvidersFalse()
+{
+    errorProviderPrefix.SetError(textBoxPref0, "");
+    errorProviderSuffix.SetError(textBoxSuf0, "");
+
+    errorProviderPrefix.SetError(textBoxPref1, "");
+    errorProviderSuffix.SetError(textBoxSuf1, "");
+
+    errorProviderPrefix.SetError(textBoxPref2, "");
+    errorProviderSuffix.SetError(textBoxSuf2, "");
+
+    errorProviderPrefix.SetError(textBoxPref3, "");
+    errorProviderSuffix.SetError(textBoxSuf3, "");
+
+    errorProviderPrefix.SetError(textBoxSuf4, "");
+    errorProviderSuffix.SetError(textBoxSuf5, "");
+    errorProviderPrefix.SetError(textBoxSuf6, "");
+    errorProviderSuffix.SetError(textBoxSuf7, "");
+    errorProviderSuffix.SetError(textBoxSuf8, "");
+}*/

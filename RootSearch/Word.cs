@@ -127,10 +127,7 @@ namespace RootSearch
     }
 }
 
-
-
-
-
+//logs
 /*public bool IsClassifiedPreffixes(string[] pref)
         {
            // if (prefixes == pref)
