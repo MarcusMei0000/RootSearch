@@ -41,6 +41,9 @@ namespace RootSearch
             this.textBoxOutput = new System.Windows.Forms.TextBox();
             this.labelPrefix = new System.Windows.Forms.Label();
             this.labelSuffix = new System.Windows.Forms.Label();
+            this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+            this.buttonChooseFilePath = new System.Windows.Forms.Button();
+            this.labelFilePath = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderPrefix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderSuffix)).BeginInit();
             this.SuspendLayout();
@@ -75,7 +78,7 @@ namespace RootSearch
             this.textBoxOutput.ReadOnly = true;
             this.textBoxOutput.Size = new System.Drawing.Size(890, 60);
             this.textBoxOutput.TabIndex = 5;
-            this.textBoxOutput.Text = "Здесь будут ссылки на сгенерированные файлы.";
+            this.textBoxOutput.Text = "Здесь будут названия на сгенерированные файлы.";
             // 
             // labelPrefix
             // 
@@ -83,9 +86,9 @@ namespace RootSearch
             this.labelPrefix.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelPrefix.Location = new System.Drawing.Point(10, 20);
             this.labelPrefix.Name = "labelPrefix";
-            this.labelPrefix.Size = new System.Drawing.Size(206, 25);
+            this.labelPrefix.Size = new System.Drawing.Size(436, 25);
             this.labelPrefix.TabIndex = 6;
-            this.labelPrefix.Text = "Выберите приставки";
+            this.labelPrefix.Text = "Выберите приставки из выпадающих списков";
             // 
             // labelSuffix
             // 
@@ -93,20 +96,42 @@ namespace RootSearch
             this.labelSuffix.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelSuffix.Location = new System.Drawing.Point(10, 90);
             this.labelSuffix.Name = "labelSuffix";
-            this.labelSuffix.Size = new System.Drawing.Size(212, 25);
+            this.labelSuffix.Size = new System.Drawing.Size(442, 25);
             this.labelSuffix.TabIndex = 7;
-            this.labelSuffix.Text = "Выберите суффиксы";
+            this.labelSuffix.Text = "Выберите суффиксы из выпадающих списков";
+            // 
+            // buttonChooseFilePath
+            // 
+            this.buttonChooseFilePath.Location = new System.Drawing.Point(709, 20);
+            this.buttonChooseFilePath.Name = "buttonChooseFilePath";
+            this.buttonChooseFilePath.Size = new System.Drawing.Size(167, 45);
+            this.buttonChooseFilePath.TabIndex = 8;
+            this.buttonChooseFilePath.Text = "Выбрать путь для сохранения файлов";
+            this.buttonChooseFilePath.UseVisualStyleBackColor = true;
+            this.buttonChooseFilePath.Click += new System.EventHandler(this.buttonChooseFilePath_Click);
+            // 
+            // labelFilePath
+            // 
+            this.labelFilePath.AutoSize = true;
+            this.labelFilePath.Location = new System.Drawing.Point(709, 72);
+            this.labelFilePath.Name = "labelFilePath";
+            this.labelFilePath.Size = new System.Drawing.Size(179, 16);
+            this.labelFilePath.TabIndex = 9;
+            this.labelFilePath.Text = "Текущий путь сохранения:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(912, 343);
+            this.Controls.Add(this.labelFilePath);
+            this.Controls.Add(this.buttonChooseFilePath);
             this.Controls.Add(this.labelSuffix);
             this.Controls.Add(this.labelPrefix);
             this.Controls.Add(this.textBoxOutput);
             this.Controls.Add(this.buttonInput);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Классификация корней русского языка";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderPrefix)).EndInit();
@@ -126,6 +151,9 @@ namespace RootSearch
 
         public List<System.Windows.Forms.ComboBox> comboBoxesPref;
         public List<System.Windows.Forms.ComboBox> comboBoxesSuf;
+        private Label labelFilePath;
+        private Button buttonChooseFilePath;
+        private FolderBrowserDialog folderBrowserDialog1;
     }
 }
 

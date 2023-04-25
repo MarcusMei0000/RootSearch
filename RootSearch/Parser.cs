@@ -46,6 +46,8 @@ namespace RootSearch
             proclitic = CreateProclicticsList(proclicticsPath);
         }
 
+        //игнорировать экликтику?
+
         private bool IsProclitic(Word w)
         {
             return proclitic.Contains(w.Root);
@@ -103,12 +105,13 @@ namespace RootSearch
 
 
         //съ+пер_vA+н_сочетающиеся_корни.txt
-        // /aж\ и аж будут одинаковые из-за проблем с путём :(
+        // /aж\ и аж будут одинаковые из-за проблем с путём :( вопрос нейминга
         public string CreateFileName (string[] prefixes, string[] suffixies, string end)
         {
             string outp = "";
             char c = '\\';
             char d = '/';
+            char e = '|';
             string tmp;
             if (prefixes != null)
             {
@@ -118,6 +121,7 @@ namespace RootSearch
                     {
                         tmp = s.Replace(c.ToString(), String.Empty);
                         tmp = tmp.Replace(d.ToString(), String.Empty);
+                        tmp = tmp.Replace(e.ToString(), String.Empty);
 
                         outp += tmp + "+";
                     }
@@ -137,6 +141,7 @@ namespace RootSearch
                     {
                         tmp = s.Replace(c.ToString(), String.Empty);
                         tmp = tmp.Replace(d.ToString(), String.Empty);
+                        tmp = tmp.Replace(e.ToString(), String.Empty);
 
                         outp += tmp + "+";
                     }

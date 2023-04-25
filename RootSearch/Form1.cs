@@ -19,6 +19,7 @@ namespace RootSearch
         const string filePath = "Words.txt";
         const string filePathPref = "prefix.txt";
         const string filePathSuf = "suffix.txt";
+        private string folderName;
 
         public Form1()
         {
@@ -85,13 +86,6 @@ namespace RootSearch
             foreach (var combo in comboBoxesSuf)
                 combo.SelectedIndex = 0;
         }
-        
-        //4 или 9 объектов, которые должны быть заполнены подряд (без пробелов)
-
-        /*дб функция, которая при заполнении постепенно разрешает вводить в комбобоксы 
-          и проверяет их все на правильность (т.е. не -1 индекс)
-          что из этого более юзерфрэндли?
-        */
 
         private void SetEvents()
         {
@@ -100,6 +94,19 @@ namespace RootSearch
 
             foreach (var combo in comboBoxesSuf)
                 combo.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
+            
+            foreach (var combo in comboBoxesPref)
+                combo.Click += new System.EventHandler(this.comboBox_Click);
+
+            foreach (var combo in comboBoxesSuf)
+                combo.Click += new System.EventHandler(this.comboBox_Click);
+
+            foreach (var combo in comboBoxesPref)
+                combo.DropDown += new System.EventHandler(this.comboBox_DropDown);
+
+            foreach (var combo in comboBoxesSuf)
+                combo.DropDown += new System.EventHandler(this.comboBox_DropDown);
+
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -112,18 +119,62 @@ namespace RootSearch
             SetEvents();
         }
 
-
         private void buttonInput_Click(object sender, EventArgs e)
         {
-            string[] prefixes = ValidateComboBoxes(comboBoxesPref);
-            string[] suffixes = ValidateComboBoxes(comboBoxesSuf);
+            bool IsPrefValid = IsComboboxesValid(comboBoxesPref);
+            bool IsSufValid = IsComboboxesValid(comboBoxesSuf);
 
-            Parser parser = new Parser(filePath);
-            string[] filePathes = parser.MainTask(prefixes, suffixes);
+            if (IsPrefValid && IsSufValid)
+            {
+                string[] prefixes = ValidateComboBoxes(comboBoxesPref);
+                string[] suffixes = ValidateComboBoxes(comboBoxesSuf);
 
-            textBoxOutput.Text = "";
-            foreach (string s in filePathes)
-                textBoxOutput.Text += s + Environment.NewLine;
+                Parser parser = new Parser(filePath);
+                string[] filePathes = parser.MainTask(prefixes, suffixes);
+
+                textBoxOutput.Text = "";
+                foreach (string s in filePathes)
+                    textBoxOutput.Text += s + Environment.NewLine;
+            }
+            else
+            {
+                    MessageBox.Show("Некорректный ввод данных!");
+            }
+        }
+
+        private bool IsComboboxesValid(List<System.Windows.Forms.ComboBox> comboBoxes)
+        {
+            bool isValid = true;
+            foreach (var combo in comboBoxes)
+            {
+                if (combo.SelectedIndex == -1)
+                {
+                    combo.BackColor = Color.RosyBrown;
+                    isValid = false;
+                }
+            }
+
+            //пустые сзади
+            int i = comboBoxes.Count - 1;
+            while(i >= 0 && comboBoxes[i].SelectedIndex == 0)
+            {
+                i--;
+            }
+
+
+            if (i != comboBoxes.Count - 1)
+            {
+                for (int j = i; j >= 0; j--)
+                {
+                    if (comboBoxes[j].SelectedIndex == 0)
+                    {
+                        comboBoxes[j].BackColor = Color.RosyBrown;
+                        isValid = false;
+                    }
+                }
+            }            
+
+            return isValid;
         }
 
         private string[] ValidateComboBoxes(List<System.Windows.Forms.ComboBox> comboBoxes)
@@ -132,34 +183,26 @@ namespace RootSearch
 
             foreach (var combo in comboBoxes)
             {
-                if (combo.SelectedIndex != -1)
-                {
-                    if (combo.SelectedIndex != 0)
-                        affixes.Add(combo.Text);
-                    else affixes.Add(null);
-                }
+                if (combo.SelectedIndex != 0)
+                    affixes.Add(combo.Text);
             }
 
-            if (affixes[0] == null)
+            if (affixes.Count == 0)
                 return null;
-
-            int j = comboBoxes.Count - 1;
-            while (j >= 1 && affixes[j] == null)
-            {
-                affixes.RemoveAt(j);
-                j--;
-            }
             
             return affixes.ToArray();
+        }        
+
+        private void comboBox_DropDown(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox combo = (System.Windows.Forms.ComboBox)sender;
+            combo.BackColor = Color.White;
         }
-
-        //Если пользователь ввёл и стёр или ввёл лабуду, то Index = -1 и ничего не выбрано
-        //поэтому надо заставлять его обратно выбирать <пусто>
-        //если пользователь ввёл лабуду, то подсвечивать ему красным и говорить, что он дурак*/
-
-        //какие ещё функции надо добавить?
-
-        //поговорить об оценке множеств с Ворониной
+        private void comboBox_Click(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox combo = (System.Windows.Forms.ComboBox)sender;
+            combo.BackColor = Color.White;
+        }
 
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -184,10 +227,87 @@ namespace RootSearch
                 return;
             }
         }
+        //куда сохранять все эти файлы? доделать сохранение
+
+        private void buttonChooseFilePath_Click(object sender, EventArgs e)
+        {
+            DialogResult result = folderBrowserDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                folderName = folderBrowserDialog1.SelectedPath;
+            }
+        }
     }
 }
 
 //logs
+
+/*private bool IsComboboxesValid2(List<System.Windows.Forms.ComboBox> comboBoxes)
+{
+    bool isValid = true;
+    foreach (var combo in comboBoxes)
+    {
+        if (combo.SelectedIndex == -1)
+        {
+            combo.BackColor = Color.RosyBrown;
+            isValid = false;
+        }
+    }
+
+    int i = 0;
+    //верно заполнены
+    while (i < comboBoxes.Count)
+    {
+        if (comboBoxes[i].SelectedIndex != 0)
+            i++;
+        else break;
+    }
+
+
+    //должны быть пусты
+    while (i < comboBoxes.Count)
+    {
+        if (comboBoxes[i].SelectedIndex == 0)
+            i++;
+        else break;
+    }
+
+    //ситуация когда 1 или 2 в середине попустили?
+    if (i != comboBoxes.Count - 1)
+    {
+        while (i < comboBoxes.Count)
+        {
+            if (comboBoxes[i].SelectedIndex != 0)
+            {
+                comboBoxes[i - 1].BackColor = Color.RosyBrown;
+                isValid = false;
+            }
+            i++;
+        }
+    }
+
+    return isValid;
+}
+/*int j = i;
+    //должны быть пусты
+    while(j < comboBoxes.Count)
+    {
+        if (comboBoxes[i].SelectedIndex == 0)
+            j++;
+        else break;
+    }
+
+    if (j != comboBoxes.Count - 1)
+    {
+        while (i < j) {
+            if (comboBoxes[i].SelectedIndex == 0)
+            {
+                comboBoxes[i].BackColor = Color.RosyBrown;
+                isValid = false;
+            }
+            i++;
+        }
+    }*/
 /* public static IEnumerable<Control> GetAllControls(Control root)
         {
             var stack = new Stack<Control>();

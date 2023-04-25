@@ -54,9 +54,13 @@ namespace RootSearch
             if (givenPrefixes.Length > prefixes.Length) 
                 return false;
 
-            for (int i = givenPrefixes.Length-1; i >= 0; i--)
-                if (givenPrefixes[i] != prefixes[i]) 
+            int j = prefixes.Length - 1;
+            for (int i = givenPrefixes.Length - 1; i >= 0; i--)
+            {
+                if (givenPrefixes[i] != prefixes[j])
                     return false;
+                j--;
+            }
 
             return true;
         }
@@ -97,6 +101,8 @@ namespace RootSearch
             //вторая проверка не пройдена
             return false;
         }
+
+        //если нет суффиксов давать окончание
 
         public string ToStringRoot()
         {
