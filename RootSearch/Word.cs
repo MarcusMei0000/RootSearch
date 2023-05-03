@@ -12,20 +12,20 @@ namespace RootSearch
         string[] prefixes;
         string root;
         string[] suffixes;
-        string[] endings;
+        string ending;
         string word;
         string transcription;
 
         public String Root { get; }
 
-        public Word(string w, string t, string[] p, string r, string[] s, string[] e = null)
+        public Word(string w, string t, string[] p, string r, string[] s, string e = null)
         {
             word = w;
             transcription = t;
             prefixes = p;
             root = r;
             suffixes = s;
-            endings = e;
+            ending = e;
         }
 
         public Word()
@@ -39,7 +39,7 @@ namespace RootSearch
             prefixes = w.prefixes;
             root = w.root;
             suffixes = w.suffixes;
-            endings = w.endings;
+            ending = w.ending;
         }
        
         /*Аналогично суффиксам, но с конца, т. к. надо сравнивать, начиная от корня (ближе к корню)*/
@@ -103,10 +103,12 @@ namespace RootSearch
         }
 
         //если нет суффиксов давать окончание
-
+        //Можно не хранит _ в окончании, а каждый раз его подставлять, но мне так не нравится
         public string ToStringRoot()
         {
-            return root + ";" + word + ";" + transcription;
+            if (ending == null)
+                return root + ";" + word + ";" + transcription;
+            else return root + ending + ";" + word + ";" + transcription;
         }
 
         override public string ToString()
@@ -122,8 +124,8 @@ namespace RootSearch
                 if (suffixes != null)
                     str += string.Join(" ", suffixes) + " | ";
 
-                if (endings != null)
-                    str += string.Join(" ", endings);
+                if (ending != null)
+                    str += string.Join(" ", ending);
 
                 str += " | " + word;
             }

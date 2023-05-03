@@ -232,6 +232,7 @@ namespace RootSearch
             string[] prefixes = null;
             string[] suffixes = null;
             string root = null;
+
             string remainder = word.IndexOf('_') != -1 ? word.Substring(0, word.IndexOf('_')) : word;
 
             if (remainder.Contains('-'))
@@ -247,8 +248,11 @@ namespace RootSearch
             }
             else
                 root = remainder;
-
-            return new Word(fullWord, transcripton, prefixes, root, suffixes);
+            if (suffixes != null || word.IndexOf('_') == -1)
+                return new Word(fullWord, transcripton, prefixes, root, suffixes);
+            
+            return 
+                new Word(fullWord, transcripton, prefixes, root, suffixes, word.Substring(word.IndexOf('_'), word.Length - word.IndexOf('_')));
         }
 
         private Word ParseStringIntoWords(string word, out string secondRootWord, ref string fullWord, ref string transcription)
