@@ -15,12 +15,14 @@ namespace RootSearch
 {
     public partial class Form1 : Form
     {
-        private Validator validator;
-        const string filePath = "Words.txt";
-        const string filePathPref = "prefix.txt";
-        const string filePathSuf = "suffix.txt";
+        Validator validator;
+
+        const string FILE_PATH = "Words.txt";
+        const string FILE_PATH_PREF = "prefix.txt";
+        const string FILE_PATH_SUF = "suffix.txt";
+
         string labelText = "Текущая папка для сохранения" + Environment.NewLine;
-        private string folderName = AppDomain.CurrentDomain.BaseDirectory;
+        string folderName = AppDomain.CurrentDomain.BaseDirectory;
 
         public Form1()
         {
@@ -111,9 +113,8 @@ namespace RootSearch
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Parser parser = new Parser(filePath, folderName);
-
-            FillComboBoxes(filePathPref, filePathSuf);
+            //Parser parser = new Parser(FILE_PATH, folderName);
+            FillComboBoxes(FILE_PATH_PREF, FILE_PATH_SUF);
             SetSelectedIndex();
             BlockComboBoxes();
             SetEvents();
@@ -126,11 +127,11 @@ namespace RootSearch
 
             if (IsPrefValid && IsSufValid)
             {
-                string[] prefixes = ValidateComboBoxes(comboBoxesPref);
-                string[] suffixes = ValidateComboBoxes(comboBoxesSuf);
+                string[] prefixes = ReadComboBoxes(comboBoxesPref);
+                string[] suffixes = ReadComboBoxes(comboBoxesSuf);
 
-                Parser parser = new Parser(filePath, folderName);
-                string[] filePathes = parser.MainTask(prefixes, suffixes);
+                Parser parser = new Parser(FILE_PATH, folderName);
+                string[] filePathes = parser.CreateMainFiles(prefixes, suffixes);
 
                 textBoxOutput.Text = "";
                 foreach (string s in filePathes)
@@ -142,6 +143,9 @@ namespace RootSearch
             }
         }
 
+
+        //можно запрещать им пустые оставлять, а можно и так оставить просто считывать подряд
+        //почему-то через раз работает
         private bool IsComboboxesValid(List<System.Windows.Forms.ComboBox> comboBoxes)
         {
             bool isValid = true;
@@ -161,7 +165,6 @@ namespace RootSearch
                 i--;
             }
 
-
             if (i != comboBoxes.Count - 1)
             {
                 for (int j = i; j >= 0; j--)
@@ -177,7 +180,7 @@ namespace RootSearch
             return isValid;
         }
 
-        private string[] ValidateComboBoxes(List<System.Windows.Forms.ComboBox> comboBoxes)
+        private string[] ReadComboBoxes(List<System.Windows.Forms.ComboBox> comboBoxes)
         {
             List<string> affixes = new List<string>();
 
@@ -198,6 +201,7 @@ namespace RootSearch
             System.Windows.Forms.ComboBox combo = (System.Windows.Forms.ComboBox)sender;
             combo.BackColor = Color.White;
         }
+
         private void comboBox_Click(object sender, EventArgs e)
         {
             System.Windows.Forms.ComboBox combo = (System.Windows.Forms.ComboBox)sender;
@@ -211,13 +215,14 @@ namespace RootSearch
             combo.SelectedIndex = -1;
         }
 
+        //Разблокировка следующего комбобокса: либо приставка, либо суффикс
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             System.Windows.Forms.ComboBox combo = (System.Windows.Forms.ComboBox)sender;
             int index = comboBoxesPref.IndexOf(combo);
             if (index != -1 && index != comboBoxesPref.Count - 1)
             {
-                if (comboBoxesPref[index].SelectedIndex != 0)
+                if (comboBoxesPref[index].SelectedIndex != 0 && comboBoxesPref[index].SelectedIndex != -1)
                 {
                     comboBoxesPref[index + 1].Enabled = true;
                 }
@@ -227,7 +232,7 @@ namespace RootSearch
             index = comboBoxesSuf.IndexOf(combo);
             if (index != -1 && index != comboBoxesSuf.Count - 1)
             {
-                if (comboBoxesSuf[index].SelectedIndex != 0)
+                if (comboBoxesSuf[index].SelectedIndex != 0 && comboBoxesSuf[index].SelectedIndex != -1)
                 {
                     comboBoxesSuf[index + 1].Enabled = true;
                 }

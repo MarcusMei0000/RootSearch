@@ -16,29 +16,31 @@ namespace RootSearch
     internal class Parser
     {
         StreamReader streamReader;
-        StreamWriter streamWriterYes, streamWriterNo;
 
-        const string output_yes = "сочетающиеся";
-        const string output_no = "несочетающиеся";
-        const string extension = ".txt";
-        const string proclicticsPath = "proclictic.txt";
+        const string OUTPUT_YES = "сочетающиеся";
+        const string OUTPUT_NO = "несочетающиеся";
+        const string EXTENSION = ".txt";
+        const string PROCLITIC_PATH = "proclictic.txt";
+        const string ECLITIC_PATH = "eclictic.txt";
+
         string filePath = "";
         string folderName = "";
 
         List<string> proclitic = new List<string>();
+        List<string> eclitic = new List<string>();
 
-        List<string> setYes = new List<string>();
-        List<string> setNo = new List<string>();
 
-        private List<string> CreateProclicticsList(string filePath)
+        private List<string> CreateListFromFile(string filePath)
         {
             var list = new List<string>();
             StreamReader sr = File.OpenText(filePath);
             String input;
+
             while ((input = sr.ReadLine()) != null)
             {
                 list.Add(input);
             }
+
             return list;
         }
 
@@ -46,7 +48,8 @@ namespace RootSearch
         {
             this.filePath = filePath;
             this.folderName = folderName;
-            proclitic = CreateProclicticsList(proclicticsPath);
+            proclitic = CreateListFromFile(PROCLITIC_PATH);
+            //eclitic = CreateListFromFile(ECLITIC_PATH);
         }
 
         //игнорировать экликтику?
@@ -56,8 +59,15 @@ namespace RootSearch
             return proclitic.Contains(w.Root);
         }
 
-        public List<string> ParseFile(string[] prefixes, string[] suffixies, out List<string> setNoComplimentary)
+        private bool IsEclitic(Word w)
         {
+            return eclitic.Contains(w.Root);
+        }
+
+        private List<string> ParseFile(string[] prefixes, string[] suffixies, out List<string> setNoComplimentary)
+        {
+            List<string> setYes = new List<string>();
+            List<string> setNo = new List<string>();
             String remainder = null, fullWord = null, transcription = null;
             Word word;
             string s;
@@ -67,7 +77,8 @@ namespace RootSearch
                 word = ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
                 if (word != null)
                 {
-                    if (word.IsClassifiedPreffixes(prefixes) && word.IsClassifiedSuffixes(suffixies) && !IsProclitic(word))
+                    //&& !IsEclictic(word)
+                    if (word.IsClassifiedPreffixes(prefixes) && word.IsClassifiedSuffixes(suffixies) && !IsProclitic(word)) 
                     {
                         setYes.Add(word.ToStringRoot());
                     }
@@ -110,24 +121,34 @@ namespace RootSearch
         }
 
 
-        //съ+пер_vA+н_сочетающиеся_корни.txt
-        // /aж\ и аж будут одинаковые из-за проблем с путём :( вопрос нейминга
+        // съ+пер_vA+н_сочетающиеся_корни.txt
+        // нейминг /aж\ и аж будут одинаковые из-за проблем с путём :(
         // посмотреть с _ чтобы поаккуратней генерировалось
-        //перписать всю эту функцию поаккуратнее
+        // перписать всю эту функцию поаккуратнее
         public string CreateFileName (string[] prefixes, string[] suffixies, string end)
         {
             string outp = "";
             string result = "";
+            string tmp;
+
             char c = '\\';
             char d = '/';
             char e = '|';
-            string tmp;
+
+            List<string> invalidSymbols = new List<string>() {"\\", "/", "|"};
+
             if (prefixes != null)
             {
                 foreach (string s in prefixes)
                 {
                     if (s != null && s != "")
                     {
+                       /* tmp = s;
+                        foreach (var symbol in invalidSymbols)
+                        {
+                            tmp = tmp.Replace(symbol, String.Empty);
+                        }*/
+
                         tmp = s.Replace(c.ToString(), String.Empty);
                         tmp = tmp.Replace(d.ToString(), String.Empty);
                         tmp = tmp.Replace(e.ToString(), String.Empty);
@@ -164,20 +185,21 @@ namespace RootSearch
             outp += "_" + end;
             result = folderName + '\\' + outp;
 
-            while(File.Exists(result + extension))
+            while(File.Exists(result + EXTENSION))
                 result += '1';         
 
-            return result + extension;
+            return result + EXTENSION;
         }
 
-        public string[] MainTask(string[] prefixes, string[] suffixies)
+        public string[] CreateMainFiles(string[] prefixes, string[] suffixies)
         {
             string[] filePathes = new string[2];
-            filePathes[0] = CreateFileName(prefixes, suffixies, output_yes);
-            filePathes[1] = CreateFileName(prefixes, suffixies, output_no);
+            filePathes[0] = CreateFileName(prefixes, suffixies, OUTPUT_YES);
+            filePathes[1] = CreateFileName(prefixes, suffixies, OUTPUT_NO);
 
-            streamReader = new StreamReader(filePath, Encoding.Default);
-            
+            StreamWriter streamWriterYes, streamWriterNo;
+
+            streamReader = new StreamReader(filePath, Encoding.Default);            
             streamWriterYes = new StreamWriter(filePathes[0], false);
             streamWriterNo = new StreamWriter(filePathes[1], false);
 
@@ -227,6 +249,7 @@ namespace RootSearch
             return suffixes;
         }
 
+        //Создаёт слово с окончанием или без в зависимости от суффикса
         private Word ParsePartWord(string word, string fullWord, string transcripton)
         {
             string[] prefixes = null;
@@ -248,6 +271,7 @@ namespace RootSearch
             }
             else
                 root = remainder;
+
             if (suffixes != null || word.IndexOf('_') == -1)
                 return new Word(fullWord, transcripton, prefixes, root, suffixes);
             
