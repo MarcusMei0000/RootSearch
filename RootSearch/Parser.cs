@@ -18,10 +18,12 @@ namespace RootSearch
         StreamReader streamReader;
         StreamWriter streamWriterYes, streamWriterNo;
 
-        const string output_yes = "сочетающиеся.txt";
-        const string output_no = "несочетающиеся.txt";
+        const string output_yes = "сочетающиеся";
+        const string output_no = "несочетающиеся";
+        const string extension = ".txt";
         const string proclicticsPath = "proclictic.txt";
         string filePath = "";
+        string folderName = "";
 
         List<string> proclitic = new List<string>();
 
@@ -40,9 +42,10 @@ namespace RootSearch
             return list;
         }
 
-        public Parser(string filePath)
+        public Parser(string filePath, string folderName)
         {
             this.filePath = filePath;
+            this.folderName = folderName;
             proclitic = CreateProclicticsList(proclicticsPath);
         }
 
@@ -96,19 +99,25 @@ namespace RootSearch
             return setYes;
         }
 
+        //подумать как не печатать последний /n
+        //или не учитывать при сравнении последнюю строку
         public void Print(List<string> set, StreamWriter stream)
         {
             foreach (string s in set)
                 stream.WriteLine(s);
+
             stream.Close();
         }
 
 
         //съ+пер_vA+н_сочетающиеся_корни.txt
         // /aж\ и аж будут одинаковые из-за проблем с путём :( вопрос нейминга
+        // посмотреть с _ чтобы поаккуратней генерировалось
+        //перписать всю эту функцию поаккуратнее
         public string CreateFileName (string[] prefixes, string[] suffixies, string end)
         {
             string outp = "";
+            string result = "";
             char c = '\\';
             char d = '/';
             char e = '|';
@@ -153,8 +162,12 @@ namespace RootSearch
             }
 
             outp += "_" + end;
+            result = folderName + '\\' + outp;
 
-            return outp;
+            while(File.Exists(result + extension))
+                result += '1';         
+
+            return result + extension;
         }
 
         public string[] MainTask(string[] prefixes, string[] suffixies)

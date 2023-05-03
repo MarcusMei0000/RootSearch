@@ -60,8 +60,8 @@ namespace RootSearch
             // 
             // buttonInput
             // 
-            this.buttonInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonInput.Location = new System.Drawing.Point(417, 184);
+            this.buttonInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonInput.Location = new System.Drawing.Point(707, 274);
             this.buttonInput.Name = "buttonInput";
             this.buttonInput.Size = new System.Drawing.Size(112, 48);
             this.buttonInput.TabIndex = 4;
@@ -72,39 +72,41 @@ namespace RootSearch
             // textBoxOutput
             // 
             this.textBoxOutput.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.textBoxOutput.Location = new System.Drawing.Point(10, 270);
+            this.textBoxOutput.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxOutput.Location = new System.Drawing.Point(12, 328);
             this.textBoxOutput.Multiline = true;
             this.textBoxOutput.Name = "textBoxOutput";
             this.textBoxOutput.ReadOnly = true;
-            this.textBoxOutput.Size = new System.Drawing.Size(890, 60);
+            this.textBoxOutput.Size = new System.Drawing.Size(1506, 100);
             this.textBoxOutput.TabIndex = 5;
-            this.textBoxOutput.Text = "Здесь будут названия на сгенерированные файлы.";
+            this.textBoxOutput.Text = "Здесь будут названия сгенерированных файлов.";
             // 
             // labelPrefix
             // 
             this.labelPrefix.AutoSize = true;
-            this.labelPrefix.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelPrefix.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.labelPrefix.Location = new System.Drawing.Point(10, 20);
             this.labelPrefix.Name = "labelPrefix";
-            this.labelPrefix.Size = new System.Drawing.Size(436, 25);
+            this.labelPrefix.Size = new System.Drawing.Size(678, 36);
             this.labelPrefix.TabIndex = 6;
             this.labelPrefix.Text = "Выберите приставки из выпадающих списков";
             // 
             // labelSuffix
             // 
             this.labelSuffix.AutoSize = true;
-            this.labelSuffix.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelSuffix.Location = new System.Drawing.Point(10, 90);
+            this.labelSuffix.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelSuffix.Location = new System.Drawing.Point(12, 148);
             this.labelSuffix.Name = "labelSuffix";
-            this.labelSuffix.Size = new System.Drawing.Size(442, 25);
+            this.labelSuffix.Size = new System.Drawing.Size(689, 36);
             this.labelSuffix.TabIndex = 7;
             this.labelSuffix.Text = "Выберите суффиксы из выпадающих списков";
             // 
             // buttonChooseFilePath
             // 
-            this.buttonChooseFilePath.Location = new System.Drawing.Point(709, 20);
+            this.buttonChooseFilePath.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonChooseFilePath.Location = new System.Drawing.Point(815, 13);
             this.buttonChooseFilePath.Name = "buttonChooseFilePath";
-            this.buttonChooseFilePath.Size = new System.Drawing.Size(167, 45);
+            this.buttonChooseFilePath.Size = new System.Drawing.Size(241, 71);
             this.buttonChooseFilePath.TabIndex = 8;
             this.buttonChooseFilePath.Text = "Выбрать путь для сохранения файлов";
             this.buttonChooseFilePath.UseVisualStyleBackColor = true;
@@ -113,9 +115,10 @@ namespace RootSearch
             // labelFilePath
             // 
             this.labelFilePath.AutoSize = true;
-            this.labelFilePath.Location = new System.Drawing.Point(709, 72);
+            this.labelFilePath.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelFilePath.Location = new System.Drawing.Point(816, 87);
             this.labelFilePath.Name = "labelFilePath";
-            this.labelFilePath.Size = new System.Drawing.Size(179, 16);
+            this.labelFilePath.Size = new System.Drawing.Size(322, 29);
             this.labelFilePath.TabIndex = 9;
             this.labelFilePath.Text = "Текущий путь сохранения:";
             // 
@@ -123,7 +126,7 @@ namespace RootSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(912, 343);
+            this.ClientSize = new System.Drawing.Size(1530, 440);
             this.Controls.Add(this.labelFilePath);
             this.Controls.Add(this.buttonChooseFilePath);
             this.Controls.Add(this.labelSuffix);

@@ -19,14 +19,16 @@ namespace RootSearch
         const string filePath = "Words.txt";
         const string filePathPref = "prefix.txt";
         const string filePathSuf = "suffix.txt";
-        private string folderName;
+        string labelText = "Текущая папка для сохранения" + Environment.NewLine;
+        private string folderName = AppDomain.CurrentDomain.BaseDirectory;
 
         public Form1()
         {
             InitializeComponent();
-            InitializeComboboxes(ref comboBoxesPref, 4, 40);
-            InitializeComboboxes(ref comboBoxesSuf, 9, 100);
+            InitializeComboboxes(ref comboBoxesPref, 4, 50);
+            InitializeComboboxes(ref comboBoxesSuf, 9, 155);
             validator = new Validator();
+            labelFilePath.Text = labelText + folderName;
         }
 
         private void InitializeComboboxes(ref List<System.Windows.Forms.ComboBox> comboBoxes, int size, int position)
@@ -40,9 +42,10 @@ namespace RootSearch
             int j = 0;
             foreach (var combo in comboBoxes)
             {
-                combo.Location = new System.Drawing.Point(10 + j * 75, position);
-                combo.Size = new System.Drawing.Size(65, 25);
-                comboBoxes[j].TabIndex = j;
+                combo.Location = new System.Drawing.Point(15 + j * 85, position);
+                combo.Size = new System.Drawing.Size(80, 200);
+                combo.Font = new Font("Microsoft Sans Serif", 11);
+               // comboBoxes[j].TabIndex = j;
                 Controls.Add(comboBoxes[j]);
                 j++;
             }
@@ -90,28 +93,25 @@ namespace RootSearch
         private void SetEvents()
         {
             foreach (var combo in comboBoxesPref)
+            {
                 combo.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
+                combo.Click += new System.EventHandler(this.comboBox_Click);
+                combo.DropDown += new System.EventHandler(this.comboBox_DropDown);
+                combo.Enter += new System.EventHandler(this.comboBox_Enter);
+            }
 
             foreach (var combo in comboBoxesSuf)
+            {
                 combo.SelectedIndexChanged += new System.EventHandler(this.comboBox_SelectedIndexChanged);
-            
-            foreach (var combo in comboBoxesPref)
                 combo.Click += new System.EventHandler(this.comboBox_Click);
-
-            foreach (var combo in comboBoxesSuf)
-                combo.Click += new System.EventHandler(this.comboBox_Click);
-
-            foreach (var combo in comboBoxesPref)
                 combo.DropDown += new System.EventHandler(this.comboBox_DropDown);
-
-            foreach (var combo in comboBoxesSuf)
-                combo.DropDown += new System.EventHandler(this.comboBox_DropDown);
-
+                combo.Enter += new System.EventHandler(this.comboBox_Enter);
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Parser parser = new Parser(filePath);
+            Parser parser = new Parser(filePath, folderName);
 
             FillComboBoxes(filePathPref, filePathSuf);
             SetSelectedIndex();
@@ -129,7 +129,7 @@ namespace RootSearch
                 string[] prefixes = ValidateComboBoxes(comboBoxesPref);
                 string[] suffixes = ValidateComboBoxes(comboBoxesSuf);
 
-                Parser parser = new Parser(filePath);
+                Parser parser = new Parser(filePath, folderName);
                 string[] filePathes = parser.MainTask(prefixes, suffixes);
 
                 textBoxOutput.Text = "";
@@ -149,7 +149,7 @@ namespace RootSearch
             {
                 if (combo.SelectedIndex == -1)
                 {
-                    combo.BackColor = Color.RosyBrown;
+                    combo.BackColor = Color.Red;
                     isValid = false;
                 }
             }
@@ -168,7 +168,7 @@ namespace RootSearch
                 {
                     if (comboBoxes[j].SelectedIndex == 0)
                     {
-                        comboBoxes[j].BackColor = Color.RosyBrown;
+                        comboBoxes[j].BackColor = Color.Red;
                         isValid = false;
                     }
                 }
@@ -204,6 +204,13 @@ namespace RootSearch
             combo.BackColor = Color.White;
         }
 
+
+        private void comboBox_Enter(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox combo = (System.Windows.Forms.ComboBox)sender;
+            combo.SelectedIndex = -1;
+        }
+
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             System.Windows.Forms.ComboBox combo = (System.Windows.Forms.ComboBox)sender;
@@ -227,7 +234,6 @@ namespace RootSearch
                 return;
             }
         }
-        //куда сохранять все эти файлы? доделать сохранение
 
         private void buttonChooseFilePath_Click(object sender, EventArgs e)
         {
@@ -235,6 +241,7 @@ namespace RootSearch
             if (result == DialogResult.OK)
             {
                 folderName = folderBrowserDialog1.SelectedPath;
+                labelFilePath.Text = labelText + folderName;
             }
         }
     }
