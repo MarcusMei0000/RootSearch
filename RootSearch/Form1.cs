@@ -47,7 +47,7 @@ namespace RootSearch
                 combo.Location = new System.Drawing.Point(15 + j * 85, position);
                 combo.Size = new System.Drawing.Size(80, 200);
                 combo.Font = new Font("Microsoft Sans Serif", 11);
-               // comboBoxes[j].TabIndex = j;
+                // comboBoxes[j].TabIndex = j;
                 Controls.Add(comboBoxes[j]);
                 j++;
             }
@@ -59,14 +59,14 @@ namespace RootSearch
             String input;
             while ((input = sr.ReadLine()) != null)
             {
-                foreach(var combo in comboBoxesPref)
+                foreach (var combo in comboBoxesPref)
                     combo.Items.Add(input);
             }
 
             sr = File.OpenText(fileSuf);
             while ((input = sr.ReadLine()) != null)
             {
-                foreach(var combo in comboBoxesSuf)
+                foreach (var combo in comboBoxesSuf)
                     combo.Items.Add(input);
             }
         }
@@ -113,15 +113,25 @@ namespace RootSearch
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //Parser parser = new Parser(FILE_PATH, folderName);
             FillComboBoxes(FILE_PATH_PREF, FILE_PATH_SUF);
             SetSelectedIndex();
             BlockComboBoxes();
             SetEvents();
         }
 
+        private void ColorComboboboxesWhite()
+        {
+            foreach (var combo in comboBoxesPref)
+                combo.BackColor = Color.White;
+
+            foreach (var combo in comboBoxesSuf)
+                combo.BackColor = Color.White;
+        }
+
+        //??? подумать где вызывать конструктор парсера
         private void buttonInput_Click(object sender, EventArgs e)
         {
+            ColorComboboboxesWhite();
             bool IsPrefValid = IsComboboxesValid(comboBoxesPref);
             bool IsSufValid = IsComboboxesValid(comboBoxesSuf);
 
@@ -139,14 +149,13 @@ namespace RootSearch
             }
             else
             {
-                    MessageBox.Show("Некорректный ввод данных!");
+                MessageBox.Show("Некорректный ввод данных!");
             }
         }
 
 
-        //можно запрещать им пустые оставлять, а можно и так оставить просто считывать подряд
-        //почему-то через раз работает
-        private bool IsComboboxesValid(List<System.Windows.Forms.ComboBox> comboBoxes)
+        //пользователь обязан выбрать, а не вводить
+        private bool IsComboboxesFilled(List<System.Windows.Forms.ComboBox> comboBoxes)
         {
             bool isValid = true;
             foreach (var combo in comboBoxes)
@@ -158,24 +167,29 @@ namespace RootSearch
                 }
             }
 
+            return isValid;
+        }
+
+        //запрет на пропуск пустых
+        private bool IsComboboxesValid(List<System.Windows.Forms.ComboBox> comboBoxes)
+        {
+            bool isValid = IsComboboxesFilled(comboBoxes);
+
             //пустые сзади
             int i = comboBoxes.Count - 1;
-            while(i >= 0 && comboBoxes[i].SelectedIndex == 0)
+            while (i >= 0 && comboBoxes[i].SelectedIndex == 0)
             {
                 i--;
             }
 
-            if (i != comboBoxes.Count - 1)
+            for (int j = i; j >= 0; j--)
             {
-                for (int j = i; j >= 0; j--)
+                if (comboBoxes[j].SelectedIndex == 0)
                 {
-                    if (comboBoxes[j].SelectedIndex == 0)
-                    {
-                        comboBoxes[j].BackColor = Color.Red;
-                        isValid = false;
-                    }
+                    comboBoxes[j].BackColor = Color.Red;
+                    isValid = false;
                 }
-            }            
+            }
 
             return isValid;
         }
@@ -192,9 +206,9 @@ namespace RootSearch
 
             if (affixes.Count == 0)
                 return null;
-            
+
             return affixes.ToArray();
-        }        
+        }
 
         private void comboBox_DropDown(object sender, EventArgs e)
         {
@@ -207,6 +221,9 @@ namespace RootSearch
             System.Windows.Forms.ComboBox combo = (System.Windows.Forms.ComboBox)sender;
             combo.BackColor = Color.White;
         }
+
+
+
         private void comboBox_Enter(object sender, EventArgs e)
         {
             System.Windows.Forms.ComboBox combo = (System.Windows.Forms.ComboBox)sender;
