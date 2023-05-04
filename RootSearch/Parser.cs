@@ -47,7 +47,7 @@ namespace RootSearch
         {
             this.filePath = filePath;
             this.folderName = folderName;
-            proclitic = CreateListFromFile(PROCLITIC_PATH);
+            proclitic = Streamer.CreateListFromFile(PROCLITIC_PATH);
             //eclitic = CreateListFromFile(ECLITIC_PATH);
         }
 
@@ -109,92 +109,11 @@ namespace RootSearch
             return setYes;
         }
 
-        //подумать как не печатать последний /n
-        //или не учитывать при сравнении последнюю строку
-        public void Print(List<string> set, StreamWriter stream)
-        {
-            foreach (string s in set)
-                stream.WriteLine(s);
-
-            stream.Close();
-        }
-
-
-        // съ+пер_vA+н_сочетающиеся_корни.txt
-        // нейминг /aж\ и аж будут одинаковые из-за проблем с путём :(
-        // посмотреть с _ чтобы поаккуратней генерировалось
-        // перписать всю эту функцию поаккуратнее
-        public string CreateFileName (string[] prefixes, string[] suffixies, string end)
-        {
-            string outp = "";
-            string result = "";
-            string tmp;
-
-            char c = '\\';
-            char d = '/';
-            char e = '|';
-
-            List<string> invalidSymbols = new List<string>() {"\\", "/", "|"};
-
-            if (prefixes != null)
-            {
-                foreach (string s in prefixes)
-                {
-                    if (s != null && s != "")
-                    {
-                       /* tmp = s;
-                        foreach (var symbol in invalidSymbols)
-                        {
-                            tmp = tmp.Replace(symbol, String.Empty);
-                        }*/
-
-                        tmp = s.Replace(c.ToString(), String.Empty);
-                        tmp = tmp.Replace(d.ToString(), String.Empty);
-                        tmp = tmp.Replace(e.ToString(), String.Empty);
-
-                        outp += tmp + "+";
-                    }
-                }
-                if (outp != "")
-                {
-                    outp = outp.Remove(outp.Length - 1);
-                    outp += "_";
-                }
-            }
-
-            if (suffixies != null)
-            {
-                foreach (string s in suffixies)
-                {
-                    if (s != null && s != "")
-                    {
-                        tmp = s.Replace(c.ToString(), String.Empty);
-                        tmp = tmp.Replace(d.ToString(), String.Empty);
-                        tmp = tmp.Replace(e.ToString(), String.Empty);
-
-                        outp += tmp + "+";
-                    }
-                }
-                if (outp != "")
-                {
-                    outp = outp.Remove(outp.Length - 1);
-                }
-            }
-
-            outp += "_" + end;
-            result = folderName + '\\' + outp;
-
-            while(File.Exists(result + EXTENSION))
-                result += '1';         
-
-            return result + EXTENSION;
-        }
-
         public string[] CreateMainFiles(string[] prefixes, string[] suffixies)
         {
             string[] filePathes = new string[2];
-            filePathes[0] = CreateFileName(prefixes, suffixies, OUTPUT_YES);
-            filePathes[1] = CreateFileName(prefixes, suffixies, OUTPUT_NO);
+            filePathes[0] = Streamer.CreateFileName(prefixes, suffixies, OUTPUT_YES, folderName);
+            filePathes[1] = Streamer.CreateFileName(prefixes, suffixies, OUTPUT_NO, folderName);
 
             StreamWriter streamWriterYes, streamWriterNo;
 
@@ -204,8 +123,8 @@ namespace RootSearch
 
             List<string> setNoComplimantery = new List<string>();
             List<string> setYesComplimentary = ParseFile(prefixes, suffixies, out setNoComplimantery);
-            Print(setYesComplimentary, streamWriterYes);
-            Print(setNoComplimantery, streamWriterNo);
+            Streamer.Print(setYesComplimentary, streamWriterYes);
+            Streamer.Print(setNoComplimantery, streamWriterNo);
 
             streamWriterYes.Close();
             streamWriterNo.Close();

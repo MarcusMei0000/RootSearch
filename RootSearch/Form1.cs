@@ -117,6 +117,8 @@ namespace RootSearch
             SetSelectedIndex();
             BlockComboBoxes();
             SetEvents();
+
+            Set.TestMainSetFunction();
         }
 
         private void ColorComboboboxesWhite()
@@ -221,8 +223,6 @@ namespace RootSearch
             System.Windows.Forms.ComboBox combo = (System.Windows.Forms.ComboBox)sender;
             combo.BackColor = Color.White;
         }
-
-
 
         private void comboBox_Enter(object sender, EventArgs e)
         {
