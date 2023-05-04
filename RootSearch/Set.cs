@@ -11,8 +11,13 @@ namespace RootSearch
 {
     internal class Set
     {
-        public Set() {
-        
+        List<string> fileNames = new List<string>();
+
+        public Set() { }
+
+        public Set(List<string> fileNames)
+        {
+            this.fileNames = fileNames;
         }
 
         private static List<IEnumerable<string>> CreateSets(List<string> fileNames)
