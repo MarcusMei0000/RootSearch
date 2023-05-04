@@ -207,8 +207,6 @@ namespace RootSearch
             System.Windows.Forms.ComboBox combo = (System.Windows.Forms.ComboBox)sender;
             combo.BackColor = Color.White;
         }
-
-
         private void comboBox_Enter(object sender, EventArgs e)
         {
             System.Windows.Forms.ComboBox combo = (System.Windows.Forms.ComboBox)sender;
