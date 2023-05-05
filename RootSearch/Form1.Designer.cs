@@ -44,6 +44,8 @@ namespace RootSearch
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.buttonChooseFilePath = new System.Windows.Forms.Button();
             this.labelFilePath = new System.Windows.Forms.Label();
+            this.OpenFilesButton = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderPrefix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderSuffix)).BeginInit();
             this.SuspendLayout();
@@ -122,11 +124,28 @@ namespace RootSearch
             this.labelFilePath.TabIndex = 9;
             this.labelFilePath.Text = "Текущий путь сохранения:";
             // 
+            // OpenFilesButton
+            // 
+            this.OpenFilesButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.OpenFilesButton.Location = new System.Drawing.Point(1092, 219);
+            this.OpenFilesButton.Name = "OpenFilesButton";
+            this.OpenFilesButton.Size = new System.Drawing.Size(225, 103);
+            this.OpenFilesButton.TabIndex = 10;
+            this.OpenFilesButton.Text = "Найти пересечение множетсв";
+            this.OpenFilesButton.UseVisualStyleBackColor = true;
+            this.OpenFilesButton.Click += new System.EventHandler(this.OpenFilesButton_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Multiselect = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1530, 440);
+            this.Controls.Add(this.OpenFilesButton);
             this.Controls.Add(this.labelFilePath);
             this.Controls.Add(this.buttonChooseFilePath);
             this.Controls.Add(this.labelSuffix);
@@ -157,6 +176,8 @@ namespace RootSearch
         private Label labelFilePath;
         private Button buttonChooseFilePath;
         private FolderBrowserDialog folderBrowserDialog1;
+        private Button OpenFilesButton;
+        private OpenFileDialog openFileDialog1;
     }
 }
 

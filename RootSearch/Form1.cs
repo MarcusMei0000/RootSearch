@@ -21,6 +21,8 @@ namespace RootSearch
         const string FILE_PATH_PREF = "prefix.txt";
         const string FILE_PATH_SUF = "suffix.txt";
 
+        string[] fileNamesForSets = null;
+
         string labelText = "Текущая папка для сохранения" + Environment.NewLine;
         string folderName = AppDomain.CurrentDomain.BaseDirectory;
 
@@ -118,8 +120,6 @@ namespace RootSearch
             SetSelectedIndex();
             BlockComboBoxes();
             SetEvents();
-
-            Set.TestMainSetFunction();
         }
 
         private void ColorComboboboxesWhite()
@@ -263,6 +263,21 @@ namespace RootSearch
             {
                 folderName = folderBrowserDialog1.SelectedPath;
                 labelFilePath.Text = labelText + folderName;
+            }
+        }
+
+        private void OpenFilesButton_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.InitialDirectory = folderName;
+            DialogResult result = openFileDialog1.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                fileNamesForSets = openFileDialog1.FileNames;
+
+                //где это запускать?
+                Set.TestMainSetFunction(fileNamesForSets, folderName);
+                textBoxOutput.Text = "";
+                textBoxOutput.Text += folderName + "\\res.txt";
             }
         }
     }

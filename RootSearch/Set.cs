@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms.VisualStyles;
 
 namespace RootSearch
 {
@@ -20,7 +21,7 @@ namespace RootSearch
             this.fileNames = fileNames;
         }
 
-        private static List<IEnumerable<string>> CreateSets(List<string> fileNames)
+        private static List<IEnumerable<string>> CreateSets(string[] fileNames)
         {
             List<IEnumerable<string>> sets = new List<IEnumerable<string>>();
 
@@ -32,7 +33,7 @@ namespace RootSearch
             return sets;
         }
 
-        public static IEnumerable<string> FindIntersection(List<string> fileNames)
+        public static IEnumerable<string> FindIntersection(string[] fileNames)
         {
             List<IEnumerable<string>> sets = CreateSets(fileNames);
 
@@ -45,11 +46,11 @@ namespace RootSearch
             return tmp;
         }
 
-        public static void TestMainSetFunction()
+        public static void TestMainSetFunction(string[] fileNames, string folderName)
         {
-            List<string> fileNames = new List<string>() { "а+тел_сочетающиеся.txt", "а_сочетающиеся.txt" };
+            //string[] fileNames = new string[] { "а+тел_сочетающиеся.txt", "а_сочетающиеся.txt" };
             
-            StreamWriter stream = new StreamWriter("res.txt");
+            StreamWriter stream = new StreamWriter(folderName + "\\res.txt", false);
 
             var set = FindIntersection(fileNames);
 
