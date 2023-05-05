@@ -46,15 +46,18 @@ namespace RootSearch
             return tmp;
         }
 
-        public static void TestMainSetFunction(string[] fileNames, string folderName)
+        public static string TestMainSetFunction(string[] fileNames, string folderName)
         {
             //string[] fileNames = new string[] { "а+тел_сочетающиеся.txt", "а_сочетающиеся.txt" };
-            
-            StreamWriter stream = new StreamWriter(folderName + "\\res.txt", false);
+
+            string outputPath = folderName + Streamer.CreateFileNameForSet(fileNames);
+            StreamWriter stream = new StreamWriter(outputPath, false);
 
             var set = FindIntersection(fileNames);
 
             Streamer.Print(set, stream);
+
+            return outputPath;
         }
     }
 }

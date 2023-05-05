@@ -272,12 +272,11 @@ namespace RootSearch
             DialogResult result = openFileDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
-                fileNamesForSets = openFileDialog1.FileNames;
-
-                //где это запускать?
-                Set.TestMainSetFunction(fileNamesForSets, folderName);
+                fileNamesForSets = openFileDialog1.FileNames;                              
                 textBoxOutput.Text = "";
-                textBoxOutput.Text += folderName + "\\res.txt";
+
+                //где это запускать? 
+                textBoxOutput.Text = Set.TestMainSetFunction(fileNamesForSets, folderName);
             }
         }
     }

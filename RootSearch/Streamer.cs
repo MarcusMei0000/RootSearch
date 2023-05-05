@@ -130,6 +130,19 @@ namespace RootSearch
 
             return result + EXTENSION;
         }
-           
+        
+        public static string CreateFileNameForSet(string[] names)
+        {
+            StringBuilder sb = new StringBuilder();
+            string tmp = "";
+            foreach(string name in names)
+            {
+                tmp = name.Remove(0, name.LastIndexOf('\\') + 2);
+                sb.Append(tmp.Substring(0, tmp.Length - 4));
+                sb.Append('_');
+            }
+
+            return sb.ToString() + EXTENSION;
+        }
     }
 }
