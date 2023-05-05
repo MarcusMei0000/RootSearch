@@ -95,7 +95,7 @@ namespace RootSearch
             // 
             this.labelSuffix.AutoSize = true;
             this.labelSuffix.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelSuffix.Location = new System.Drawing.Point(12, 148);
+            this.labelSuffix.Location = new System.Drawing.Point(12, 139);
             this.labelSuffix.Name = "labelSuffix";
             this.labelSuffix.Size = new System.Drawing.Size(689, 36);
             this.labelSuffix.TabIndex = 7;

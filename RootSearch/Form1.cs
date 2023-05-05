@@ -28,7 +28,7 @@ namespace RootSearch
         {
             InitializeComponent();
             InitializeComboboxes(ref comboBoxesPref, 4, 50);
-            InitializeComboboxes(ref comboBoxesSuf, 9, 155);
+            InitializeComboboxes(ref comboBoxesSuf, 9, 150);
             validator = new Validator();
             labelFilePath.Text = labelText + folderName;
         }
@@ -47,9 +47,10 @@ namespace RootSearch
                 combo.Location = new System.Drawing.Point(15 + j * 85, position);
                 combo.Size = new System.Drawing.Size(80, 200);
                 combo.Font = new Font("Microsoft Sans Serif", 11);
+                combo.DropDownHeight = 300;
                 // comboBoxes[j].TabIndex = j;
                 Controls.Add(comboBoxes[j]);
-                j++;
+                j++;                
             }
         }
 
