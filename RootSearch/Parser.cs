@@ -29,20 +29,6 @@ namespace RootSearch
         List<string> proclitic = new List<string>();
         List<string> eclitic = new List<string>();
 
-        private List<string> CreateListFromFile(string filePath)
-        {
-            var list = new List<string>();
-            StreamReader sr = File.OpenText(filePath);
-            String input;
-
-            while ((input = sr.ReadLine()) != null)
-            {
-                list.Add(input);
-            }
-
-            return list;
-        }
-
         public Parser(string filePath, string folderName)
         {
             this.filePath = filePath;

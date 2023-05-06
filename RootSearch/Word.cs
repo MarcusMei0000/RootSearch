@@ -45,11 +45,17 @@ namespace RootSearch
         /*Аналогично суффиксам, но с конца, т. к. надо сравнивать, начиная от корня (ближе к корню)*/
         public bool IsClassifiedPreffixes(string[] givenPrefixes)
         {
-            if (prefixes == null && givenPrefixes == null)
+            /*if (prefixes == null && givenPrefixes == null)
                 return true;
 
             if (prefixes == null || givenPrefixes == null)
+                return false;*/
+
+            if (prefixes == null && givenPrefixes != null)
                 return false;
+
+            if (givenPrefixes == null)
+                return true;
 
             if (givenPrefixes.Length > prefixes.Length) 
                 return false;
