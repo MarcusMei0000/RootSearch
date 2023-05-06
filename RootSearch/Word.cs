@@ -78,11 +78,17 @@ namespace RootSearch
         */
         public bool IsClassifiedSuffixes(string[] givenSuffixes)
         {
-            if (suffixes == null && givenSuffixes == null)
+            /*if (suffixes == null && givenSuffixes == null)
                 return true;
 
             if (suffixes == null || givenSuffixes == null)
+                return false;*/
+
+            if (suffixes == null && givenSuffixes != null)
                 return false;
+
+            if (givenSuffixes == null)
+                return true;
 
             if (givenSuffixes.Length > suffixes.Length)
                 return false;
