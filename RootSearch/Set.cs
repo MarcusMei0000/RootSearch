@@ -85,7 +85,7 @@ namespace RootSearch
 
         public static string TestSetIntersection(string[] fileNames, string folderName)
         {
-            string outputPath = folderName + Streamer.CreateFileNameForSet(fileNames);
+            string outputPath = folderName + "\\" + Streamer.CreateFileNameForSet(fileNames);
             StreamWriter stream = new StreamWriter(outputPath, false);
 
             var set = CreateSetIntersection(fileNames);
