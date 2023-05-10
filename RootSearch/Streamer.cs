@@ -157,7 +157,7 @@ namespace RootSearch
             string tmp = "";
             foreach(string name in names)
             {
-                tmp = name.Remove(0, name.LastIndexOf('\\') + 2);
+                tmp = name.Remove(0, name.LastIndexOf('\\') + 1);
                 sb.Append(tmp.Substring(0, tmp.Length - 4));
                 sb.Append('_');
             }

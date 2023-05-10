@@ -120,6 +120,7 @@ namespace RootSearch
             SetSelectedIndex();
             BlockComboBoxes();
             SetEvents();
+            this.OpenFilesButton.Visible = true;
         }
 
         private void ColorComboboboxesWhite()
@@ -276,7 +277,9 @@ namespace RootSearch
                 textBoxOutput.Text = "";
 
                 //где это запускать? 
-                textBoxOutput.Text = Set.TestMainSetFunction(fileNamesForSets, folderName);
+                // textBoxOutput.Text = Set.TestMainSetFunction(fileNamesForSets, folderName);
+
+                textBoxOutput.Text = Set.TestSetIntersection(fileNamesForSets, folderName);
             }
         }
     }
