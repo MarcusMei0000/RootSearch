@@ -21,7 +21,7 @@ namespace RootSearch
             this.fileNames = fileNames;
         }
 
-        private static List<IEnumerable<string>> CreateSets(string[] fileNames)
+        private static List<IEnumerable<string>> CreateListOfIEnumerable(string[] fileNames)
         {
             List<IEnumerable<string>> sets = new List<IEnumerable<string>>();
 
@@ -33,9 +33,60 @@ namespace RootSearch
             return sets;
         }
 
-        public static IEnumerable<string> FindIntersection(string[] fileNames)
+        private static List<HashSet<string>> CreateListOfRootSets(string[] fileNames)
         {
-            List<IEnumerable<string>> sets = CreateSets(fileNames);
+            List<HashSet<string>> sets = new List<HashSet<string>>();
+            List<string> tmp = new List<string>();
+
+            foreach (string file in fileNames)
+            {
+                tmp = Streamer.CreateListFromFile(file);
+                sets.Add(Streamer.CreateRootSet(tmp));
+            }
+
+            return sets;
+        }
+
+        //Возвращает множество, являющиеся пересечением корней
+        public static HashSet<string> FindRootIntersection(string[] fileNames)
+        {
+            List<HashSet<string>> sets = CreateListOfRootSets(fileNames);
+
+            var tmp = sets[0];
+            for (int i = 1; i < sets.Count; i++)
+            {
+                tmp.AsEnumerable().Intersect(sets[i]);
+            }
+
+            return tmp;
+        }
+        
+        //нужен ли нам Set, чтобы строки не повторялись или обойдёмся List(?)
+        //Возвращает множество строк с пересекающимися корнями, которое готово для печати в файл
+        public static List<string> CreateSetIntersection(string[] fileNames)
+        {
+            List<string> result = new List<string>();
+
+            var list = CreateListOfIEnumerable(fileNames);
+            HashSet<string> rootSet = FindRootIntersection(fileNames);
+
+            foreach(var l in list)
+            {
+                foreach (var s in l)
+                {
+                    if (Streamer.HasRoot(s, rootSet)) ;
+                        result.Add(s);
+                }
+            }
+
+            return result;
+        }
+
+
+        //Возвращает множество, являющиеся пересечением СТРОК!
+        public static IEnumerable<string> FindIntersectionOfIEnumerable(string[] fileNames)
+        {
+            List<IEnumerable<string>> sets = CreateListOfIEnumerable(fileNames);
 
             var tmp = sets[0];
             for (int i = 1; i < sets.Count; i++)
@@ -53,7 +104,19 @@ namespace RootSearch
             string outputPath = folderName + Streamer.CreateFileNameForSet(fileNames);
             StreamWriter stream = new StreamWriter(outputPath, false);
 
-            var set = FindIntersection(fileNames);
+            var set = FindRootIntersection(fileNames);
+
+            Streamer.Print(set, stream);
+
+            return outputPath;
+        }
+
+        public static string TestSetIntersection(string[] fileNames, string folderName)
+        {
+            string outputPath = folderName + Streamer.CreateFileNameForSet(fileNames);
+            StreamWriter stream = new StreamWriter(outputPath, false);
+
+            var set = CreateSetIntersection(fileNames);
 
             Streamer.Print(set, stream);
 

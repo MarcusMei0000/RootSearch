@@ -41,6 +41,26 @@ namespace RootSearch
             return list;
         }
 
+        public static bool HasRoot(string s, HashSet<string> roots)
+        {
+            return roots.Contains(ExtractRootFromString(s));
+        }
+
+        public static string ExtractRootFromString(string s)
+        {
+            return s.Substring(0, s.IndexOf(";"));
+        }
+
+        public static HashSet<string> CreateRootSet(List<string> wordList)
+        {
+            HashSet<string> set = new HashSet<string>();
+            foreach (string s in wordList)
+            {
+                set.Add(ExtractRootFromString(s));
+            }
+            return set;
+        }
+
         //подумать как не печатать последний /n
         //или не учитывать при сравнении последнюю строку
         public static void Print(List<string> set, StreamWriter stream)
