@@ -41,6 +41,11 @@ namespace RootSearch
             suffixes = w.suffixes;
             ending = w.ending;
         }
+
+        public bool IsNoAffix()
+        {
+            return prefixes == null && suffixes == null;
+        }
        
         /*Аналогично суффиксам, но с конца, т. к. надо сравнивать, начиная от корня (ближе к корню)*/
         public bool IsClassifiedPreffixes(string[] givenPrefixes)

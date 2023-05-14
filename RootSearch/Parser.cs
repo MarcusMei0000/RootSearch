@@ -44,6 +44,11 @@ namespace RootSearch
             return proclitic.Contains(w.Root);
         }
 
+        private bool IsNoInputAffix(string[] pref, string[] suf)
+        {
+            return pref == null && suf == null;
+        }
+
         private bool IsEclitic(Word w)
         {
             return eclitic.Contains(w.Root);
@@ -63,20 +68,17 @@ namespace RootSearch
                 if (word != null)
                 {
                     //&& !IsEclictic(word)
-                    if (word.IsClassifiedPreffixes(prefixes) && word.IsClassifiedSuffixes(suffixies) && !IsProclitic(word)) 
+                    if (IsNoInputAffix(prefixes, suffixies))
                     {
-                        setYes.Add(word.ToStringRoot());
+                        if (word.IsNoAffix())
+                            setYes.Add(word.ToStringRoot());
+
+                        else
+                        {
+                            setNo.Add(word.ToStringRoot());
+                        }
                     }
                     else
-                    {
-                        setNo.Add(word.ToStringRoot());
-                    }
-                }
-
-                while (remainder != null)
-                {
-                    word = ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
-                    if (word != null)
                     {
                         if (word.IsClassifiedPreffixes(prefixes) && word.IsClassifiedSuffixes(suffixies) && !IsProclitic(word))
                         {
@@ -88,8 +90,37 @@ namespace RootSearch
                         }
                     }
                 }
-                remainder = null;
+
+                while (remainder != null)
+                {
+                    word = ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
+                    if (word != null)
+                    {
+                        if (IsNoInputAffix(prefixes, suffixies))
+                        {
+                            if (word.IsNoAffix())
+                                setYes.Add(word.ToStringRoot());
+
+                            else
+                            {
+                                setNo.Add(word.ToStringRoot());
+                            }
+                        }
+                        else
+                        {
+                            if (word.IsClassifiedPreffixes(prefixes) && word.IsClassifiedSuffixes(suffixies) && !IsProclitic(word))
+                            {
+                                setYes.Add(word.ToStringRoot());
+                            }
+                            else
+                            {
+                                setNo.Add(word.ToStringRoot());
+                            }
+                        }
+                    }
+                }
             }
+            remainder = null;
 
             setNoComplimentary = setNo;
             return setYes;
@@ -103,12 +134,16 @@ namespace RootSearch
 
             StreamWriter streamWriterYes, streamWriterNo;
 
-            streamReader = new StreamReader(filePath, Encoding.Default);            
+            streamReader = new StreamReader(filePath, Encoding.Default);
             streamWriterYes = new StreamWriter(filePathes[0], false);
             streamWriterNo = new StreamWriter(filePathes[1], false);
 
+
             List<string> setNoComplimantery = new List<string>();
             List<string> setYesComplimentary = ParseFile(prefixes, suffixies, out setNoComplimantery);
+
+
+
             Streamer.Print(setYesComplimentary, streamWriterYes);
             Streamer.Print(setNoComplimantery, streamWriterNo);
 
@@ -178,8 +213,8 @@ namespace RootSearch
 
             if (suffixes != null || word.IndexOf('_') == -1)
                 return new Word(fullWord, transcripton, prefixes, root, suffixes);
-            
-            return 
+
+            return
                 new Word(fullWord, transcripton, prefixes, root, suffixes, word.Substring(word.IndexOf('_'), word.Length - word.IndexOf('_')));
         }
 

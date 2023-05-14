@@ -131,9 +131,8 @@ namespace RootSearch
             this.OpenFilesButton.Name = "OpenFilesButton";
             this.OpenFilesButton.Size = new System.Drawing.Size(225, 103);
             this.OpenFilesButton.TabIndex = 10;
-            this.OpenFilesButton.Text = "Найти пересечение множетсв";
+            this.OpenFilesButton.Text = "Найти пересечение множеств";
             this.OpenFilesButton.UseVisualStyleBackColor = true;
-            this.OpenFilesButton.Visible = true;
             this.OpenFilesButton.Click += new System.EventHandler(this.OpenFilesButton_Click);
             // 
             // openFileDialog1

@@ -21,36 +21,10 @@ namespace RootSearch
             this.fileNames = fileNames;
         }
 
-        private static List<IEnumerable<string>> CreateListOfIEnumerable(string[] fileNames)
-        {
-            List<IEnumerable<string>> sets = new List<IEnumerable<string>>();
-
-            foreach (string file in fileNames)
-            {
-                sets.Add(Streamer.CreateIEnumerableFromFile(file));
-            }
-
-            return sets;
-        }
-
-        private static List<HashSet<string>> CreateListOfRootSets(string[] fileNames)
-        {
-            List<HashSet<string>> sets = new List<HashSet<string>>();
-            List<string> tmp = new List<string>();
-
-            foreach (string file in fileNames)
-            {
-                tmp = Streamer.CreateListFromFile(file);
-                sets.Add(Streamer.CreateRootSet(tmp));
-            }
-
-            return sets;
-        }
-
         //Возвращает множество, являющиеся пересечением корней
         public static HashSet<string> FindRootIntersection(string[] fileNames)
         {
-            List<HashSet<string>> sets = CreateListOfRootSets(fileNames);
+            List<HashSet<string>> sets = Streamer.CreateListOfRootSets(fileNames);
 
             IEnumerable<string> tmp = sets[0];
             for (int i = 1; i < sets.Count; i++)
@@ -68,7 +42,7 @@ namespace RootSearch
         {
             List<string> result = new List<string>();
 
-            var list = CreateListOfIEnumerable(fileNames);
+            var list = Streamer.CreateListOfIEnumerable(fileNames);
             var rootSet = FindRootIntersection(fileNames);
 
             foreach(var l in list)

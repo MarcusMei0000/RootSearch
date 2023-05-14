@@ -13,6 +13,34 @@ namespace RootSearch
     {
         const string EXTENSION = ".txt";
 
+
+
+        public static List<IEnumerable<string>> CreateListOfIEnumerable(string[] fileNames)
+        {
+            List<IEnumerable<string>> sets = new List<IEnumerable<string>>();
+
+            foreach (string file in fileNames)
+            {
+                sets.Add(Streamer.CreateIEnumerableFromFile(file));
+            }
+
+            return sets;
+        }
+
+        public static List<HashSet<string>> CreateListOfRootSets(string[] fileNames)
+        {
+            List<HashSet<string>> sets = new List<HashSet<string>>();
+            List<string> tmp = new List<string>();
+
+            foreach (string file in fileNames)
+            {
+                tmp = Streamer.CreateListFromFile(file);
+                sets.Add(Streamer.CreateRootSet(tmp));
+            }
+
+            return sets;
+        }
+
         public static List<string> CreateListFromFile(string filePath)
         {
             var list = new List<string>();
