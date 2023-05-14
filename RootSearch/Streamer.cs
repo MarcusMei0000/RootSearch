@@ -13,7 +13,7 @@ namespace RootSearch
     {
         const string EXTENSION = ".txt";
 
-
+        static List<string> INVALID_SYMBOLS = new List<string>() { "\\", "/", "|", "<", ">", "\"" };
 
         public static List<IEnumerable<string>> CreateListOfIEnumerable(string[] fileNames)
         {
@@ -107,72 +107,42 @@ namespace RootSearch
             stream.Close();
         } 
 
+        public static string RemoveInvalidSymbols(string[] affixes)
+        {
+            string tmp;
+            string result = "";
+            if (affixes != null)
+            {
+                foreach (string affix in affixes)
+                {
+                    if (affix != null && affix != "")
+                    {
+                        tmp = affix;
+                        foreach (var symbol in INVALID_SYMBOLS)
+                        {
+                            tmp = tmp.Replace(symbol, String.Empty);
+                        }
+
+                        result += tmp + "+";
+                    }
+                }
+                if (result != "")
+                {
+                    result = result.Remove(result.Length - 1);
+                    result += "_";
+                }
+            }
+
+            return result;
+        }
 
         // съ+пер_vA+н_сочетающиеся_корни.txt
         // нейминг /aж\ и аж будут одинаковые из-за проблем с путём :(
         // посмотреть с _ чтобы поаккуратней генерировалось
-        // перписать всю эту функцию поаккуратнее
-        //почему-то нельзя сохранять в корень C:\
         public static string CreateFileName(string[] prefixes, string[] suffixies, string end, string folderName)
         {
-            string outp = "";
-            string result = "";
-            string tmp;
-
-            char c = '\\';
-            char d = '/';
-            char e = '|';
-
-            List<string> invalidSymbols = new List<string>() { "\\", "/", "|", "<", ">" };
-
-            if (prefixes != null)
-            {
-                foreach (string s in prefixes)
-                {
-                    if (s != null && s != "")
-                    {
-                        /* tmp = s;
-                         foreach (var symbol in invalidSymbols)
-                         {
-                             tmp = tmp.Replace(symbol, String.Empty);
-                         }*/
-
-                        tmp = s.Replace(c.ToString(), String.Empty);
-                        tmp = tmp.Replace(d.ToString(), String.Empty);
-                        tmp = tmp.Replace(e.ToString(), String.Empty);
-
-                        outp += tmp + "+";
-                    }
-                }
-                if (outp != "")
-                {
-                    outp = outp.Remove(outp.Length - 1);
-                    outp += "_";
-                }
-            }
-
-            if (suffixies != null)
-            {
-                foreach (string s in suffixies)
-                {
-                    if (s != null && s != "")
-                    {
-                        tmp = s.Replace(c.ToString(), String.Empty);
-                        tmp = tmp.Replace(d.ToString(), String.Empty);
-                        tmp = tmp.Replace(e.ToString(), String.Empty);
-
-                        outp += tmp + "+";
-                    }
-                }
-                if (outp != "")
-                {
-                    outp = outp.Remove(outp.Length - 1);
-                }
-            }
-
-            outp += "_" + end;
-            result = folderName + '\\' + outp;
-
+            string result = folderName + '\\' + RemoveInvalidSymbols(prefixes) + RemoveInvalidSymbols(suffixies) + end;
+            
             while (File.Exists(result + EXTENSION))
                 result += '1';
 

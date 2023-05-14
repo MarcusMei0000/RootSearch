@@ -54,6 +54,8 @@ namespace RootSearch
             return eclitic.Contains(w.Root);
         }
 
+
+        //либо в отдельную функцию, либо флаг
         private List<string> ParseFile(string[] prefixes, string[] suffixies, out List<string> setNoComplimentary)
         {
             List<string> setYes = new List<string>();
@@ -90,6 +92,20 @@ namespace RootSearch
                         }
                     }
                 }
+
+                /**
+                 * word  = ParseString
+                 * if(word != null){
+                 *  isReminderFirst = true;
+                 *  while reminder!=null {
+                 *      if(!isReminderFirst){
+                 *          word = ParseString          
+                 *      }
+                 *      isReminderFirst = false;
+                 *      
+                 *  }
+                 * }
+                 */
 
                 while (remainder != null)
                 {
@@ -138,11 +154,8 @@ namespace RootSearch
             streamWriterYes = new StreamWriter(filePathes[0], false);
             streamWriterNo = new StreamWriter(filePathes[1], false);
 
-
             List<string> setNoComplimantery = new List<string>();
             List<string> setYesComplimentary = ParseFile(prefixes, suffixies, out setNoComplimantery);
-
-
 
             Streamer.Print(setYesComplimentary, streamWriterYes);
             Streamer.Print(setNoComplimantery, streamWriterNo);
@@ -187,6 +200,7 @@ namespace RootSearch
 
             return suffixes;
         }
+
 
         //Создаёт слово с окончанием или без в зависимости от суффикса
         private Word ParsePartWord(string word, string fullWord, string transcripton)

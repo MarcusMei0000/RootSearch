@@ -46,6 +46,7 @@ namespace RootSearch
             this.labelFilePath = new System.Windows.Forms.Label();
             this.OpenFilesButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderPrefix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderSuffix)).BeginInit();
             this.SuspendLayout();
@@ -63,7 +64,7 @@ namespace RootSearch
             // buttonInput
             // 
             this.buttonInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonInput.Location = new System.Drawing.Point(707, 274);
+            this.buttonInput.Location = new System.Drawing.Point(707, 349);
             this.buttonInput.Name = "buttonInput";
             this.buttonInput.Size = new System.Drawing.Size(112, 48);
             this.buttonInput.TabIndex = 4;
@@ -75,7 +76,7 @@ namespace RootSearch
             // 
             this.textBoxOutput.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.textBoxOutput.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxOutput.Location = new System.Drawing.Point(12, 328);
+            this.textBoxOutput.Location = new System.Drawing.Point(12, 413);
             this.textBoxOutput.Multiline = true;
             this.textBoxOutput.Name = "textBoxOutput";
             this.textBoxOutput.ReadOnly = true;
@@ -140,11 +141,20 @@ namespace RootSearch
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Multiselect = true;
             // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(18, 273);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(670, 24);
+            this.comboBox1.TabIndex = 11;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1530, 440);
+            this.ClientSize = new System.Drawing.Size(1530, 526);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.OpenFilesButton);
             this.Controls.Add(this.labelFilePath);
             this.Controls.Add(this.buttonChooseFilePath);
@@ -178,6 +188,7 @@ namespace RootSearch
         private FolderBrowserDialog folderBrowserDialog1;
         private Button OpenFilesButton;
         private OpenFileDialog openFileDialog1;
+        private ComboBox comboBox1;
     }
 }
 

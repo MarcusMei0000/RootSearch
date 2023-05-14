@@ -35,7 +35,7 @@ namespace RootSearch
             return tmp.ToHashSet();
         }
         
-        //нужен ли нам Set, чтобы строки не повторялись или обойдёмся List(?)
+        //TODO: нужен ли нам Set, чтобы строки не повторялись или обойдёмся List(?)
         //Возвращает множество строк с пересекающимися корнями, которое готово для печати в файл
         //Можно и посортировать перед выходом
         public static List<string> CreateSetIntersection(string[] fileNames)
