@@ -121,6 +121,7 @@ namespace RootSearch
             BlockComboBoxes();
             SetEvents();
             this.OpenFilesButton.Visible = true;
+            this.comboBox1.Visible = false;
         }
 
         private void ColorComboboboxesWhite()
@@ -275,11 +276,7 @@ namespace RootSearch
             {
                 fileNamesForSets = openFileDialog1.FileNames;                              
                 textBoxOutput.Text = "";
-
-                //где это запускать? 
-                // textBoxOutput.Text = Set.TestMainSetFunction(fileNamesForSets, folderName);
-
-                textBoxOutput.Text = Set.TestSetIntersection(fileNamesForSets, folderName);
+                textBoxOutput.Text = Set.FindMainSetIntersection(fileNamesForSets, folderName);
             }
         }
     }

@@ -57,13 +57,11 @@ namespace RootSearch
             return result;
         }       
 
-        public static string TestSetIntersection(string[] fileNames, string folderName)
+        public static string FindMainSetIntersection(string[] fileNames, string folderName)
         {
             string outputPath = folderName + "\\" + Streamer.CreateFileNameForSet(fileNames);
             StreamWriter stream = new StreamWriter(outputPath, false);
-
             var set = CreateSetIntersection(fileNames);
-
             Streamer.Print(set, stream);
 
             return outputPath;

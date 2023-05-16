@@ -49,97 +49,106 @@ namespace RootSearch
             return pref == null && suf == null;
         }
 
-        private bool IsEclitic(Word w)
+        private bool IsEnclitic(Word w)
         {
             return eclitic.Contains(w.Root);
         }
 
 
-        //либо в отдельную функцию, либо флаг
-        private List<string> ParseFile(string[] prefixes, string[] suffixies, out List<string> setNoComplimentary)
+        private void ClassifyWord(Word word, string[] prefixes, string[] suffixies, ref List<string> setYes, ref List<string> setNo)
         {
+            if (word != null)
+            {
+                if (word.IsClassifiedPreffixes(prefixes) && word.IsClassifiedSuffixes(suffixies) && !IsProclitic(word))
+                {
+                    setYes.Add(word.ToStringRoot());
+                }
+                else
+                {
+                    setNo.Add(word.ToStringRoot());
+                }
+            }
+        }
+
+        private void ClassifyWord(Word word, ref List<string> setYes, ref List<string> setNo)
+        {
+            if (word != null)
+            {
+                if (word.IsNoAffix())
+                {
+                    setYes.Add(word.ToStringRoot());
+                }
+                else
+                {
+                    setNo.Add(word.ToStringRoot());
+                }
+            }
+        }
+
+
+        private List<string> ParseFileWithoutAffix(out List<string> setNoComplimentary)
+        {            
             List<string> setYes = new List<string>();
             List<string> setNo = new List<string>();
-            String remainder = null, fullWord = null, transcription = null;
+            string remainder = null, fullWord = null, transcription = null;
             Word word;
             string s;
 
             while ((s = streamReader.ReadLine()) != null)
             {
                 word = ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
-                if (word != null)
-                {
-                    //&& !IsEclictic(word)
-                    if (IsNoInputAffix(prefixes, suffixies))
-                    {
-                        if (word.IsNoAffix())
-                            setYes.Add(word.ToStringRoot());
-
-                        else
-                        {
-                            setNo.Add(word.ToStringRoot());
-                        }
-                    }
-                    else
-                    {
-                        if (word.IsClassifiedPreffixes(prefixes) && word.IsClassifiedSuffixes(suffixies) && !IsProclitic(word))
-                        {
-                            setYes.Add(word.ToStringRoot());
-                        }
-                        else
-                        {
-                            setNo.Add(word.ToStringRoot());
-                        }
-                    }
-                }
-
-                /**
-                 * word  = ParseString
-                 * if(word != null){
-                 *  isReminderFirst = true;
-                 *  while reminder!=null {
-                 *      if(!isReminderFirst){
-                 *          word = ParseString          
-                 *      }
-                 *      isReminderFirst = false;
-                 *      
-                 *  }
-                 * }
-                 */
+                ClassifyWord(word, ref setYes, ref setNo);
 
                 while (remainder != null)
                 {
                     word = ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
-                    if (word != null)
-                    {
-                        if (IsNoInputAffix(prefixes, suffixies))
-                        {
-                            if (word.IsNoAffix())
-                                setYes.Add(word.ToStringRoot());
-
-                            else
-                            {
-                                setNo.Add(word.ToStringRoot());
-                            }
-                        }
-                        else
-                        {
-                            if (word.IsClassifiedPreffixes(prefixes) && word.IsClassifiedSuffixes(suffixies) && !IsProclitic(word))
-                            {
-                                setYes.Add(word.ToStringRoot());
-                            }
-                            else
-                            {
-                                setNo.Add(word.ToStringRoot());
-                            }
-                        }
-                    }
+                    ClassifyWord(word, ref setYes, ref setNo);
                 }
             }
-            remainder = null;
 
             setNoComplimentary = setNo;
             return setYes;
+        }
+
+        //???
+        private List<string> ParseFileWithAffix(string[] prefixes, string[] suffixies, out List<string> setNoComplimentary)
+        {
+            List<string> setYes = new List<string>();
+            List<string> setNo = new List<string>();
+            string remainder = null, fullWord = null, transcription = null;
+            Word word;
+            string s;
+
+            while ((s = streamReader.ReadLine()) != null)
+            {
+                word = ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
+                ClassifyWord(word, prefixes, suffixies, ref setYes, ref setNo);
+
+                while (remainder != null)
+                {
+                    word = ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
+                    ClassifyWord(word, prefixes, suffixies, ref setYes, ref setNo);
+                }
+            }
+
+            setNoComplimentary = setNo;
+            return setYes;
+        }        
+        
+        private List<string> ClassifyWordsFromFile(string[] prefixes, string[] suffixies, out List<string> setNoComplimentary)
+        {
+            setNoComplimentary = new List<string>();
+            List<string> setYes = new List<string>();
+
+            if (!IsNoInputAffix(prefixes, suffixies))
+            {
+                return ParseFileWithAffix(prefixes, suffixies, out setNoComplimentary);
+            }
+            else
+            {
+                return ParseFileWithoutAffix(out setNoComplimentary);
+            }
+            //remainder = null;
         }
 
         public string[] CreateMainFiles(string[] prefixes, string[] suffixies)
@@ -155,7 +164,7 @@ namespace RootSearch
             streamWriterNo = new StreamWriter(filePathes[1], false);
 
             List<string> setNoComplimantery = new List<string>();
-            List<string> setYesComplimentary = ParseFile(prefixes, suffixies, out setNoComplimantery);
+            List<string> setYesComplimentary = ClassifyWordsFromFile(prefixes, suffixies, out setNoComplimantery);
 
             Streamer.Print(setYesComplimentary, streamWriterYes);
             Streamer.Print(setNoComplimantery, streamWriterNo);

@@ -79,12 +79,12 @@ namespace RootSearch
             return s.Substring(0, s.IndexOf(";"));
         }
 
-        public static HashSet<string> CreateRootSet(List<string> wordList)
+        public static HashSet<string> CreateRootSet(List<string> list)
         {
             HashSet<string> set = new HashSet<string>();
-            foreach (string s in wordList)
+            foreach (string str in list)
             {
-                set.Add(ExtractRootFromString(s));
+                set.Add(ExtractRootFromString(str));
             }
             return set;
         }
