@@ -69,7 +69,7 @@ namespace RootSearch
             return list;
         }
 
-        public static bool HasRoot(string s, HashSet<string> roots)
+        public static bool HasRootInSet(string s, HashSet<string> roots)
         {
             return roots.Contains(ExtractRootFromString(s));
         }
@@ -107,7 +107,7 @@ namespace RootSearch
             stream.Close();
         } 
 
-        public static string RemoveInvalidSymbols(string[] affixes)
+        public static string RemoveInvalidSymbols(List<string> affixes)
         {
             string tmp;
             string result = "";
@@ -139,7 +139,7 @@ namespace RootSearch
         // съ+пер_vA+н_сочетающиеся_корни.txt
         // нейминг /aж\ и аж будут одинаковые из-за проблем с путём :(
         // посмотреть с _ чтобы поаккуратней генерировалось
-        public static string CreateFileName(string[] prefixes, string[] suffixies, string end, string folderName)
+        public static string CreateFileName(List<string> prefixes, List<string> suffixies, string end, string folderName)
         {
             string result = folderName + '\\' + RemoveInvalidSymbols(prefixes) + RemoveInvalidSymbols(suffixies) + end;
             

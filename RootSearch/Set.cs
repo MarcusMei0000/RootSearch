@@ -42,15 +42,15 @@ namespace RootSearch
         {
             List<string> result = new List<string>();
 
-            var list = Streamer.CreateListOfIEnumerable(fileNames);
+            var listOfIEnumerable = Streamer.CreateListOfIEnumerable(fileNames);
             var rootSet = FindRootIntersection(fileNames);
 
-            foreach(var l in list)
+            foreach (var list in listOfIEnumerable)
             {
-                foreach (var s in l)
+                foreach (var str in list)
                 {
-                    if (Streamer.HasRoot(s, rootSet))
-                        result.Add(s);
+                    if (Streamer.HasRootInSet(str, rootSet))
+                        result.Add(str);
                 }
             }
 

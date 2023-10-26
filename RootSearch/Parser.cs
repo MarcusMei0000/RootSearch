@@ -13,7 +13,7 @@ using System.Security.Permissions;
 
 namespace RootSearch
 {
-    internal class Parser
+    public class Parser
     {
         StreamReader streamReader;
 
@@ -44,7 +44,7 @@ namespace RootSearch
             return proclitic.Contains(w.Root);
         }
 
-        private bool IsNoInputAffix(string[] pref, string[] suf)
+        private bool IsNoInputAffix(List<string> pref, List<string> suf)
         {
             return pref == null && suf == null;
         }
@@ -55,7 +55,7 @@ namespace RootSearch
         }
 
 
-        private void ClassifyWord(Word word, string[] prefixes, string[] suffixies, ref List<string> setYes, ref List<string> setNo)
+        private void ClassifyWord(Word word, List<string> prefixes, List<string> suffixies, ref List<string> setYes, ref List<string> setNo)
         {
             if (word != null)
             {
@@ -111,7 +111,7 @@ namespace RootSearch
         }
 
         //???
-        private List<string> ParseFileWithAffix(string[] prefixes, string[] suffixies, out List<string> setNoComplimentary)
+        private List<string> ParseFileWithAffix(List<string> prefixes, List<string> suffixies, out List<string> setNoComplimentary)
         {
             List<string> setYes = new List<string>();
             List<string> setNo = new List<string>();
@@ -135,7 +135,7 @@ namespace RootSearch
             return setYes;
         }        
         
-        private List<string> ClassifyWordsFromFile(string[] prefixes, string[] suffixies, out List<string> setNoComplimentary)
+        private List<string> ClassifyWordsFromFile(List<string> prefixes, List<string> suffixies, out List<string> setNoComplimentary)
         {
             setNoComplimentary = new List<string>();
             List<string> setYes = new List<string>();
@@ -148,10 +148,9 @@ namespace RootSearch
             {
                 return ParseFileWithoutAffix(out setNoComplimentary);
             }
-            //remainder = null;
         }
 
-        public string[] CreateMainFiles(string[] prefixes, string[] suffixies)
+        public string[] CreateMainFiles(List<string> prefixes, List<string> suffixies)
         {
             string[] filePathes = new string[2];
             filePathes[0] = Streamer.CreateFileName(prefixes, suffixies, OUTPUT_YES, folderName);
@@ -186,8 +185,9 @@ namespace RootSearch
         0 нулевая морфема (флексия/глагольный суффикс)
         */
 
+        //TODO:
         //Нахождение приставок
-        private string[] ParseWordPrefix(string word, out string remainder, out string root)
+        private static List<string> ParseWordPrefix(string word, out string remainder, out string root)
         {
             string[] prefixes = null;
 
@@ -195,11 +195,12 @@ namespace RootSearch
             prefixes = word.Remove(word.LastIndexOf("-"), word.Length - word.LastIndexOf("-")).Split('-');
             remainder = root;
 
-            return prefixes;
+            return prefixes.ToList();
         }
 
+        //TODO
         //Нахождение суффиксов
-        private string[] ParseWordSuffix(string word, out string remainder, out string root)
+        private static List<string> ParseWordSuffix(string word, out string remainder, out string root)
         {
             string[] suffixes = null;
 
@@ -207,15 +208,15 @@ namespace RootSearch
             remainder = word.Remove(0, word.IndexOf('=') + 1);
             suffixes = remainder.Split('=');
 
-            return suffixes;
+            return suffixes.ToList();
         }
 
 
         //Создаёт слово с окончанием или без в зависимости от суффикса
-        private Word ParsePartWord(string word, string fullWord, string transcripton)
+        private static Word ParsePartWord(string word, string fullWord, string transcripton)
         {
-            string[] prefixes = null;
-            string[] suffixes = null;
+            List<string> prefixes = null;
+            List<string> suffixes = null;
             string root = null;
 
             string remainder = word.IndexOf('_') != -1 ? word.Substring(0, word.IndexOf('_')) : word;
@@ -241,7 +242,8 @@ namespace RootSearch
                 new Word(fullWord, transcripton, prefixes, root, suffixes, word.Substring(word.IndexOf('_'), word.Length - word.IndexOf('_')));
         }
 
-        private Word ParseStringIntoWords(string word, out string secondRootWord, ref string fullWord, ref string transcription)
+        //TODO: добавить обработку аббревиаций значок "|" без пробелов
+        public static Word ParseStringIntoWords(string word, out string secondRootWord, ref string fullWord, ref string transcription)
         {
             string remainder;
             string[] pieces = word.Split(';');

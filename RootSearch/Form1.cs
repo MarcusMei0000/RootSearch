@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.IO;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Globalization;
+using RootSearch;
 
 namespace RootSearch
 {
@@ -33,6 +34,9 @@ namespace RootSearch
             InitializeComboboxes(ref comboBoxesSuf, 9, 150);
             validator = new Validator();
             labelFilePath.Text = labelText + folderName;
+            ParserAffix.CreateMainFiles();
+
+            int a = 0;
         }
 
         private void InitializeComboboxes(ref List<System.Windows.Forms.ComboBox> comboBoxes, int size, int position)
@@ -122,6 +126,12 @@ namespace RootSearch
             SetEvents();
             this.OpenFilesButton.Visible = true;
             this.comboBox1.Visible = false;
+
+            //TODO: test
+            ParserAffix pars = new ParserAffix();
+
+
+
         }
 
         private void ColorComboboboxesWhite()
@@ -142,8 +152,8 @@ namespace RootSearch
 
             if (IsPrefValid && IsSufValid)
             {
-                string[] prefixes = ReadComboBoxes(comboBoxesPref);
-                string[] suffixes = ReadComboBoxes(comboBoxesSuf);
+                List<string> prefixes = ReadComboBoxes(comboBoxesPref);
+                List<string> suffixes = ReadComboBoxes(comboBoxesSuf);
 
                 Parser parser = new Parser(FILE_PATH, folderName);
                 string[] filePathes = parser.CreateMainFiles(prefixes, suffixes);
@@ -199,7 +209,7 @@ namespace RootSearch
             return isValid;
         }
 
-        private string[] ReadComboBoxes(List<System.Windows.Forms.ComboBox> comboBoxes)
+        private List<string> ReadComboBoxes(List<System.Windows.Forms.ComboBox> comboBoxes)
         {
             List<string> affixes = new List<string>();
 
@@ -212,7 +222,7 @@ namespace RootSearch
             if (affixes.Count == 0)
                 return null;
 
-            return affixes.ToArray();
+            return affixes;
         }
 
         private void comboBox_DropDown(object sender, EventArgs e)

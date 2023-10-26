@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace RootSearch
 {
-    internal class Word
+    public class Word
     {
-        string[] prefixes;
+        public List<string> prefixes;
         string root;
-        string[] suffixes;
+        public List<string> suffixes;
         string ending;
         string word;
         string transcription;
 
         public String Root { get; }
 
-        public Word(string w, string t, string[] p, string r, string[] s, string e = null)
+        public Word(string w, string t, List<string> p, string r, List<string> s, string e = null)
         {
             word = w;
             transcription = t;
@@ -41,6 +41,11 @@ namespace RootSearch
             suffixes = w.suffixes;
             ending = w.ending;
         }
+        
+        public bool HasRoot(string root)
+        {
+            return this.root == root;
+        }
 
         public bool IsNoAffix()
         {
@@ -48,7 +53,7 @@ namespace RootSearch
         }
        
         /*Аналогично суффиксам, но с конца, т. к. надо сравнивать, начиная от корня (ближе к корню)*/
-        public bool IsClassifiedPreffixes(string[] givenPrefixes)
+        public bool IsClassifiedPreffixes(List<string> givenPrefixes)
         {
             /*if (prefixes == null && givenPrefixes == null)
                 return true;
@@ -62,11 +67,11 @@ namespace RootSearch
             if (givenPrefixes == null)
                 return true;
 
-            if (givenPrefixes.Length > prefixes.Length) 
+            if (givenPrefixes.Count > prefixes.Count) 
                 return false;
 
-            int j = prefixes.Length - 1;
-            for (int i = givenPrefixes.Length - 1; i >= 0; i--)
+            int j = prefixes.Count - 1;
+            for (int i = givenPrefixes.Count - 1; i >= 0; i--)
             {
                 if (givenPrefixes[i] != prefixes[j])
                     return false;
@@ -81,7 +86,7 @@ namespace RootSearch
           Если количество введённых суффиксов больше, чем суффиксов в слове - false
           Если данные суффиксы по очереди совпадают с суффиксами словами - true
         */
-        public bool IsClassifiedSuffixes(string[] givenSuffixes)
+        public bool IsClassifiedSuffixes(List<string> givenSuffixes)
         {
             /*if (suffixes == null && givenSuffixes == null)
                 return true;
@@ -95,17 +100,17 @@ namespace RootSearch
             if (givenSuffixes == null)
                 return true;
 
-            if (givenSuffixes.Length > suffixes.Length)
+            if (givenSuffixes.Count > suffixes.Count)
                 return false;
 
-            for (int i = 0; i < givenSuffixes.Length; i++)
+            for (int i = 0; i < givenSuffixes.Count; i++)
                 if (givenSuffixes[i] != suffixes[i])
                     return false;
 
             return true;
         }
 
-        public bool IsClassified(string[] pref, string[] suf)
+        public bool IsClassified(List<string> pref, List<string> suf)
         {
             //если приставки уже не подходят, нет смысла проверять дальше
             if (!IsClassifiedPreffixes(pref))
