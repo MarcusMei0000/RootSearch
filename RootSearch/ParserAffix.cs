@@ -42,7 +42,7 @@ namespace RootSearch
                     if (word.HasRoot(roots[i]))
                     {
                         environments[i].AddEnvironment(word);
-                        break; //?
+                        break;
                     }
                 }
 
@@ -54,7 +54,7 @@ namespace RootSearch
                         if (word.HasRoot(roots[i]))
                         {
                             environments[i].AddEnvironment(word);
-                            break; //?
+                            break;
                         }
                     }
                 }
@@ -80,7 +80,7 @@ namespace RootSearch
             streamReader = new StreamReader(FILE_PATH, Encoding.Default);
             streamWriter = new StreamWriter(outputPath, false);
 
-            List<string> roots = new List<string> { "б>г", "д>", "берг"};
+            List<string> roots = new List<string> { "б>г", "д>", "берг" };
 
             List<FullEnvironment> fullEnvironments = ParseFile(roots);
 

@@ -245,7 +245,7 @@ namespace RootSearch
         //TODO: добавить обработку аббревиаций значок "|" без пробелов
         public static Word ParseStringIntoWords(string word, out string secondRootWord, ref string fullWord, ref string transcription)
         {
-            string remainder;
+            string firstRootWord;
             string[] pieces = word.Split(';');
             fullWord = pieces.Length >= 2 ? pieces[1] : fullWord;
             transcription = pieces.Length >= 2 ? pieces[2] : transcription;
@@ -253,27 +253,33 @@ namespace RootSearch
 
             if (part.Contains('{'))
             {
-                remainder = part.Substring(0, part.IndexOf('{'));
+                firstRootWord = part.Substring(0, part.IndexOf('{'));
                 secondRootWord = part.Substring(part.IndexOf('{') + 3, part.Length - part.IndexOf('{') - 3);
-                return ParsePartWord(remainder, fullWord, transcription);
+                return ParsePartWord(firstRootWord, fullWord, transcription);
             }
             else if (part.Contains('['))
             {
-                remainder = part.Substring(0, part.IndexOf('['));
+                firstRootWord = part.Substring(0, part.IndexOf('['));
                 secondRootWord = part.Substring(part.IndexOf('[') + 2, part.Length - part.IndexOf('[') - 2);
-                return ParsePartWord(remainder, fullWord, transcription);
+                return ParsePartWord(firstRootWord, fullWord, transcription);
             }
             else if (part.Contains(' '))
             {
-                remainder = part.Substring(0, part.IndexOf(' '));
+                firstRootWord = part.Substring(0, part.IndexOf(' '));
                 secondRootWord = part.Substring(part.IndexOf(' ') + 1, part.Length - part.IndexOf(' ') - 1);
-                return ParsePartWord(remainder, fullWord, transcription);
+                return ParsePartWord(firstRootWord, fullWord, transcription);
+            }
+            else if (part.Contains('|'))
+            {
+                firstRootWord = part.Substring(0, part.IndexOf('|'));
+                secondRootWord = part.Substring(part.IndexOf('|') + 1, part.Length - part.IndexOf('|') - 1);
+                return ParsePartWord(firstRootWord, fullWord, transcription);
             }
             else
             {
-                remainder = part;
+                firstRootWord = part;
                 secondRootWord = null;
-                return ParsePartWord(remainder, fullWord, transcription);
+                return ParsePartWord(firstRootWord, fullWord, transcription);
             }
         }
     }
@@ -315,24 +321,24 @@ namespace RootSearch
  * 
  *         public void OldTest(string[] prefixes, string[] suffixies)
         {
-            String remainder = null, fullWord = null, transcription = null;
+            String firstRootWord = null, fullWord = null, transcription = null;
             Word word;
             string s;
             while ((s = streamReader.ReadLine()) != null)
             {
-                word = ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
+                word = ParseStringIntoWords(s, out firstRootWord, ref fullWord, ref transcription);
                 if (word != null)
                 {
                         streamWriterYes.WriteLine(word.ToString());
                 }
 
-                while (remainder != null)
+                while (firstRootWord != null)
                 {
-                    word = ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
+                    word = ParseStringIntoWords(firstRootWord, out firstRootWord, ref fullWord, ref transcription);
                     if (word != null)
                             streamWriterYes.WriteLine(word.ToString());
                 }
-                remainder = null;
+                firstRootWord = null;
             }
         }
 private Word ParseWord(string word, out string secondRootWord)
@@ -344,29 +350,29 @@ private Word ParseWord(string word, out string secondRootWord)
             // if (word.IndexOf(' ') == -1 && word.IndexOf('[') == -1 && word.IndexOf('{') == -1 && word.IndexOf('+') == -1)
             if (!word.Contains(' ') && !word.Contains('[') && !word.Contains('{') && !word.Contains('+'))
             {
-                string remainder = pieces[2].IndexOf('_') != -1 ? pieces[2].Substring(0, pieces[2].IndexOf('_')) : pieces[2];
+                string firstRootWord = pieces[2].IndexOf('_') != -1 ? pieces[2].Substring(0, pieces[2].IndexOf('_')) : pieces[2];
                 //если нет приставки
                 //Найти '-' с конца, отрезать этот кусок. 1й расплитить на суффиксы, 2й в остаток
-                if (remainder.Contains('-'))
+                if (firstRootWord.Contains('-'))
                 {
-                    int t = remainder.LastIndexOf("-");
-                    //root = remainder.Remove();
-                    root = remainder.Remove(0, remainder.LastIndexOf("-") + 1);
-                    prefixes = remainder.Remove(remainder.LastIndexOf("-"), remainder.Length - remainder.LastIndexOf("-")).Split('-'); ;
+                    int t = firstRootWord.LastIndexOf("-");
+                    //root = firstRootWord.Remove();
+                    root = firstRootWord.Remove(0, firstRootWord.LastIndexOf("-") + 1);
+                    prefixes = firstRootWord.Remove(firstRootWord.LastIndexOf("-"), firstRootWord.Length - firstRootWord.LastIndexOf("-")).Split('-'); ;
                     
-                    remainder = root;
+                    firstRootWord = root;
                 }
                 else
-                    root = remainder;
+                    root = firstRootWord;
 
-                if (remainder.Contains('='))
+                if (firstRootWord.Contains('='))
                 {
-                    root = remainder.Remove(remainder.IndexOf('='), remainder.Length-remainder.IndexOf('='));
-                    remainder = remainder.Remove(0, remainder.IndexOf('=')+1);
-                    suffixes = remainder.Split('=');
+                    root = firstRootWord.Remove(firstRootWord.IndexOf('='), firstRootWord.Length-firstRootWord.IndexOf('='));
+                    firstRootWord = firstRootWord.Remove(0, firstRootWord.IndexOf('=')+1);
+                    suffixes = firstRootWord.Split('=');
                 }
                 else 
-                    root = remainder;
+                    root = firstRootWord;
                 // _# сьн  т.е. постфикс ся
                 //ебучие нолики в суффиксах
                 //добавить все суффиксы и приставки в свои файлы
@@ -389,27 +395,27 @@ private Word ParseWord(string word, out string secondRootWord)
             string[] prefixes = null;
             string[] suffixes = null;
             string root = null;
-            string remainder = word.IndexOf('_') != -1 ? word.Substring(0, word.IndexOf('_')) : word;
+            string firstRootWord = word.IndexOf('_') != -1 ? word.Substring(0, word.IndexOf('_')) : word;
 
-            if (remainder.Contains('-'))
+            if (firstRootWord.Contains('-'))
             {
-                root = remainder.Remove(0, remainder.LastIndexOf("-") + 1);
-                 prefixes = remainder.Remove(remainder.LastIndexOf("-"), remainder.Length - remainder.LastIndexOf("-")).Split('-');
-                 remainder = root;
-                //prefixes = ParseWordPrefix(remainder, out remainder, out root);
+                root = firstRootWord.Remove(0, firstRootWord.LastIndexOf("-") + 1);
+                 prefixes = firstRootWord.Remove(firstRootWord.LastIndexOf("-"), firstRootWord.Length - firstRootWord.LastIndexOf("-")).Split('-');
+                 firstRootWord = root;
+                //prefixes = ParseWordPrefix(firstRootWord, out firstRootWord, out root);
             }
             else
-    root = remainder;
+    root = firstRootWord;
 
-if (remainder.Contains('=')) // добавить 0 нулевая морфема (флексия/глагольный суффикс)
+if (firstRootWord.Contains('=')) // добавить 0 нулевая морфема (флексия/глагольный суффикс)
 {
-    root = remainder.Remove(remainder.IndexOf('='), remainder.Length - remainder.IndexOf('='));
-     remainder = remainder.Remove(0, remainder.IndexOf('=') + 1);
-     suffixes = remainder.Split('=');
-    //suffixes = ParseWordSuffix(remainder, out remainder, out root);
+    root = firstRootWord.Remove(firstRootWord.IndexOf('='), firstRootWord.Length - firstRootWord.IndexOf('='));
+     firstRootWord = firstRootWord.Remove(0, firstRootWord.IndexOf('=') + 1);
+     suffixes = firstRootWord.Split('=');
+    //suffixes = ParseWordSuffix(firstRootWord, out firstRootWord, out root);
 }
 else
-    root = remainder;
+    root = firstRootWord;
 
 return new Word(fullWord, prefixes, root, suffixes);
         }
