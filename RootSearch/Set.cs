@@ -34,10 +34,25 @@ namespace RootSearch
 
             return tmp.ToHashSet();
         }
-        
+
+
+        static int Compare(string l, string r)
+        {
+            var commonResult = l.Zip(r, Compare).SkipWhile(n => n == 0).FirstOrDefault();
+            return (commonResult != 0) ? commonResult : l.Length.CompareTo(r.Length);
+        }
+
+        static int Compare(char l, char r)
+        {
+            var caseResult = char.IsUpper(r).CompareTo(char.IsUpper(l));
+            return caseResult != 0 ? caseResult : l.CompareTo(r);
+        }
+
+
         //TODO: нужен ли нам Set, чтобы строки не повторялись или обойдёмся List(?)
+        //тоже сделать генерацию названия файла с добавлением 1 в конце
+        //Разобраться как работает компоратор выше
         //Возвращает множество строк с пересекающимися корнями, которое готово для печати в файл
-        //Можно и посортировать перед выходом
         public static List<string> CreateSetIntersection(string[] fileNames)
         {
             List<string> result = new List<string>();
@@ -53,6 +68,7 @@ namespace RootSearch
                         result.Add(str);
                 }
             }
+            result.Sort(Compare);
 
             return result;
         }       
