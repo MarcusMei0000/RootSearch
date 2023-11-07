@@ -39,7 +39,9 @@ namespace RootSearch
 
             //TODO: test
             //ParserAffix pars = new ParserAffix();
-           // ParserAffix.CreateMainFiles();
+            // ParserAffix.CreateMainFiles();
+
+            //AllAffixEnvironments.Main();
 
             int a = 0;
         }

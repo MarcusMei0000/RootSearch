@@ -115,6 +115,14 @@ namespace RootSearch
             stream.Close();
         }
 
+        public static void Print(HashSet<string> set, StreamWriter stream)
+        {
+            foreach (var s in set)
+                stream.WriteLine(s.ToString());
+
+            stream.Close();
+        }
+
         public static string RemoveInvalidSymbols(List<string> affixes)
         {
             string tmp;
