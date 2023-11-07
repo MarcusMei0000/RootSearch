@@ -17,8 +17,8 @@ namespace RootSearch
     {
         StreamReader streamReader;
 
-        const string OUTPUT_YES = "сочетающиеся";
-        const string OUTPUT_NO = "несочетающиеся";
+        const string OUTPUT_YES = "";
+        const string OUTPUT_NO = "н";
         const string EXTENSION = ".txt";
         const string PROCLITIC_PATH = "proclictic.txt";
         const string ECLITIC_PATH = "eclictic.txt";

@@ -30,10 +30,14 @@ namespace RootSearch
         public Form1()
         {
             InitializeComponent();
-            InitializeComboboxes(ref comboBoxesPref, 4, 50);
+           // InitializeComboboxes(ref comboBoxesPref, 4, 50);
+            InitializeComboboxesPref(ref comboBoxesPref, 4, 50);
             InitializeComboboxes(ref comboBoxesSuf, 9, 150);
             validator = new Validator();
             labelFilePath.Text = labelText + folderName;
+
+            //TODO: test
+            //ParserAffix pars = new ParserAffix();
             ParserAffix.CreateMainFiles();
 
             int a = 0;
@@ -48,6 +52,7 @@ namespace RootSearch
             }
 
             int j = 0;
+
             foreach (var combo in comboBoxes)
             {
                 combo.Location = new System.Drawing.Point(15 + j * 85, position);
@@ -59,13 +64,37 @@ namespace RootSearch
                 j++;                
             }
         }
+        //???
+        private void InitializeComboboxesPref(ref List<System.Windows.Forms.ComboBox> comboBoxes, int size, int position)
+        {
+            comboBoxes = new List<System.Windows.Forms.ComboBox>();
+            for (int i = 0; i < size; i++)
+            {
+                comboBoxes.Add(new System.Windows.Forms.ComboBox());
+            }
+
+            int j = 0;
+
+            foreach (var combo in comboBoxes)
+            {
+                combo.Location = new System.Drawing.Point(15 + (3-j) * 85, position);
+                combo.Size = new System.Drawing.Size(80, 200);
+                combo.Font = new Font("Microsoft Sans Serif", 11);
+                combo.DropDownHeight = 300;
+                // comboBoxes[j].TabIndex = j;
+                Controls.Add(comboBoxes[j]);
+                j++;
+            }
+        }
 
         private void FillComboBoxes(string filePref, string fileSuf)
         {
             StreamReader sr = File.OpenText(filePref);
             String input;
+
             while ((input = sr.ReadLine()) != null)
             {
+
                 foreach (var combo in comboBoxesPref)
                     combo.Items.Add(input);
             }
@@ -76,6 +105,34 @@ namespace RootSearch
                 foreach (var combo in comboBoxesSuf)
                     combo.Items.Add(input);
             }
+        }
+
+        // добавить обработчикаффиксальных окружений в парсер, а сюда комбобокс для их заполнения
+        // (в каком состоянии они должны там быть, какие визуальные разделители?)
+        //переделать генерацию названий файлов на покороче или нафиг она нужна?
+
+        private void FillComboBoxes2(string filePref, string fileSuf)
+        {
+            StreamReader sr = File.OpenText(filePref);
+            String input;
+
+            foreach (var combo in comboBoxesPref)
+            {
+                while ((input = sr.ReadLine()) != null && input !="" && input != "\n" && input != "\r" && input != "\r\n")
+                {
+                    combo.Items.Add(input);
+                }
+            }
+
+            sr = File.OpenText(fileSuf);
+
+            foreach (var combo in comboBoxesSuf)
+            {
+                while ((input = sr.ReadLine()) != null && input != "" && input != "\n" && input != "\r" && input != "\r\n")
+                {
+                    combo.Items.Add(input);
+                }
+            }            
         }
 
         private void BlockComboBoxes()
@@ -120,18 +177,18 @@ namespace RootSearch
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            FillComboBoxes(FILE_PATH_PREF, FILE_PATH_SUF);
+            //FillComboBoxes(FILE_PATH_PREF, FILE_PATH_SUF);
+
+
+            const string FILE_PATH_PREFS = "prefixes.txt";
+            const string FILE_PATH_SUFS = "suffixes.txt";
+            FillComboBoxes2(FILE_PATH_PREFS, FILE_PATH_SUFS);
+
             SetSelectedIndex();
             BlockComboBoxes();
             SetEvents();
             this.OpenFilesButton.Visible = true;
             this.comboBox1.Visible = false;
-
-            //TODO: test
-            ParserAffix pars = new ParserAffix();
-
-
-
         }
 
         private void ColorComboboboxesWhite()
@@ -244,10 +301,13 @@ namespace RootSearch
         }
 
         //Разблокировка следующего комбобокса: либо приставка, либо суффикс
+        //ПЕРЕПИСАТЬ
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             System.Windows.Forms.ComboBox combo = (System.Windows.Forms.ComboBox)sender;
             int index = comboBoxesPref.IndexOf(combo);
+
+            //!
             if (index != -1 && index != comboBoxesPref.Count - 1)
             {
                 if (comboBoxesPref[index].SelectedIndex != 0 && comboBoxesPref[index].SelectedIndex != -1)

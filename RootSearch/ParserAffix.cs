@@ -22,7 +22,7 @@ namespace RootSearch
         }
 
         //можно из List можно сделать Set без повторений и дублей, можно сделать Set с указанием частоты встречаемости для каждого аффиксального окружения
-        public static List<FullEnvironment> ParseFile(List<string> roots)
+       public static List<FullEnvironment> ParseFile(List<string> roots)
         {
             List<FullEnvironment> environments = new List<FullEnvironment>();
             foreach (var root in roots)
@@ -63,14 +63,6 @@ namespace RootSearch
             return environments;
         }
 
-        public static void Print(List<FullEnvironment> set, StreamWriter stream)
-        {
-            foreach (var s in set)
-                stream.WriteLine(s.ToString());
-
-            stream.Close();
-        }
-
         public static void CreateMainFiles(List<string> prefixes = null, List<string> suffixies = null)
         {
             string outputPath = Streamer.CreateFileName(prefixes, suffixies, "test", folderName);
@@ -82,9 +74,16 @@ namespace RootSearch
 
             List<string> roots = new List<string> { "б>г", "д>", "берг" };
 
+            //List<string> roots = new List<string> { "берг" };            
+
             List<FullEnvironment> fullEnvironments = ParseFile(roots);
 
-            Print(fullEnvironments, streamWriter);
+            foreach (var env in fullEnvironments) {
+                env.ToStringSet();
+                streamWriter.WriteLine(env.ToStringWithCount());
+            }
+
+           // Print(fullEnvironments, streamWriter);
 
             streamWriter.Close();
             streamReader.Close();

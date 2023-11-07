@@ -105,7 +105,15 @@ namespace RootSearch
                 stream.WriteLine(s);
 
             stream.Close();
-        } 
+        }
+
+        public static void Print(List<FullEnvironment> set, StreamWriter stream)
+        {
+            foreach (var s in set)
+                stream.WriteLine(s.ToString());
+
+            stream.Close();
+        }
 
         public static string RemoveInvalidSymbols(List<string> affixes)
         {
