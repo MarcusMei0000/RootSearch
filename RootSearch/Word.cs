@@ -16,7 +16,7 @@ namespace RootSearch
         string word;
         string transcription;
 
-        public String Root { get; }
+        public String Root { get { return root; } }
 
         public Word(string w, string t, List<string> p, string r, List<string> s, string e = null)
         {

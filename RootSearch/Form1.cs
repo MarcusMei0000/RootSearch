@@ -30,25 +30,29 @@ namespace RootSearch
         public Form1()
         {
             InitializeComponent();
-           // InitializeComboboxes(ref comboBoxesPref, 4, 50);
-            InitializeComboboxesPref(ref comboBoxesPref, 4, 50);
-            InitializeComboboxes(ref comboBoxesSuf, 9, 150);
+            // InitializeComboboxes(ref comboBoxesPref, 4, 50);
+            InitializeComboboxes(ref comboBoxesSuf, 9, 150, ref labelsSuf);
+            InitializeComboboxesPref(ref comboBoxesPref, 4, 50, ref labelsPref);
+            
             validator = new Validator();
             labelFilePath.Text = labelText + folderName;
 
             //TODO: test
             //ParserAffix pars = new ParserAffix();
-            ParserAffix.CreateMainFiles();
+           // ParserAffix.CreateMainFiles();
 
             int a = 0;
         }
 
-        private void InitializeComboboxes(ref List<System.Windows.Forms.ComboBox> comboBoxes, int size, int position)
+        private void InitializeComboboxes(ref List<System.Windows.Forms.ComboBox> comboBoxes, int size, int position, ref List<Label> labels)
         {
             comboBoxes = new List<System.Windows.Forms.ComboBox>();
+            labels = new List<Label>();
+
             for (int i = 0; i < size; i++)
             {
                 comboBoxes.Add(new System.Windows.Forms.ComboBox());
+                labels.Add(new Label());
             }
 
             int j = 0;
@@ -61,20 +65,33 @@ namespace RootSearch
                 combo.DropDownHeight = 300;
                 // comboBoxes[j].TabIndex = j;
                 Controls.Add(comboBoxes[j]);
-                j++;                
+
+                labels[j].Location = new System.Drawing.Point(45 + j * 85, position + 30);
+                labels[j].Size = new System.Drawing.Size(80, 200);
+                labels[j].Font = new Font("Microsoft Sans Serif", 11);
+                labels[j].Text = (j+1).ToString();
+                Controls.Add(labels[j]);
+
+                j++;
+                
             }
+
         }
         //???
-        private void InitializeComboboxesPref(ref List<System.Windows.Forms.ComboBox> comboBoxes, int size, int position)
+        private void InitializeComboboxesPref(ref List<System.Windows.Forms.ComboBox> comboBoxes, int size, int position, ref List<Label> labels)
         {
             comboBoxes = new List<System.Windows.Forms.ComboBox>();
+            labels = new List<Label>();
+
             for (int i = 0; i < size; i++)
             {
                 comboBoxes.Add(new System.Windows.Forms.ComboBox());
+                labels.Add(new Label());
             }
 
             int j = 0;
 
+            //0..3 or 4 = max count of prefix
             foreach (var combo in comboBoxes)
             {
                 combo.Location = new System.Drawing.Point(15 + (3-j) * 85, position);
@@ -83,6 +100,13 @@ namespace RootSearch
                 combo.DropDownHeight = 300;
                 // comboBoxes[j].TabIndex = j;
                 Controls.Add(comboBoxes[j]);
+
+                labels[j].Location = new System.Drawing.Point(45 + (3-j) * 85, position + 30);
+                labels[j].Size = new System.Drawing.Size(80, 200);
+                labels[j].Font = new Font("Microsoft Sans Serif", 11);
+                labels[j].Text = (j+1).ToString();
+                Controls.Add(labels[j]);
+
                 j++;
             }
         }
@@ -201,6 +225,7 @@ namespace RootSearch
         }
 
         //??? подумать где вызывать конструктор парсера
+        //разворачиваем пришедшие преффиксы!!!
         private void buttonInput_Click(object sender, EventArgs e)
         {
             ColorComboboboxesWhite();
@@ -210,6 +235,8 @@ namespace RootSearch
             if (IsPrefValid && IsSufValid)
             {
                 List<string> prefixes = ReadComboBoxes(comboBoxesPref);
+                if (prefixes!= null)
+                    prefixes.Reverse();
                 List<string> suffixes = ReadComboBoxes(comboBoxesSuf);
 
                 Parser parser = new Parser(FILE_PATH, folderName);

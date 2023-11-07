@@ -21,23 +21,21 @@ namespace RootSearch
         const string OUTPUT_NO = "н";
         const string EXTENSION = ".txt";
         const string PROCLITIC_PATH = "proclictic.txt";
-        const string ECLITIC_PATH = "eclictic.txt";
+        const string ENCLITIC_PATH = "enclictic.txt";
 
         string filePath = "";
         string folderName = "";
 
         List<string> proclitic = new List<string>();
-        List<string> eclitic = new List<string>();
+        List<string> enclitic = new List<string>();
 
         public Parser(string filePath, string folderName)
         {
             this.filePath = filePath;
             this.folderName = folderName;
             proclitic = Streamer.CreateListFromFile(PROCLITIC_PATH);
-            //eclitic = CreateListFromFile(ECLITIC_PATH);
+            enclitic = Streamer.CreateListFromFile(ENCLITIC_PATH);
         }
-
-        //игнорировать экликтику?
 
         private bool IsProclitic(Word w)
         {
@@ -51,15 +49,15 @@ namespace RootSearch
 
         private bool IsEnclitic(Word w)
         {
-            return eclitic.Contains(w.Root);
+            return enclitic.Contains(w.Root);
         }
 
 
         private void ClassifyWord(Word word, List<string> prefixes, List<string> suffixies, ref List<string> setYes, ref List<string> setNo)
         {
-            if (word != null)
+            if (word != null && !IsProclitic(word) && !IsEnclitic(word))
             {
-                if (word.IsClassifiedPreffixes(prefixes) && word.IsClassifiedSuffixes(suffixies) && !IsProclitic(word))
+                if (word.IsClassifiedPreffixes(prefixes) && word.IsClassifiedSuffixes(suffixies) )
                 {
                     setYes.Add(word.ToStringRoot());
                 }
@@ -72,7 +70,7 @@ namespace RootSearch
 
         private void ClassifyWord(Word word, ref List<string> setYes, ref List<string> setNo)
         {
-            if (word != null)
+            if (word != null && !IsProclitic(word) && !IsEnclitic(word))
             {
                 if (word.IsNoAffix())
                 {

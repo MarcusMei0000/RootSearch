@@ -183,6 +183,10 @@ namespace RootSearch
 
         public List<System.Windows.Forms.ComboBox> comboBoxesPref;
         public List<System.Windows.Forms.ComboBox> comboBoxesSuf;
+
+        public List<Label> labelsPref;
+        public List<Label> labelsSuf;
+
         private Label labelFilePath;
         private Button buttonChooseFilePath;
         private FolderBrowserDialog folderBrowserDialog1;

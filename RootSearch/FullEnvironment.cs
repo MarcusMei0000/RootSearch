@@ -68,7 +68,6 @@ namespace RootSearch
         public string root;
         
         public List<Pair> affixEnvironment;
-        public List<int> counts;
 
         public Dictionary<string, int> dictionary;
 
@@ -82,7 +81,6 @@ namespace RootSearch
             this.root = root;
             affixEnvironment = new List<Pair>();
             dictionary = new Dictionary<string, int>();
-            counts = new List<int>();
         }
 
         public void AddEnvironment(Word w)
@@ -112,7 +110,7 @@ namespace RootSearch
 
         public string ToStringWithCount()
         {
-            string s = Environment.NewLine + root + Environment.NewLine + "-------------------------" + Environment.NewLine;
+            string s = Environment.NewLine + root + "   " + dictionary.Count + "(" + affixEnvironment.Count +")" + Environment.NewLine + "-------------------------" + Environment.NewLine;
             foreach (var record in dictionary)
             {
                 s += String.Format("{0,-40} {1, 1}", record.Key, record.Value) + Environment.NewLine;
