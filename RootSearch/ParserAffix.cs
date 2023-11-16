@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/* Парсер для аффиксов. 
+   Нахождение всех (полного) аффиксальных окружений для каждого корня из поданного на вход списка*/
 namespace RootSearch
 {
     public class ParserAffix

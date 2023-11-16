@@ -6,7 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+/* Вспомогательный класс. Читать из файла в IEnumerable, List и Печать 
+   CreateListOfRootSets, HasRootInSet, CreateRootSet
+   RemoveInvalidSymbols
+   Генерация имен файлов с множествами и их пересечениями*/
 namespace RootSearch
 {
     public class Streamer

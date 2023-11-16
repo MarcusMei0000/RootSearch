@@ -10,6 +10,10 @@ using System.Xml;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Xml.Linq;
 
+/*Описывает все аффиксалльные окружения 1 корня.
+ Добавление окружения.
+ Стринг для всего листа (с повторениями)
+ Стринг для сета: окружение и количество раз которые оно встречается (без повторений)*/
 namespace RootSearch
 {
     //обязательное условие даже если левая или правая части аффиксального окружения отсутствуют делать пустое присвоение ="";
@@ -19,7 +23,7 @@ namespace RootSearch
         
         public List<Pair> affixEnvironment;
 
-        public Dictionary<string, int> dictionary;
+        public Dictionary<string, int> dictionary; //аффиксальное окружение в виже строки и его частота
 
         public FullEnvironment() 
         {

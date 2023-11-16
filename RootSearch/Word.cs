@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+/* Класс описывает слово: лист префиксов, корень, лист суффиксов, окончание, само слово, транскрипция.
+   Конструкторы, что классифицирует, ToString() и ToStringRoot(). */
 namespace RootSearch
 {
     public class Word

@@ -11,6 +11,9 @@ using System.Web;
 using RootSearch;
 using System.Security.Permissions;
 
+/*Общий парсер. На вход аффиксальные окружения. 
+  На выход 2 файла с/без подходящими корнями (перечислены все слова, т.е. корни повторяются
+  Много bool-функций и проверок, Classify, парсинг строк*/
 namespace RootSearch
 {
     public class Parser

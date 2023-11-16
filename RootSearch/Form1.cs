@@ -11,13 +11,12 @@ using System.IO;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Globalization;
 using RootSearch;
+using static RootSearch.Pair;
 
 namespace RootSearch
 {
     public partial class Form1 : Form
     {
-        Validator validator;
-
         const string FILE_PATH = "Words.txt";
         const string FILE_PATH_PREF = "prefix.txt";
         const string FILE_PATH_SUF = "suffix.txt";
@@ -34,7 +33,6 @@ namespace RootSearch
             InitializeComboboxes(ref comboBoxesSuf, 9, 150, ref labelsSuf);
             InitializeComboboxesPref(ref comboBoxesPref, 4, 50, ref labelsPref);
             
-            validator = new Validator();
             labelFilePath.Text = labelText + folderName;
 
             //TODO: test
