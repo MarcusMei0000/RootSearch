@@ -32,9 +32,9 @@ namespace RootSearch
             Word word;
             string s;
 
-            int count = 0;
-            // 
-            while ((s = streamReader.ReadLine()) != null && count < 100)
+            // int count = 0;
+            //  && count < 100
+            while ((s = streamReader.ReadLine()) != null)
             {
                 word = Parser.ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
                 set.Add(new Pair(word).ToString());
@@ -45,7 +45,7 @@ namespace RootSearch
                     word = Parser.ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
                     set.Add(new Pair(word).ToString());
                 }
-                count++;
+                //count++;
             }
 
             return set;
@@ -84,8 +84,10 @@ namespace RootSearch
                     workSheet.Cells[i, j] = pref;
                     ++j;
                 }
+
                 workSheet.Cells[i, j] = "";
                 ++j;
+
                 foreach (string suf in pair.suffixies)
                 {
                     workSheet.Cells[i, j] = suf;
@@ -98,10 +100,9 @@ namespace RootSearch
             excelApp.Interactive = true;
         }
 
-
         public static void Main(List<string> prefixes = null, List<string> suffixies = null)
         {
-            string outputPath = Streamer.CreateFileName(prefixes, suffixies, "test", folderName);
+            string outputPath = Streamer.CreateFileName(prefixes, suffixies, folderName, "test");
 
             StreamWriter streamWriter;
 
@@ -112,8 +113,6 @@ namespace RootSearch
 
             HashSet<string> affixEnvironments = new HashSet<string>();
 
-
-            //97563;ПОДДЕЛЫВАТЕЛЬ;подъ-д>=л=ыва=тел_ь;89;122;132;53;54;1652;2507; будем чинить такие вот разрывы суффиксов
             affixEnvironments = FindAllAvailableAffixEnvironments();
 
             //CreateXLS(affixEnvironments);

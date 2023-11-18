@@ -16,7 +16,11 @@ using System.Xml.Linq;
  Стринг для сета: окружение и количество раз которые оно встречается (без повторений)*/
 namespace RootSearch
 {
-    //обязательное условие даже если левая или правая части аффиксального окружения отсутствуют делать пустое присвоение ="";
+    /*Обязательное условие: 
+      даже если левая или правая части аффиксального окружения отсутствуют,
+      делать пустое присвоение = "";  
+      Чтобы оставалась согласованность между левой и правой частью аффиксального окружения.*/
+
     public class FullEnvironment
     {
         public string root;
@@ -72,7 +76,18 @@ namespace RootSearch
             s += "-------------------------" + Environment.NewLine;
             return s;
         }
-
+        public string ToStringWithCount2()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(Environment.NewLine + root + "   " + dictionary.Count + "(" + affixEnvironment.Count + ")" + Environment.NewLine + "-------------------------" + Environment.NewLine);
+            foreach (var record in dictionary)
+            {
+                sb.AppendFormat("{0,-40} {1, 1}", record.Key, record.Value);
+                sb.Append(Environment.NewLine);
+            }
+            sb.Append("-------------------------" + Environment.NewLine);
+            return sb.ToString();
+        }
 
         public override string ToString()
         {
@@ -85,6 +100,20 @@ namespace RootSearch
             }
             s += "-------------------------" + Environment.NewLine;
             return s;
+        }
+
+        //override
+        public string ToString2()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(Environment.NewLine + root + Environment.NewLine + "-------------------------" + Environment.NewLine);
+            for (int i = 0; i < affixEnvironment.Count; i++)
+            {
+                sb.Append(affixEnvironment[i].ToString());
+                sb.Append(Environment.NewLine);
+            }
+            sb.Append("-------------------------" + Environment.NewLine);
+            return sb.ToString();
         }
     }
 }

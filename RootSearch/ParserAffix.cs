@@ -67,7 +67,7 @@ namespace RootSearch
 
         public static void CreateMainFiles(List<string> prefixes = null, List<string> suffixies = null)
         {
-            string outputPath = Streamer.CreateFileName(prefixes, suffixies, "test", folderName);
+            string outputPath = Streamer.CreateFileName(prefixes, suffixies, folderName, "test");
 
             StreamWriter streamWriter;
 

@@ -158,28 +158,3 @@ namespace RootSearch
         }
     }
 }
-
-//logs
-/*public bool IsClassifiedPreffixes(string[] pref)
-        {
-           // if (prefixes == pref)
-           //     return true;
-            if (prefixes == null && pref == null)
-               return true;
-            if (prefixes == null || pref == null) 
-                return false;
-            bool b = Enumerable.SequenceEqual(prefixes, pref);
-            return Enumerable.SequenceEqual(prefixes, pref);
-        }
-
-        //переписать, чтобы сравнение начиналось с первого
-        //Если слово например сожержит [пре-от-под], ввели [от-под], то такой корень я считаю сочетающимся с [от-под], верно?
-        public bool IsClassifiedSuffixes(string[] suf)
-        {
-           // if (suffixes == suf)
-             //   return true;
-            if (suffixes == null || suf == null) 
-                return false;
-            bool b = Enumerable.SequenceEqual(suffixes, suf);
-            return Enumerable.SequenceEqual(suffixes, suf);
-        }*/

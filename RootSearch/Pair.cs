@@ -34,18 +34,6 @@ namespace RootSearch
             this.suffixies = w.suffixes;
         }
 
-        /*
-        public override bool Equals(object obj)
-        {
-            if (obj != null && obj is Pair)
-            {
-                Pair other = (Pair)obj;
-                return other.prefixes == prefixes && other.suffixies == suffixies;
-            }
-
-            return false;
-        }*/
-
         public override string ToString()
         {
             string strPref = "";
@@ -67,19 +55,49 @@ namespace RootSearch
             return String.Format("{0, 10} {1} {2, -20}", strPref, SEPARATOR, strSuf);
         }
 
+        //override
+        public string ToString2()
+        {
+            StringBuilder sbPref = new StringBuilder();
+            StringBuilder sbSuf = new StringBuilder();
+            if (prefixes != null)
+            {
+                foreach (string pref in prefixes)
+                {
+                    sbPref.Append(pref);
+                    sbPref.Append(" ");
+                }
+            }
 
-        /*   без прИ по √ ьн 0 н ьн  */
+            if (suffixies != null)
+            {
+                foreach (string suf in suffixies)
+                {
+                    sbPref.Append(suf);
+                    sbPref.Append(" ");
+                }
+            }            
+
+            return String.Format("{0, 10} {1} {2, -20}", sbPref, SEPARATOR, sbSuf);
+        }
+
+
+        /*Пример:   без прИ по √ ьн 0 н ьн  */
         public static Pair FromString(string str)
         {
             List<string> pref = new List<string>();
             List<string> suf = new List<string>();
 
             str = str.Trim(' ');
-            var output = str.Split(SEPARATOR);
+
+            var output = str.Split(SEPARATOR); //поделили на кусок приставок и кусок суффиксов
+
             pref = output[0].Split(' ').ToList();
-            pref.RemoveAt(pref.Count - 1);
+            pref.RemoveAt(pref.Count - 1); //последний всегда пустой или ненужный
+
             suf = output[1].Split(' ').ToList();
-            suf.RemoveAt(0);
+            suf.RemoveAt(0); //первый всегда пустой или ненужный
+
             while (pref.Count < 4) {
                 pref.Add("");
 
@@ -90,37 +108,49 @@ namespace RootSearch
             }
 
             return new Pair(pref, suf);
-        }
+        }       
+    }
+}
 
-        /*
-        public override bool Equals(object obj)
-        {
-            Pair other = obj as Pair;
-            if (other == null) 
-                return false;
-
-            if (this.prefixes == null && other.prefixes != null)
-                return false;
-
-            if (this.suffixies == null && other.suffixies != null) 
-                return false;
-
-            if (this.prefixes == null && other.prefixes == null) {
-                if (this.suffixies == null && other.suffixies == null)
-                    return true;
-                if (this.suffixies == other.suffixies) 
-                    return true;
-            }
-            else if (this.prefixes == other.prefixes) {
-                if (this.suffixies == null && other.suffixies == null)
-                    return true;
-                if (this.suffixies == other.suffixies)
-                    return true;
-            }
-
-            return true;
-
-        }*/
+//logs
+/*
+public override bool Equals(object obj)
+{
+    if (obj != null && obj is Pair)
+    {
+        Pair other = (Pair)obj;
+        return other.prefixes == prefixes && other.suffixies == suffixies;
     }
 
-}
+    return false;
+}*/
+
+/*
+       public override bool Equals(object obj)
+       {
+           Pair other = obj as Pair;
+           if (other == null) 
+               return false;
+
+           if (this.prefixes == null && other.prefixes != null)
+               return false;
+
+           if (this.suffixies == null && other.suffixies != null) 
+               return false;
+
+           if (this.prefixes == null && other.prefixes == null) {
+               if (this.suffixies == null && other.suffixies == null)
+                   return true;
+               if (this.suffixies == other.suffixies) 
+                   return true;
+           }
+           else if (this.prefixes == other.prefixes) {
+               if (this.suffixies == null && other.suffixies == null)
+                   return true;
+               if (this.suffixies == other.suffixies)
+                   return true;
+           }
+
+           return true;
+
+       }*/

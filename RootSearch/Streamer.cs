@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 /* Вспомогательный класс. Читать из файла в IEnumerable, List и Печать 
-   CreateListOfRootSets, HasRootInSet, CreateRootSet
-   RemoveInvalidSymbols
+   CreateListOfRootSets(), HasRootInSet(), CreateRootSet()
+   RemoveInvalidSymbols()
    Генерация имен файлов с множествами и их пересечениями*/
 namespace RootSearch
 {
@@ -20,14 +20,14 @@ namespace RootSearch
 
         public static List<IEnumerable<string>> CreateListOfIEnumerable(string[] fileNames)
         {
-            List<IEnumerable<string>> sets = new List<IEnumerable<string>>();
+            List<IEnumerable<string>> lists = new List<IEnumerable<string>>();
 
             foreach (string file in fileNames)
             {
-                sets.Add(Streamer.CreateIEnumerableFromFile(file));
+                lists.Add(Streamer.CreateIEnumerableFromFile(file));
             }
 
-            return sets;
+            return lists;
         }
 
         public static List<HashSet<string>> CreateListOfRootSets(string[] fileNames)
@@ -148,7 +148,6 @@ namespace RootSearch
                 if (result != "")
                 {
                     result = result.Remove(result.Length - 1);
-                    result += "_";
                 }
             }
 
@@ -158,16 +157,16 @@ namespace RootSearch
         // съ+пер_vA+н_сочетающиеся_корни.txt
         // нейминг /aж\ и аж будут одинаковые из-за проблем с путём :(
         // посмотреть с _ чтобы поаккуратней генерировалось
-        public static string CreateFileName(List<string> prefixes, List<string> suffixies, string end, string folderName)
+        public static string CreateFileName(List<string> prefixes, List<string> suffixies, string folderName, string end = "")
         {
-            string result = folderName + '\\' + RemoveInvalidSymbols(prefixes) + RemoveInvalidSymbols(suffixies) + end;
+            string result = folderName + '\\' + RemoveInvalidSymbols(prefixes) + '_' + RemoveInvalidSymbols(suffixies) + end;
             
             while (File.Exists(result + EXTENSION))
                 result += '1';
 
             return result + EXTENSION;
         }
-        
+
         public static string CreateFileNameForSet(string[] names)
         {
             StringBuilder sb = new StringBuilder();
@@ -178,6 +177,8 @@ namespace RootSearch
                 sb.Append(tmp.Substring(0, tmp.Length - 4));
                 sb.Append('_');
             }
+            sb.Remove(sb.Length - 2, sb.Length - 1);
+
             while (File.Exists(sb + EXTENSION))
                 sb.Append('1');
 

@@ -12,7 +12,7 @@ using RootSearch;
 using System.Security.Permissions;
 
 /*Общий парсер. На вход аффиксальные окружения. 
-  На выход 2 файла с/без подходящими корнями (перечислены все слова, т.е. корни повторяются
+  На выход 2 файла с/без подходящими корнями (перечислены все слова, т.е. корни повторяются)
   Много bool-функций и проверок, Classify, парсинг строк*/
 namespace RootSearch
 {
@@ -21,7 +21,7 @@ namespace RootSearch
         StreamReader streamReader;
 
         const string OUTPUT_YES = "";
-        const string OUTPUT_NO = "н";
+        const string OUTPUT_NO = "_н";
         const string EXTENSION = ".txt";
         const string PROCLITIC_PATH = "proclictic.txt";
         const string ENCLITIC_PATH = "enclictic.txt";
@@ -86,7 +86,6 @@ namespace RootSearch
             }
         }
 
-
         private List<string> ParseFileWithoutAffix(out List<string> setNoComplimentary)
         {            
             List<string> setYes = new List<string>();
@@ -111,7 +110,6 @@ namespace RootSearch
             return setYes;
         }
 
-        //???
         private List<string> ParseFileWithAffix(List<string> prefixes, List<string> suffixies, out List<string> setNoComplimentary)
         {
             List<string> setYes = new List<string>();
@@ -154,8 +152,8 @@ namespace RootSearch
         public string[] CreateMainFiles(List<string> prefixes, List<string> suffixies)
         {
             string[] filePathes = new string[2];
-            filePathes[0] = Streamer.CreateFileName(prefixes, suffixies, OUTPUT_YES, folderName);
-            filePathes[1] = Streamer.CreateFileName(prefixes, suffixies, OUTPUT_NO, folderName);
+            filePathes[0] = Streamer.CreateFileName(prefixes, suffixies, folderName);
+            filePathes[1] = Streamer.CreateFileName(prefixes, suffixies, folderName, OUTPUT_NO);
 
             StreamWriter streamWriterYes, streamWriterNo;
 
@@ -186,7 +184,6 @@ namespace RootSearch
         0 нулевая морфема (флексия/глагольный суффикс)
         */
 
-        //TODO:
         //Нахождение приставок
         private static List<string> ParseWordPrefix(string word, out string remainder, out string root)
         {
@@ -199,7 +196,6 @@ namespace RootSearch
             return prefixes.ToList();
         }
 
-        //TODO
         //Нахождение суффиксов
         private static List<string> ParseWordSuffix(string word, out string remainder, out string root)
         {
@@ -213,7 +209,7 @@ namespace RootSearch
         }
 
 
-        //Создаёт слово с окончанием или без в зависимости от суффикса
+        //Создаёт слово с окончанием или без в зависимости от наличия суффикса
         private static Word ParsePartWord(string word, string fullWord, string transcripton)
         {
             List<string> prefixes = null;
@@ -243,7 +239,7 @@ namespace RootSearch
                 new Word(fullWord, transcripton, prefixes, root, suffixes, word.Substring(word.IndexOf('_'), word.Length - word.IndexOf('_')));
         }
 
-        //TODO: добавить обработку аббревиаций значок "|" без пробелов
+        
         public static Word ParseStringIntoWords(string word, out string secondRootWord, ref string fullWord, ref string transcription)
         {
             string firstRootWord;
@@ -285,139 +281,3 @@ namespace RootSearch
         }
     }
 }
-/*logs
- * 
-        private bool Check(string s, char c)
-        {
-            foreach (char st in s)
-            {
-                if (st == c) return true;
-            }
-            return false;
-        }
-
-        private void PrintToFile(string[] strings, string filePath)
-        {
-            streamWriterYes = new StreamWriter(filePath);
-            foreach (string s in strings)
-            {
-                streamWriterYes.WriteLine(s);
-            }
-        }
- * 
-
-        private HashSet<string> CreateSet(out HashSet<string> complementarySet)
-        {
-            const int N = 1000;
-            String secondRootWord = "", fullWord = "", transcription = "";
-            complementarySet = new HashSet<string>();
-            Word word;
-            for (int i = 0; i < N; i++)
-            {
-                word = ParseStringIntoWords(streamReader.ReadLine(), out secondRootWord, ref fullWord, ref transcription);
-            }
-
-            return complementarySet;
-        }
- * 
- *         public void OldTest(string[] prefixes, string[] suffixies)
-        {
-            String firstRootWord = null, fullWord = null, transcription = null;
-            Word word;
-            string s;
-            while ((s = streamReader.ReadLine()) != null)
-            {
-                word = ParseStringIntoWords(s, out firstRootWord, ref fullWord, ref transcription);
-                if (word != null)
-                {
-                        streamWriterYes.WriteLine(word.ToString());
-                }
-
-                while (firstRootWord != null)
-                {
-                    word = ParseStringIntoWords(firstRootWord, out firstRootWord, ref fullWord, ref transcription);
-                    if (word != null)
-                            streamWriterYes.WriteLine(word.ToString());
-                }
-                firstRootWord = null;
-            }
-        }
-private Word ParseWord(string word, out string secondRootWord)
-        {
-            string[] prefixes = null;
-            string[] suffixes = null;
-            string root = null;
-            string[] pieces = word.Split(';');
-            // if (word.IndexOf(' ') == -1 && word.IndexOf('[') == -1 && word.IndexOf('{') == -1 && word.IndexOf('+') == -1)
-            if (!word.Contains(' ') && !word.Contains('[') && !word.Contains('{') && !word.Contains('+'))
-            {
-                string firstRootWord = pieces[2].IndexOf('_') != -1 ? pieces[2].Substring(0, pieces[2].IndexOf('_')) : pieces[2];
-                //если нет приставки
-                //Найти '-' с конца, отрезать этот кусок. 1й расплитить на суффиксы, 2й в остаток
-                if (firstRootWord.Contains('-'))
-                {
-                    int t = firstRootWord.LastIndexOf("-");
-                    //root = firstRootWord.Remove();
-                    root = firstRootWord.Remove(0, firstRootWord.LastIndexOf("-") + 1);
-                    prefixes = firstRootWord.Remove(firstRootWord.LastIndexOf("-"), firstRootWord.Length - firstRootWord.LastIndexOf("-")).Split('-'); ;
-                    
-                    firstRootWord = root;
-                }
-                else
-                    root = firstRootWord;
-
-                if (firstRootWord.Contains('='))
-                {
-                    root = firstRootWord.Remove(firstRootWord.IndexOf('='), firstRootWord.Length-firstRootWord.IndexOf('='));
-                    firstRootWord = firstRootWord.Remove(0, firstRootWord.IndexOf('=')+1);
-                    suffixes = firstRootWord.Split('=');
-                }
-                else 
-                    root = firstRootWord;
-                // _# сьн  т.е. постфикс ся
-                //ебучие нолики в суффиксах
-                //добавить все суффиксы и приставки в свои файлы
-            }
-            else
-            {
-                string str = pieces[2];
-                if (!str.Contains("сьн"))
-                    strWrt.WriteLine(str);
-                secondRootWord = null;
-                return null;
-            }
-            secondRootWord = null;
-            return new Word(pieces[1], prefixes, root, suffixes);
-        }
-
-
-        private Word ParsePartWord(string word, string fullWord)
-        {
-            string[] prefixes = null;
-            string[] suffixes = null;
-            string root = null;
-            string firstRootWord = word.IndexOf('_') != -1 ? word.Substring(0, word.IndexOf('_')) : word;
-
-            if (firstRootWord.Contains('-'))
-            {
-                root = firstRootWord.Remove(0, firstRootWord.LastIndexOf("-") + 1);
-                 prefixes = firstRootWord.Remove(firstRootWord.LastIndexOf("-"), firstRootWord.Length - firstRootWord.LastIndexOf("-")).Split('-');
-                 firstRootWord = root;
-                //prefixes = ParseWordPrefix(firstRootWord, out firstRootWord, out root);
-            }
-            else
-    root = firstRootWord;
-
-if (firstRootWord.Contains('=')) // добавить 0 нулевая морфема (флексия/глагольный суффикс)
-{
-    root = firstRootWord.Remove(firstRootWord.IndexOf('='), firstRootWord.Length - firstRootWord.IndexOf('='));
-     firstRootWord = firstRootWord.Remove(0, firstRootWord.IndexOf('=') + 1);
-     suffixes = firstRootWord.Split('=');
-    //suffixes = ParseWordSuffix(firstRootWord, out firstRootWord, out root);
-}
-else
-    root = firstRootWord;
-
-return new Word(fullWord, prefixes, root, suffixes);
-        }
-*/

@@ -26,15 +26,17 @@ namespace RootSearch
         string labelText = "Текущая папка для сохранения" + Environment.NewLine;
         string folderName = AppDomain.CurrentDomain.BaseDirectory;
 
+        Parser parser;
+
         public Form1()
         {
             InitializeComponent();
-            // InitializeComboboxes(ref comboBoxesPref, 4, 50);
-            InitializeComboboxes(ref comboBoxesSuf, 9, 150, ref labelsSuf);
+            // InitializeComboboxesSuf(ref comboBoxesPref, 4, 50);
+            InitializeComboboxesSuf(ref comboBoxesSuf, 9, 150, ref labelsSuf);
             InitializeComboboxesPref(ref comboBoxesPref, 4, 50, ref labelsPref);
             
             labelFilePath.Text = labelText + folderName;
-
+            
             //TODO: test
             //ParserAffix pars = new ParserAffix();
             // ParserAffix.CreateMainFiles();
@@ -44,7 +46,7 @@ namespace RootSearch
             int a = 0;
         }
 
-        private void InitializeComboboxes(ref List<System.Windows.Forms.ComboBox> comboBoxes, int size, int position, ref List<Label> labels)
+        private void InitializeComboboxesSuf(ref List<System.Windows.Forms.ComboBox> comboBoxes, int size, int position, ref List<Label> labels)
         {
             comboBoxes = new List<System.Windows.Forms.ComboBox>();
             labels = new List<Label>();
@@ -72,10 +74,8 @@ namespace RootSearch
                 labels[j].Text = (j+1).ToString();
                 Controls.Add(labels[j]);
 
-                j++;
-                
+                j++;                
             }
-
         }
         //???
         private void InitializeComboboxesPref(ref List<System.Windows.Forms.ComboBox> comboBoxes, int size, int position, ref List<Label> labels)
@@ -113,33 +113,10 @@ namespace RootSearch
 
         private void FillComboBoxes(string filePref, string fileSuf)
         {
-            StreamReader sr = File.OpenText(filePref);
+            StreamReader sr;
             String input;
 
-            while ((input = sr.ReadLine()) != null)
-            {
-
-                foreach (var combo in comboBoxesPref)
-                    combo.Items.Add(input);
-            }
-
-            sr = File.OpenText(fileSuf);
-            while ((input = sr.ReadLine()) != null)
-            {
-                foreach (var combo in comboBoxesSuf)
-                    combo.Items.Add(input);
-            }
-        }
-
-        // добавить обработчикаффиксальных окружений в парсер, а сюда комбобокс для их заполнения
-        // (в каком состоянии они должны там быть, какие визуальные разделители?)
-        //переделать генерацию названий файлов на покороче или нафиг она нужна?
-
-        private void FillComboBoxes2(string filePref, string fileSuf)
-        {
-            StreamReader sr = File.OpenText(filePref);
-            String input;
-
+            sr = File.OpenText(filePref);
             foreach (var combo in comboBoxesPref)
             {
                 while ((input = sr.ReadLine()) != null && input !="" && input != "\n" && input != "\r" && input != "\r\n")
@@ -149,7 +126,6 @@ namespace RootSearch
             }
 
             sr = File.OpenText(fileSuf);
-
             foreach (var combo in comboBoxesSuf)
             {
                 while ((input = sr.ReadLine()) != null && input != "" && input != "\n" && input != "\r" && input != "\r\n")
@@ -201,12 +177,9 @@ namespace RootSearch
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //FillComboBoxes(FILE_PATH_PREF, FILE_PATH_SUF);
-
-
             const string FILE_PATH_PREFS = "prefixes.txt";
             const string FILE_PATH_SUFS = "suffixes.txt";
-            FillComboBoxes2(FILE_PATH_PREFS, FILE_PATH_SUFS);
+            FillComboBoxes(FILE_PATH_PREFS, FILE_PATH_SUFS);
 
             SetSelectedIndex();
             BlockComboBoxes();
@@ -224,8 +197,8 @@ namespace RootSearch
                 combo.BackColor = Color.White;
         }
 
-        //??? подумать где вызывать конструктор парсера
-        //разворачиваем пришедшие преффиксы!!!
+        /*Разворачиваем пришедшие преффиксы, потому что они считываются слева направо, 
+          а должны рассматриваться по примыканию корню (т.е. наоборот, справа налево).*/
         private void buttonInput_Click(object sender, EventArgs e)
         {
             ColorComboboboxesWhite();
@@ -237,9 +210,10 @@ namespace RootSearch
                 List<string> prefixes = ReadComboBoxes(comboBoxesPref);
                 if (prefixes!= null)
                     prefixes.Reverse();
+
                 List<string> suffixes = ReadComboBoxes(comboBoxesSuf);
 
-                Parser parser = new Parser(FILE_PATH, folderName);
+                parser = new Parser(FILE_PATH, folderName);
                 string[] filePathes = parser.CreateMainFiles(prefixes, suffixes);
 
                 textBoxOutput.Text = "";
@@ -253,7 +227,7 @@ namespace RootSearch
         }
 
 
-        //пользователь обязан выбрать, а не вводить
+        //Пользователь обязан выбрать извыпадающих списков, а не вводить.
         private bool IsComboboxesFilled(List<System.Windows.Forms.ComboBox> comboBoxes)
         {
             bool isValid = true;
@@ -269,12 +243,12 @@ namespace RootSearch
             return isValid;
         }
 
-        //запрет на пропуск пустых
+        //Запрет на пропуск пустых списков.
         private bool IsComboboxesValid(List<System.Windows.Forms.ComboBox> comboBoxes)
         {
             bool isValid = IsComboboxesFilled(comboBoxes);
 
-            //пустые сзади
+            //В списках сзади должны быть выбраны <пусто>, т.е. пропуск пустыя ячеек сзади
             int i = comboBoxes.Count - 1;
             while (i >= 0 && comboBoxes[i].SelectedIndex == 0)
             {
@@ -332,9 +306,8 @@ namespace RootSearch
         private void comboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             System.Windows.Forms.ComboBox combo = (System.Windows.Forms.ComboBox)sender;
-            int index = comboBoxesPref.IndexOf(combo);
 
-            //!
+            int index = comboBoxesPref.IndexOf(combo);            
             if (index != -1 && index != comboBoxesPref.Count - 1)
             {
                 if (comboBoxesPref[index].SelectedIndex != 0 && comboBoxesPref[index].SelectedIndex != -1)
@@ -378,153 +351,3 @@ namespace RootSearch
         }
     }
 }
-
-//logs
-
-/*private bool IsComboboxesValid2(List<System.Windows.Forms.ComboBox> comboBoxes)
-{
-    bool isValid = true;
-    foreach (var combo in comboBoxes)
-    {
-        if (combo.SelectedIndex == -1)
-        {
-            combo.BackColor = Color.RosyBrown;
-            isValid = false;
-        }
-    }
-
-    int i = 0;
-    //верно заполнены
-    while (i < comboBoxes.Count)
-    {
-        if (comboBoxes[i].SelectedIndex != 0)
-            i++;
-        else break;
-    }
-
-
-    //должны быть пусты
-    while (i < comboBoxes.Count)
-    {
-        if (comboBoxes[i].SelectedIndex == 0)
-            i++;
-        else break;
-    }
-
-    //ситуация когда 1 или 2 в середине попустили?
-    if (i != comboBoxes.Count - 1)
-    {
-        while (i < comboBoxes.Count)
-        {
-            if (comboBoxes[i].SelectedIndex != 0)
-            {
-                comboBoxes[i - 1].BackColor = Color.RosyBrown;
-                isValid = false;
-            }
-            i++;
-        }
-    }
-
-    return isValid;
-}
-/*int j = i;
-    //должны быть пусты
-    while(j < comboBoxes.Count)
-    {
-        if (comboBoxes[i].SelectedIndex == 0)
-            j++;
-        else break;
-    }
-
-    if (j != comboBoxes.Count - 1)
-    {
-        while (i < j) {
-            if (comboBoxes[i].SelectedIndex == 0)
-            {
-                comboBoxes[i].BackColor = Color.RosyBrown;
-                isValid = false;
-            }
-            i++;
-        }
-    }*/
-/* public static IEnumerable<Control> GetAllControls(Control root)
-        {
-            var stack = new Stack<Control>();
-            stack.Push(root);
-
-            while (stack.Any())
-            {
-                var next = stack.Pop();
-                foreach (Control child in next.Controls)
-                    stack.Push(child);
-
-                yield return next;
-            }
-        }*/
-
-/*  for (int i = 0; i < 9; i++)
-    {
-        this.comboBoxesSuf.Add(new System.Windows.Forms.ComboBox());
-    }
-
-    j = 0;
-    foreach (var combo in comboBoxesSuf)
-    {
-        combo.Location = new System.Drawing.Point(10 + j * 90, 100);
-        combo.Name = "ComboS" + j.ToString();
-        combo.Size = new System.Drawing.Size(60, 23);
-        comboBoxesSuf[j].TabIndex = j;
-        comboBoxesSuf[j].Text = "comboS" + j.ToString();
-        Controls.Add(comboBoxesSuf[j]);
-        j++;
-    }*/
-
-/*private void SetErrorProvidersFalse()
-{
-    errorProviderPrefix.SetError(textBoxPref0, "");
-    errorProviderSuffix.SetError(textBoxSuf0, "");
-
-    errorProviderPrefix.SetError(textBoxPref1, "");
-    errorProviderSuffix.SetError(textBoxSuf1, "");
-
-    errorProviderPrefix.SetError(textBoxPref2, "");
-    errorProviderSuffix.SetError(textBoxSuf2, "");
-
-    errorProviderPrefix.SetError(textBoxPref3, "");
-    errorProviderSuffix.SetError(textBoxSuf3, "");
-
-    errorProviderPrefix.SetError(textBoxSuf4, "");
-    errorProviderSuffix.SetError(textBoxSuf5, "");
-    errorProviderPrefix.SetError(textBoxSuf6, "");
-    errorProviderSuffix.SetError(textBoxSuf7, "");
-    errorProviderSuffix.SetError(textBoxSuf8, "");
-}*/
-
-/* private string[] ValidateComboBoxes(List<System.Windows.Forms.ComboBox> comboBoxes)
-{
-    string[] affixes = new string[comboBoxes.Count];
-
-    int i = 0;
-    foreach (var combo in comboBoxes)
-    {
-        if (combo.SelectedIndex != -1)
-        {
-            if (combo.SelectedIndex != 0)
-                affixes[i] = combo.Text;
-            else affixes[i] = null;
-            i++;
-        }
-    }
-
-    if (affixes[0] == null)
-        return null;
-
-    int j = comboBoxes.Count - 1;
-    while (j >= 1 && comboBoxes[j] == null)
-        j--;
-    List<string> s;
-
-    string[] outp = null;
-    Array.Copy(affixes, outp, j);
-    return affixes;
-}*/

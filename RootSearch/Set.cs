@@ -23,7 +23,7 @@ namespace RootSearch
         }
 
         //Возвращает множество, являющиеся пересечением корней
-        public static HashSet<string> FindRootIntersection(string[] fileNames)
+        public static HashSet<string> FindSetRootIntersection(string[] fileNames)
         {
             List<HashSet<string>> sets = Streamer.CreateListOfRootSets(fileNames);
 
@@ -37,6 +37,7 @@ namespace RootSearch
         }
 
 
+        //Компоратор строк с учетом регистра внутри
         static int Compare(string l, string r)
         {
             var commonResult = l.Zip(r, Compare).SkipWhile(n => n == 0).FirstOrDefault();
@@ -51,15 +52,13 @@ namespace RootSearch
 
 
         //TODO: нужен ли нам Set, чтобы строки не повторялись или обойдёмся List(?)
-        //тоже сделать генерацию названия файла с добавлением 1 в конце
-        //Разобраться как работает компоратор выше
         //Возвращает множество строк с пересекающимися корнями, которое готово для печати в файл
         public static List<string> CreateSetIntersection(string[] fileNames)
         {
             List<string> result = new List<string>();
 
             var listOfIEnumerable = Streamer.CreateListOfIEnumerable(fileNames);
-            var rootSet = FindRootIntersection(fileNames);
+            var rootSet = FindSetRootIntersection(fileNames);
 
             foreach (var list in listOfIEnumerable)
             {
@@ -85,35 +84,3 @@ namespace RootSearch
         }
     }
 }
-
-/*
-  public static string TestMainSetFunction(string[] fileNames, string folderName)
-        {
-            //string[] fileNames = new string[] { "а+тел_сочетающиеся.txt", "а_сочетающиеся.txt" };
-
-            string outputPath = folderName + Streamer.CreateFileNameForSet(fileNames);
-            StreamWriter stream = new StreamWriter(outputPath, false);
-
-            var set = FindRootIntersection(fileNames);
-
-            Streamer.Print(set, stream);
-
-            return outputPath;
-        }
-
-        //Возвращает множество, являющиеся пересечением СТРОК!
-        public static IEnumerable<string> FindIntersectionOfIEnumerable(string[] fileNames)
-        {
-            List<IEnumerable<string>> sets = CreateListOfIEnumerable(fileNames);
-
-            var tmp = sets[0];
-            for (int i = 1; i < sets.Count; i++)
-            {
-                tmp = tmp.Intersect(sets[i]);
-            }
-
-            return tmp;
-        }
-
-
- */
