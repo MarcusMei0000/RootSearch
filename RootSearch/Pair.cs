@@ -34,6 +34,30 @@ namespace RootSearch
             this.suffixies = w.suffixes;
         }
 
+        public string ToString(bool IsZeroSpace) {
+            StringBuilder sb = new StringBuilder();
+            if (prefixes != null)
+            {
+                foreach (string pref in prefixes)
+                {
+                    sb.Append(pref);
+                    sb.Append(" ");
+                }
+            }
+            sb.Append(SEPARATOR);
+            sb.Append(" ");
+            if (suffixies != null)
+            {
+                foreach (string suf in suffixies)
+                {
+                    sb.Append(suf);
+                    sb.Append(" ");
+                }
+            }
+
+            return sb.ToString();
+        }
+
         public override string ToString()
         {
             string strPref = "";

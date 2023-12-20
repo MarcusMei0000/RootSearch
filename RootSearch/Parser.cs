@@ -42,7 +42,7 @@ namespace RootSearch
 
         private bool IsProclitic(Word w)
         {
-            return proclitic.Contains(w.Root);
+            return proclitic.Contains(w.Root.ToLower());
         }
 
         private bool IsNoInputAffix(List<string> pref, List<string> suf)
@@ -52,7 +52,7 @@ namespace RootSearch
 
         private bool IsEnclitic(Word w)
         {
-            return enclitic.Contains(w.Root);
+            return enclitic.Contains(w.Root.ToLower());
         }
 
 

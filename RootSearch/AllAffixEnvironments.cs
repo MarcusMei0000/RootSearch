@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Excel = Microsoft.Office.Interop.Excel;
 using static RootSearch.Pair;
+using Microsoft.Office.Interop.Excel;
 
 /* Нахождение всех аффиксальных окружений встречающихся в словаре, 
    вывод в текстовый файл и в эксель таблицу*/
@@ -50,13 +51,38 @@ namespace RootSearch
 
             return set;
         }
+        /*
+        public void test()
+        {
+            var bound = 10000;
+            sw.Start();
+            Excel.Range r = sheet.Range[sheet.Cells[2, 1], sheet.Cells[bound, 1]];
+            var arr = new int[bound, 1];
+            for (var i = 1; i <= bound; i++) arr[i - 1, 0] = i;
+            r.Value = arr;
+            sw.Stop();
+
+            Console.WriteLine(sw.Elapsed);
+            sw.Reset();
+            sw.Start();
+            for (var i = 1; i <= bound; i++) sheet.Cells[i, 1].Value = i;
+            sw.Stop();
+
+            Console.WriteLine(sw.Elapsed);
+        }*/
 
         public static void CreateXLS(HashSet<string> set)
         {
             var excelApp = new Excel.Application();
             excelApp.Workbooks.Add();
             Excel._Worksheet workSheet = (Excel.Worksheet)excelApp.ActiveSheet;
-  
+
+            excelApp.ScreenUpdating = false;
+            excelApp.Visible = false;
+            excelApp.Interactive = false;
+
+
+
             /*
             int i = 1;
             for (int k = 4; k <= 1; k--)
@@ -98,6 +124,7 @@ namespace RootSearch
             }
             excelApp.Visible = true;
             excelApp.Interactive = true;
+            excelApp.ScreenUpdating = true;
         }
 
         public static void Main(List<string> prefixes = null, List<string> suffixies = null)

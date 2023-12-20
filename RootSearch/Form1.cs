@@ -36,10 +36,10 @@ namespace RootSearch
             InitializeComboboxesPref(ref comboBoxesPref, 4, 50, ref labelsPref);
             
             labelFilePath.Text = labelText + folderName;
-            
+
             //TODO: test
             //ParserAffix pars = new ParserAffix();
-            // ParserAffix.CreateMainFiles();
+             StatisticRoot.CreateMainFiles();
 
             //AllAffixEnvironments.Main();
 

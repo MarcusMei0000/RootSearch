@@ -46,13 +46,15 @@ namespace RootSearch
             affixEnvironment.Add(new Pair(w.prefixes, w.suffixes));
         }
 
+
+        //Для смены вывода Pair, т.е. 1го аффиксального окружения, необходимо убрать true из ToString()
         public void ToStringSet()
         {
             Dictionary<string, int> output = new Dictionary<string, int>();
 
             foreach(Pair pair in affixEnvironment)
             {
-                string tmp = pair.ToString();
+                string tmp = pair.ToString(true);
                 int count = 0;
                 if (output.TryGetValue(tmp, out count))
                 {
@@ -64,6 +66,19 @@ namespace RootSearch
                 }
             }
             dictionary = output.OrderByDescending(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
+        }
+
+        //root; количество слов всего; количество окружений всего; их перечисление; dictionary (c/без кол-ва)
+        public string ToStringFull()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(root + ";" + affixEnvironment.Count + ";" + dictionary.Count + ";");
+            foreach (var record in dictionary)
+            {
+                sb.Append(record.Key);
+                sb.Append(";");
+            }
+            return sb.ToString();
         }
 
         public string ToStringWithCount()
