@@ -6,11 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 /* Парсер для аффиксов. 
    Нахождение всех (полного) аффиксальных окружений для каждого корня из поданного на вход списка*/
 namespace RootSearch
 {
-    public class ParserAffix
+    public class StatisticRoot
     {
         static StreamReader streamReader;
         const string FILE_PATH = "Words.txt";
@@ -18,7 +19,7 @@ namespace RootSearch
 
         Parser parser;
 
-        public ParserAffix()
+        public StatisticRoot()
         {
             parser = new Parser(FILE_PATH, folderName);
         }
@@ -41,7 +42,7 @@ namespace RootSearch
                 word = Parser.ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
                 for (int i = 0; i < roots.Count; i++)
                 {
-                    if (word.HasRoot(roots[i]))
+                    if (word.HasRoot(roots[i])) //???сейчас там пока есть приколы с проклитикой и экнклитикой, которые почему-то не игнорируются, а так этой строчки быть не должно
                     {
                         environments[i].AddEnvironment(word);
                         break;
@@ -53,7 +54,7 @@ namespace RootSearch
                     word = Parser.ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
                     for (int i = 0; i < roots.Count; i++)
                     {
-                        if (word.HasRoot(roots[i]))
+                        if (word.HasRoot(roots[i]))//сейчас там пока есть приколы с проклитикой и экнклитикой, которые почему-то не игнорируются, а так этой строчки быть не должно
                         {
                             environments[i].AddEnvironment(word);
                             break;
@@ -75,14 +76,16 @@ namespace RootSearch
             streamWriter = new StreamWriter(outputPath, false);
 
             List<string> roots = new List<string> { "б>г", "д>", "берг" };
-
-            //List<string> roots = new List<string> { "берг" };            
+            //List<string> roots = Streamer.CreateListFromFile("roots.txt");
 
             List<FullEnvironment> fullEnvironments = ParseFile(roots);
 
+
+            //Для смены вывода Pair, т.е. 1го аффиксального окружения, необходимо убрать true из ToString() в ToStringSet() для FullEnvironment
             foreach (var env in fullEnvironments) {
                 env.ToStringSet();
-                streamWriter.WriteLine(env.ToStringWithCount());
+                streamWriter.WriteLine(env.ToStringFull());
+               // streamWriter.WriteLine();
             }
 
            // Print(fullEnvironments, streamWriter);
