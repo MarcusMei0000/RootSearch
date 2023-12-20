@@ -55,7 +55,6 @@ namespace RootSearch
             return enclitic.Contains(w.Root.ToLower());
         }
 
-
         private void ClassifyWord(Word word, List<string> prefixes, List<string> suffixies, ref List<string> setYes, ref List<string> setNo)
         {
             if (word != null && !IsProclitic(word) && !IsEnclitic(word))
