@@ -80,7 +80,6 @@ namespace RootSearch
 
             List<FullEnvironment> fullEnvironments = ParseFile(roots);
 
-
             //Для смены вывода Pair, т.е. 1го аффиксального окружения, необходимо убрать true из ToString() в ToStringSet() для FullEnvironment
             foreach (var env in fullEnvironments) {
                 env.ToStringSet();

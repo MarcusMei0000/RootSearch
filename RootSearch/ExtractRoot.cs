@@ -32,13 +32,16 @@ namespace RootSearch
             //  && count < 100
             while ((s = streamReader.ReadLine()) != null)
             {
-                word = Parser.ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
-                set.Add(word.Root);
-
-                while (remainder != null)
+                if (!s.Contains("+"))
                 {
-                    word = Parser.ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
+                    word = Parser.ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
                     set.Add(word.Root);
+
+                    while (remainder != null)
+                    {
+                        word = Parser.ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
+                        set.Add(word.Root);
+                    }
                 }
                 //count++;
             }

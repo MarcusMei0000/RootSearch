@@ -10,6 +10,8 @@ using System.Drawing.Printing;
 using System.Web;
 using RootSearch;
 using System.Security.Permissions;
+using DocumentFormat.OpenXml.Bibliography;
+using System.Runtime.InteropServices.ComTypes;
 
 /*Общий парсер. На вход аффиксальные окружения. 
   На выход 2 файла с/без подходящими корнями (перечислены все слова, т.е. корни повторяются)
@@ -95,13 +97,16 @@ namespace RootSearch
 
             while ((s = streamReader.ReadLine()) != null)
             {
-                word = ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
-                ClassifyWord(word, ref setYes, ref setNo);
-
-                while (remainder != null)
+                if (!s.Contains("+"))
                 {
-                    word = ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
+                    word = ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
                     ClassifyWord(word, ref setYes, ref setNo);
+
+                    while (remainder != null)
+                    {
+                        word = ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
+                        ClassifyWord(word, ref setYes, ref setNo);
+                    }
                 }
             }
 
@@ -119,13 +124,16 @@ namespace RootSearch
 
             while ((s = streamReader.ReadLine()) != null)
             {
-                word = ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
-                ClassifyWord(word, prefixes, suffixies, ref setYes, ref setNo);
-
-                while (remainder != null)
+                if (!s.Contains("+"))
                 {
-                    word = ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
+                    word = ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
                     ClassifyWord(word, prefixes, suffixies, ref setYes, ref setNo);
+
+                    while (remainder != null)
+                    {
+                        word = ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
+                        ClassifyWord(word, prefixes, suffixies, ref setYes, ref setNo);
+                    }
                 }
             }
 
@@ -247,10 +255,10 @@ namespace RootSearch
             transcription = pieces.Length >= 2 ? pieces[2] : transcription;
             string part = pieces.Length >= 2 ? pieces[2] : pieces[0];
 
-            if (part.Contains('{'))
+            if (part.Contains(' '))
             {
-                firstRootWord = part.Substring(0, part.IndexOf('{'));
-                secondRootWord = part.Substring(part.IndexOf('{') + 3, part.Length - part.IndexOf('{') - 3);
+                firstRootWord = part.Substring(0, part.IndexOf(' '));
+                secondRootWord = part.Substring(part.IndexOf(' ') + 1, part.Length - part.IndexOf(' ') - 1);
                 return ParsePartWord(firstRootWord, fullWord, transcription);
             }
             else if (part.Contains('['))
@@ -259,16 +267,18 @@ namespace RootSearch
                 secondRootWord = part.Substring(part.IndexOf('[') + 2, part.Length - part.IndexOf('[') - 2);
                 return ParsePartWord(firstRootWord, fullWord, transcription);
             }
-            else if (part.Contains(' '))
+            else if (part.Contains('{'))
             {
-                firstRootWord = part.Substring(0, part.IndexOf(' '));
-                secondRootWord = part.Substring(part.IndexOf(' ') + 1, part.Length - part.IndexOf(' ') - 1);
+                firstRootWord = part.Substring(0, part.IndexOf('{'));
+                secondRootWord = part.Substring(part.IndexOf('{') + 3, part.Length - part.IndexOf('{') - 3);
                 return ParsePartWord(firstRootWord, fullWord, transcription);
             }
             else if (part.Contains('|'))
             {
                 firstRootWord = part.Substring(0, part.IndexOf('|'));
                 secondRootWord = part.Substring(part.IndexOf('|') + 1, part.Length - part.IndexOf('|') - 1);
+                if (secondRootWord[0] == '_' || secondRootWord[0] == '=')
+                    secondRootWord = null;
                 return ParsePartWord(firstRootWord, fullWord, transcription);
             }
             else

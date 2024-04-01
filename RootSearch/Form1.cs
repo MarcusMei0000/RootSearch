@@ -213,7 +213,12 @@ namespace RootSearch
 
                 List<string> suffixes = ReadComboBoxes(comboBoxesSuf);
 
-                parser = new Parser(FILE_PATH, folderName);
+
+                //!!!
+                parser = new Parser("Words.txt", folderName);
+                //parser = new Parser(FILE_PATH, folderName);
+
+
                 string[] filePathes = parser.CreateMainFiles(prefixes, suffixes);
 
                 textBoxOutput.Text = "";
