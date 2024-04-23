@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Excel = Microsoft.Office.Interop.Excel;
 using static RootSearch.Pair;
 using Microsoft.Office.Interop.Excel;
+using System.Windows.Forms;
 
 /* Нахождение всех аффиксальных окружений встречающихся в словаре, 
    вывод в текстовый файл и в эксель таблицу*/
@@ -33,9 +34,9 @@ namespace RootSearch
             Word word;
             string s;
 
-            // int count = 0;
-            //  && count < 100
-            while ((s = streamReader.ReadLine()) != null)
+             int count = 0;
+              
+            while ((s = streamReader.ReadLine()) != null && count < 100)
             {
                 word = Parser.ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
                 set.Add(new Pair(word).ToString());
@@ -46,7 +47,7 @@ namespace RootSearch
                     word = Parser.ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
                     set.Add(new Pair(word).ToString());
                 }
-                //count++;
+                count++;
             }
 
             return set;
@@ -125,6 +126,13 @@ namespace RootSearch
             excelApp.Visible = true;
             excelApp.Interactive = true;
             excelApp.ScreenUpdating = true;
+        }
+
+        public static HashSet<string> Test(List<string> prefixes = null, List<string> suffixies = null)
+        {
+            streamReader = new StreamReader(FILE_PATH, Encoding.Default);
+
+            return FindAllAvailableAffixEnvironments();
         }
 
         public static void Main(List<string> prefixes = null, List<string> suffixies = null)

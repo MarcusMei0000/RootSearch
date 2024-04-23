@@ -1,17 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using System.Globalization;
-using RootSearch;
-using static RootSearch.Pair;
 
 namespace RootSearch
 {
@@ -28,6 +20,8 @@ namespace RootSearch
 
         Parser parser;
 
+
+
         public Form1()
         {
             InitializeComponent();
@@ -39,11 +33,32 @@ namespace RootSearch
 
             //TODO: test
             //ParserAffix pars = new ParserAffix();
-             StatisticRoot.CreateMainFiles();
+            // StatisticRoot.CreateMainFiles();
 
-            //AllAffixEnvironments.Main();
+
+            //!!!
+
+            HashSet<string> set = AllAffixEnvironments.Test();
+            Form2 f2 = new Form2(set);
+            f2.ShowDialog();
 
             int a = 0;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            const string FILE_PATH_PREFS = "prefixes.txt";
+            const string FILE_PATH_SUFS = "suffixes.txt";
+            FillComboBoxes(FILE_PATH_PREFS, FILE_PATH_SUFS);
+
+            SetSelectedIndex();
+            BlockComboBoxes();
+            SetEvents();
+            this.OpenFilesButton.Visible = true;
+            this.comboBox1.Visible = false;
+
+            //!!!
+            Close();
         }
 
         private void InitializeComboboxesSuf(ref List<System.Windows.Forms.ComboBox> comboBoxes, int size, int position, ref List<Label> labels)
@@ -173,20 +188,7 @@ namespace RootSearch
                 combo.DropDown += new System.EventHandler(this.comboBox_DropDown);
                 combo.Enter += new System.EventHandler(this.comboBox_Enter);
             }
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            const string FILE_PATH_PREFS = "prefixes.txt";
-            const string FILE_PATH_SUFS = "suffixes.txt";
-            FillComboBoxes(FILE_PATH_PREFS, FILE_PATH_SUFS);
-
-            SetSelectedIndex();
-            BlockComboBoxes();
-            SetEvents();
-            this.OpenFilesButton.Visible = true;
-            this.comboBox1.Visible = false;
-        }
+        }        
 
         private void ColorComboboboxesWhite()
         {
