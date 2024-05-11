@@ -36,7 +36,7 @@ namespace RootSearch
 
              int count = 0;
               
-            while ((s = streamReader.ReadLine()) != null && count < 100)
+            while ((s = streamReader.ReadLine()) != null && count < 1000)
             {
                 word = Parser.ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
                 set.Add(new Pair(word).ToString());
@@ -49,7 +49,8 @@ namespace RootSearch
                 }
                 count++;
             }
-
+           // StreamWriter streamWriter = new StreamWriter("!testEnviromentAffix", false);
+           // Streamer.Print(set, streamWriter);
             return set;
         }
         /*

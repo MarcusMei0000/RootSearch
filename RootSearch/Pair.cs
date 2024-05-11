@@ -34,6 +34,11 @@ namespace RootSearch
             this.suffixies = w.suffixes;
         }
 
+        public bool IsNoSuf()
+        {
+            return suffixies[0] == "";
+        }
+
         public string ToString(bool IsZeroSpace) {
             StringBuilder sb = new StringBuilder();
             if (prefixes != null)

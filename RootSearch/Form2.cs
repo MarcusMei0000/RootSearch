@@ -36,40 +36,74 @@ namespace RootSearch
             foreach (var affix in affixSet)
             {
                 pair = Pair.FromString(affix);
-                list.Add(pair.suffixies);
+                if (!pair.IsNoSuf())
+                    list.Add(pair.suffixies);
             }
-
-            //!!!
-            list.RemoveAt(0);
-
-            //list.Sort(); 
 
             return list;
         }
+        private TreeNode IfTreeContains(TreeView tree, string str)
+        {
+            for (int i = 0; i < tree.Nodes.Count - 1; i++)
+            {
+                if (tree.Nodes[i].Text == str)
+                    return tree.Nodes[i];
+            }
+
+            return null;
+        }
+
+        private TreeNode IfNodeContains(TreeNode node, string str)
+        {
+            for (int i = 0; i <= node.Nodes.Count - 1; i++)
+            {
+                if (node.Nodes[i].Text == str)
+                    return node.Nodes[i];
+            }
+
+            return null;
+        }
 
         public void CreateTree(List<List<string>> affixSet)
-        {
-            TreeNode root = new TreeNode("Start");
+        {            
             foreach (var affixEnviroment in affixSet)
             {
                 affixEnviroment.RemoveAll(x => x == "");
-                if (IfNodeContains(treeView1, affixEnviroment[0]) == -1)
+                TreeNode child = IfTreeContains(treeView1, affixEnviroment[0]);
+                if (child == null)
                 {
                     TreeNode brunch = CreateBrunch(affixEnviroment);
                     treeView1.Nodes.Add(brunch);
                 }
-            }
-        }
+                else
+                {
+                    TreeNode tmpNode = child;
+                    TreeNode prevNode = tmpNode;
+                    int i = 1;
+                    while (i < affixEnviroment.Count)
+                    {
+                        prevNode = tmpNode;
+                        tmpNode = IfNodeContains(tmpNode, affixEnviroment[i]);
+                        if (tmpNode == null)
+                            break;
+                        i++;
+                    }
 
-        private int IfNodeContains(TreeView tree, string str)
-        {
-            for (int i=0; i<tree.Nodes.Count-1; i++)
-            {
-                if (tree.Nodes[i].Text == str)
-                    return i;
+                    if (i != affixEnviroment.Count) //если есть ещё суффиксы для вставки
+                    {
+                        affixEnviroment.RemoveRange(0, i);
+                        TreeNode brunch = CreateBrunch(affixEnviroment);
+                        prevNode.Nodes.Add(brunch);
+                    }
+                    else if (tmpNode != null) {
+                        tmpNode.Nodes.Add("&");
+                    }
+                    else
+                    {
+                        prevNode.Nodes.Add("&");//!!!
+                    }
+                }
             }
-
-            return -1;
         }
 
         private TreeNode CreateBrunch(List<string> affixes)
@@ -130,7 +164,6 @@ namespace RootSearch
         private void Form1_Load(object sender, EventArgs e)
         {
             treeView1.Show();
-
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)

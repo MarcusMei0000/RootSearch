@@ -35,9 +35,7 @@ namespace RootSearch
             //ParserAffix pars = new ParserAffix();
             // StatisticRoot.CreateMainFiles();
 
-
             //!!!
-
             HashSet<string> set = AllAffixEnvironments.Test();
             Form2 f2 = new Form2(set);
             f2.ShowDialog();
