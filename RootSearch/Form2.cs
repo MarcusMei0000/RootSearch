@@ -14,6 +14,20 @@ namespace RootSearch
 {
     public partial class Form2 : Form
     {
+        const string END_SYMBOL = "&";
+        Color[] TREE_NODE_COLORS = {
+            Color.Black,
+            Color.Indigo,
+            Color.DarkOrchid,
+            Color.DarkBlue,
+            Color.RoyalBlue,
+            Color.DodgerBlue,
+            Color.SkyBlue,
+            Color.Cyan,
+            Color.LightSkyBlue,
+            Color.LightBlue,
+            Color.LightGray
+        };
 
         public Form2()
         {
@@ -25,8 +39,26 @@ namespace RootSearch
             InitializeComponent();
             List<List<string>> preparedSet = CreatePreparedAffixSet(affixSet);
             CreateTree(preparedSet);
-
+            EditTree();
         }
+
+        private void EditTree()
+        {
+            foreach (TreeNode node in treeView1.Nodes)
+            {
+                RecursiveTreeTraversal(node);
+            }
+        }
+
+        private void RecursiveTreeTraversal(TreeNode treeNode)
+        {
+           
+            foreach (TreeNode node in treeNode.Nodes)
+            {
+                node.ForeColor = TREE_NODE_COLORS[node.Level];               
+                RecursiveTreeTraversal(node);
+            }
+        }        
 
         public static List<List<string>> CreatePreparedAffixSet(HashSet<string> affixSet)
         {
@@ -37,14 +69,17 @@ namespace RootSearch
             {
                 pair = Pair.FromString(affix);
                 if (!pair.IsNoSuf())
+                {
+                    pair.suffixies.Add(END_SYMBOL);
                     list.Add(pair.suffixies);
+                }
             }
 
             return list;
         }
         private TreeNode IfTreeContains(TreeView tree, string str)
         {
-            for (int i = 0; i < tree.Nodes.Count - 1; i++)
+            for (int i = 0; i <= tree.Nodes.Count - 1; i++)
             {
                 if (tree.Nodes[i].Text == str)
                     return tree.Nodes[i];
@@ -76,7 +111,7 @@ namespace RootSearch
                     treeView1.Nodes.Add(brunch);
                 }
                 else
-                {
+                {                   
                     TreeNode tmpNode = child;
                     TreeNode prevNode = tmpNode;
                     int i = 1;
@@ -94,13 +129,6 @@ namespace RootSearch
                         affixEnviroment.RemoveRange(0, i);
                         TreeNode brunch = CreateBrunch(affixEnviroment);
                         prevNode.Nodes.Add(brunch);
-                    }
-                    else if (tmpNode != null) {
-                        tmpNode.Nodes.Add("&");
-                    }
-                    else
-                    {
-                        prevNode.Nodes.Add("&");//!!!
                     }
                 }
             }
