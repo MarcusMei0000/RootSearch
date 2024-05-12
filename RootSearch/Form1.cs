@@ -12,6 +12,7 @@ namespace RootSearch
         const string FILE_PATH = "Words.txt";
         const string FILE_PATH_PREF = "prefix.txt";
         const string FILE_PATH_SUF = "suffix.txt";
+        const string FILE_PATH_ALL_AFFIX_ENVIROMENTS = "allAffixEnviroment.txt";
 
         string[] fileNamesForSets = null;
 
@@ -35,13 +36,6 @@ namespace RootSearch
             //ParserAffix pars = new ParserAffix();
             // StatisticRoot.CreateMainFiles();
 
-            //!!!
-            const string ALL_AFFIX_ENVIROMENTS = "allAffixEnviroment.txt";
-            List<string> set = Streamer.CreateListFromFile(ALL_AFFIX_ENVIROMENTS);
-            Form2 f2 = new Form2(set);
-            f2.ShowDialog();
-
-
             int a = 0;
         }
 
@@ -56,9 +50,6 @@ namespace RootSearch
             SetEvents();
             this.OpenFilesButton.Visible = true;
             this.comboBox1.Visible = false;
-
-            //!!!
-            Close();
         }
 
         private void InitializeComboboxesSuf(ref List<System.Windows.Forms.ComboBox> comboBoxes, int size, int position, ref List<Label> labels)
@@ -355,6 +346,18 @@ namespace RootSearch
                 textBoxOutput.Text = "";
                 textBoxOutput.Text = Set.FindMainSetIntersection(fileNamesForSets, folderName);
             }
+        }
+
+        private void sufFormButton_Click(object sender, EventArgs e)
+        {
+            List<string> set = Streamer.CreateListFromFile(FILE_PATH_ALL_AFFIX_ENVIROMENTS);
+            SufForm f2 = new SufForm(set);
+            f2.ShowDialog();
+        }
+
+        private void prefFormButton_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

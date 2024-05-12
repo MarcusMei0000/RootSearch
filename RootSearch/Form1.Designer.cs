@@ -47,6 +47,8 @@ namespace RootSearch
             this.OpenFilesButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.prefFormButton = new System.Windows.Forms.Button();
+            this.sufFormButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderPrefix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderSuffix)).BeginInit();
             this.SuspendLayout();
@@ -149,11 +151,35 @@ namespace RootSearch
             this.comboBox1.Size = new System.Drawing.Size(670, 24);
             this.comboBox1.TabIndex = 11;
             // 
+            // prefFormButton
+            // 
+            this.prefFormButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.prefFormButton.Location = new System.Drawing.Point(921, 349);
+            this.prefFormButton.Name = "prefFormButton";
+            this.prefFormButton.Size = new System.Drawing.Size(292, 48);
+            this.prefFormButton.TabIndex = 12;
+            this.prefFormButton.Text = "Работа с приставками";
+            this.prefFormButton.UseVisualStyleBackColor = true;
+            this.prefFormButton.Click += new System.EventHandler(this.prefFormButton_Click);
+            // 
+            // sufFormButton
+            // 
+            this.sufFormButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.sufFormButton.Location = new System.Drawing.Point(1226, 349);
+            this.sufFormButton.Name = "sufFormButton";
+            this.sufFormButton.Size = new System.Drawing.Size(292, 48);
+            this.sufFormButton.TabIndex = 13;
+            this.sufFormButton.Text = "Работа с суффиксами";
+            this.sufFormButton.UseVisualStyleBackColor = true;
+            this.sufFormButton.Click += new System.EventHandler(this.sufFormButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1530, 526);
+            this.Controls.Add(this.sufFormButton);
+            this.Controls.Add(this.prefFormButton);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.OpenFilesButton);
             this.Controls.Add(this.labelFilePath);
@@ -193,6 +219,8 @@ namespace RootSearch
         private Button OpenFilesButton;
         private OpenFileDialog openFileDialog1;
         private ComboBox comboBox1;
+        private Button prefFormButton;
+        private Button sufFormButton;
     }
 }
 
