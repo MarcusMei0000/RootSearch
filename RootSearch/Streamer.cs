@@ -58,6 +58,20 @@ namespace RootSearch
             return list;
         }
 
+        public static HashSet<string> CreateSetFromFile(string filePath)
+        {
+            var set = new HashSet<string>();
+            StreamReader sr = File.OpenText(filePath);
+            String input;
+
+            while ((input = sr.ReadLine()) != null)
+            {
+                set.Add(input);
+            }
+
+            return set;
+        }
+
         public static IEnumerable<string> CreateIEnumerableFromFile(string filePath)
         {
             Collection<string> list = new Collection<string>();

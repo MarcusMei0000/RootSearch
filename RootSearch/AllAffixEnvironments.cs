@@ -36,7 +36,7 @@ namespace RootSearch
 
              int count = 0;
               
-            while ((s = streamReader.ReadLine()) != null && count < 1000)
+            while ((s = streamReader.ReadLine()) != null)
             {
                 word = Parser.ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
                 set.Add(new Pair(word).ToString());
@@ -49,8 +49,7 @@ namespace RootSearch
                 }
                 count++;
             }
-           // StreamWriter streamWriter = new StreamWriter("!testEnviromentAffix", false);
-           // Streamer.Print(set, streamWriter);
+
             return set;
         }
         /*
@@ -138,14 +137,12 @@ namespace RootSearch
 
         public static void Main(List<string> prefixes = null, List<string> suffixies = null)
         {
-            string outputPath = Streamer.CreateFileName(prefixes, suffixies, folderName, "test");
+            string outputPath = Streamer.CreateFileName(prefixes, suffixies, folderName, "все окружения не тестtest");
 
             StreamWriter streamWriter;
 
             streamReader = new StreamReader(FILE_PATH, Encoding.Default);
             streamWriter = new StreamWriter(outputPath, false);
-
-            //List<string> roots = new List<string> { "берг" };            
 
             HashSet<string> affixEnvironments = new HashSet<string>();
 

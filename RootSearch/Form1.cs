@@ -36,9 +36,11 @@ namespace RootSearch
             // StatisticRoot.CreateMainFiles();
 
             //!!!
-            HashSet<string> set = AllAffixEnvironments.Test();
+            const string ALL_AFFIX_ENVIROMENTS = "allAffixEnviroment.txt";
+            List<string> set = Streamer.CreateListFromFile(ALL_AFFIX_ENVIROMENTS);
             Form2 f2 = new Form2(set);
             f2.ShowDialog();
+
 
             int a = 0;
         }

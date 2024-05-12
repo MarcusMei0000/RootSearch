@@ -15,6 +15,8 @@ namespace RootSearch
     public partial class Form2 : Form
     {
         const string END_SYMBOL = "&";
+        public static char SEPARATOR = '√';
+
         Color[] TREE_NODE_COLORS = {
             Color.Black,
             Color.Indigo,
@@ -34,12 +36,13 @@ namespace RootSearch
             InitializeComponent();
         }
 
-        public Form2(HashSet<string> affixSet)
+        public Form2(List<string> affixSet)
         {
             InitializeComponent();
-            List<List<string>> preparedSet = CreatePreparedAffixSet(affixSet);
+            List<List<string>> preparedSet = CreatePreparedAffixSetTurbo(affixSet);
+            // List<List<string>> preparedSet2 = CreatePreparedAffixSet(affixSet);
             CreateTree(preparedSet);
-            EditTree();
+            //EditTree();
         }
 
         private void EditTree()
@@ -58,9 +61,33 @@ namespace RootSearch
                 node.ForeColor = TREE_NODE_COLORS[node.Level];               
                 RecursiveTreeTraversal(node);
             }
-        }        
+        }
 
-        public static List<List<string>> CreatePreparedAffixSet(HashSet<string> affixSet)
+        public static List<List<string>> CreatePreparedAffixSetTurbo(List<string> affixSet)
+        {
+            for (int i = 0; i < affixSet.Count; i++){
+                int separator = affixSet[i].IndexOf(SEPARATOR) + 2;
+                int end = affixSet[i].Count();
+
+                affixSet[i] = affixSet[i].Substring(separator, end - separator).TrimEnd(' ');
+            }
+            affixSet.RemoveAll(x => x == "");
+            affixSet.Sort();
+            IEnumerable<string> tmpIEnumerable = affixSet.Distinct();
+
+            List<List<string>> list = new List<List<string>>();
+            List<string> tmp = new List<string>();
+            foreach (var affix in tmpIEnumerable)
+            {
+                tmp = affix.Split(new char[] { ' ' }).ToList();
+                tmp.Add(END_SYMBOL);
+                list.Add(tmp);
+            }
+
+            return list;
+        }
+
+        public static List<List<string>> CreatePreparedAffixSet(List<string> affixSet)
         {
             List<List<string>> list = new List<List<string>>();
 
@@ -70,13 +97,19 @@ namespace RootSearch
                 pair = Pair.FromString(affix);
                 if (!pair.IsNoSuf())
                 {
-                    pair.suffixies.Add(END_SYMBOL);
                     list.Add(pair.suffixies);
                 }
             }
 
+            foreach (var affixEnviroment in list)
+            {
+                affixEnviroment.RemoveAll(x => x == "");
+                affixEnviroment.Add(END_SYMBOL);
+            }
+
             return list;
         }
+
         private TreeNode IfTreeContains(TreeView tree, string str)
         {
             for (int i = 0; i <= tree.Nodes.Count - 1; i++)
