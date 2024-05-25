@@ -24,8 +24,13 @@ namespace RootSearch
             InitializeComponent();
             List<List<string>> preparedSet = CreatePreparedAffixSetTurbo(affixSet);
             List<List<string>> preparedSet2 = preparedSet.GetRange(0, 50);
+
+            this.SuspendLayout();
+
             CreateTree(preparedSet2);
             EditTree(treeView1);
+
+            this.ResumeLayout();
         }       
 
         public static List<List<string>> CreatePreparedAffixSetTurbo(List<string> affixSet)

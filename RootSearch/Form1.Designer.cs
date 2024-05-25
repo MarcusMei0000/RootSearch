@@ -46,9 +46,10 @@ namespace RootSearch
             this.labelFilePath = new System.Windows.Forms.Label();
             this.OpenFilesButton = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.comboboxForEnviroments = new System.Windows.Forms.ComboBox();
             this.prefFormButton = new System.Windows.Forms.Button();
             this.sufFormButton = new System.Windows.Forms.Button();
+            this.buttonInputEnviroment = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderPrefix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderSuffix)).BeginInit();
             this.SuspendLayout();
@@ -143,13 +144,13 @@ namespace RootSearch
             this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Multiselect = true;
             // 
-            // comboBox1
+            // comboboxForEnviroments
             // 
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(18, 273);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(670, 24);
-            this.comboBox1.TabIndex = 11;
+            this.comboboxForEnviroments.FormattingEnabled = true;
+            this.comboboxForEnviroments.Location = new System.Drawing.Point(18, 273);
+            this.comboboxForEnviroments.Name = "comboboxForEnviroments";
+            this.comboboxForEnviroments.Size = new System.Drawing.Size(670, 24);
+            this.comboboxForEnviroments.TabIndex = 11;
             // 
             // prefFormButton
             // 
@@ -173,14 +174,26 @@ namespace RootSearch
             this.sufFormButton.UseVisualStyleBackColor = true;
             this.sufFormButton.Click += new System.EventHandler(this.sufFormButton_Click);
             // 
+            // buttonInputEnviroment
+            // 
+            this.buttonInputEnviroment.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonInputEnviroment.Location = new System.Drawing.Point(707, 273);
+            this.buttonInputEnviroment.Name = "buttonInputEnviroment";
+            this.buttonInputEnviroment.Size = new System.Drawing.Size(311, 48);
+            this.buttonInputEnviroment.TabIndex = 14;
+            this.buttonInputEnviroment.Text = "Ввод целого окружения";
+            this.buttonInputEnviroment.UseVisualStyleBackColor = true;
+            this.buttonInputEnviroment.Click += new System.EventHandler(this.buttonInputEnviroment_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1530, 526);
+            this.Controls.Add(this.buttonInputEnviroment);
             this.Controls.Add(this.sufFormButton);
             this.Controls.Add(this.prefFormButton);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.comboboxForEnviroments);
             this.Controls.Add(this.OpenFilesButton);
             this.Controls.Add(this.labelFilePath);
             this.Controls.Add(this.buttonChooseFilePath);
@@ -218,9 +231,10 @@ namespace RootSearch
         private FolderBrowserDialog folderBrowserDialog1;
         private Button OpenFilesButton;
         private OpenFileDialog openFileDialog1;
-        private ComboBox comboBox1;
+        private ComboBox comboboxForEnviroments;
         private Button prefFormButton;
         private Button sufFormButton;
+        private Button buttonInputEnviroment;
     }
 }
 

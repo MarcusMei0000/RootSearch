@@ -14,6 +14,7 @@ namespace RootSearch
         const string FILE_PATH_SUF = "suffix.txt";
         const string FILE_PATH_ALL_AFFIX_ENVIROMENTS = "allAffixEnviroment.txt";
 
+
         string[] fileNamesForSets = null;
 
         string labelText = "Текущая папка для сохранения" + Environment.NewLine;
@@ -42,14 +43,25 @@ namespace RootSearch
         private void Form1_Load(object sender, EventArgs e)
         {
             const string FILE_PATH_PREFS = "prefixes.txt";
-            const string FILE_PATH_SUFS = "suffixes.txt";
+            const string FILE_PATH_SUFS = "suffixes.txt";    
+            
             FillComboBoxes(FILE_PATH_PREFS, FILE_PATH_SUFS);
+           // FillComboBoxForEnviroment(FILE_PATH_ALL_AFFIX_ENVIROMENTS);
 
             SetSelectedIndex();
             BlockComboBoxes();
             SetEvents();
             this.OpenFilesButton.Visible = true;
-            this.comboBox1.Visible = false;
+         //   PrepareComboboxForEnviroments();
+        }
+
+        //Дописать + проверки аналогичные предыдущим комбобоксам
+        private void PrepareComboboxForEnviroments()
+        {
+            this.comboboxForEnviroments.Visible = true;
+            comboboxForEnviroments.Font = new Font("Microsoft Sans Serif", 11);
+            comboboxForEnviroments.DropDownHeight = 300;
+            comboboxForEnviroments.SelectedIndex = 0;
         }
 
         private void InitializeComboboxesSuf(ref List<System.Windows.Forms.ComboBox> comboBoxes, int size, int position, ref List<Label> labels)
@@ -117,6 +129,18 @@ namespace RootSearch
             }
         }
 
+
+        private void FillComboBoxForEnviroment(string fileEnv)
+        {
+            StreamReader sr = File.OpenText(fileEnv);
+            String input = "<пусто>";
+
+            comboboxForEnviroments.Items.Add(input);
+            while ((input = sr.ReadLine()) != null && input != "" && input != "\n" && input != "\r" && input != "\r\n")
+            {
+                comboboxForEnviroments.Items.Add(input);
+            }
+        }
         private void FillComboBoxes(string filePref, string fileSuf)
         {
             StreamReader sr;
@@ -138,7 +162,7 @@ namespace RootSearch
                 {
                     combo.Items.Add(input);
                 }
-            }            
+            }
         }
 
         private void BlockComboBoxes()
@@ -206,11 +230,9 @@ namespace RootSearch
 
                 List<string> suffixes = ReadComboBoxes(comboBoxesSuf);
 
-
                 //!!!
                 parser = new Parser("Words.txt", folderName);
                 //parser = new Parser(FILE_PATH, folderName);
-
 
                 string[] filePathes = parser.CreateMainFiles(prefixes, suffixes);
 
@@ -358,6 +380,23 @@ namespace RootSearch
         private void prefFormButton_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void buttonInputEnviroment_Click(object sender, EventArgs e)
+        {
+            Pair inputPair = Pair.FromString(comboboxForEnviroments.Text);
+
+            //!!!
+            parser = new Parser("Words.txt", folderName);
+            //parser = new Parser(FILE_PATH, folderName);
+
+            string[] filePathes = parser.CreateMainFiles(inputPair.prefixes, inputPair.suffixies);
+
+            textBoxOutput.Text = "";
+            foreach (string s in filePathes)
+                textBoxOutput.Text += s + Environment.NewLine;
+
+            //MessageBox.Show("Некорректный ввод данных!");
         }
     }
 }

@@ -12,7 +12,7 @@ namespace RootSearch
 {
     public partial class UniForm : Form
     {
-        public const string END_SYMBOL = "&";
+        public const string END_SYMBOL = "#";
         public static char SEPARATOR = '√';
 
         public static Color[] TREE_NODE_COLORS = {
