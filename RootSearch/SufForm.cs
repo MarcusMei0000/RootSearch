@@ -8,12 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static RootSearch.TreeAffixNodeCreator;
 
 namespace RootSearch
 {
     public partial class SufForm : UniForm
-    {     
+    {
+        const string FILE_PATH_PREFS = "prefixes.txt";
+        List<string> AFFIX_SET = new List<string>();
         public SufForm()
         {
             InitializeComponent();
@@ -22,20 +25,50 @@ namespace RootSearch
         public SufForm(List<string> affixSet)
         {
             InitializeComponent();
-            List<List<string>> preparedSet = CreatePreparedAffixSetTurbo(affixSet);
-            List<List<string>> preparedSet2 = preparedSet.GetRange(0, 50);
+            AFFIX_SET = affixSet;
+
+            List<List<string>> preparedSet = CreatePreparedAffixSetTurbo(AFFIX_SET);
+            //List<List<string>> preparedSet2 = preparedSet.GetRange(0, 5500);
 
             this.SuspendLayout();
 
-            CreateTree(preparedSet2);
+            //CreateTree(preparedSet2);
+            CreateTreeTurbo(preparedSet);
             EditTree(treeView1);
-
             this.ResumeLayout();
-        }       
+
+            inputCombobox.Font = new Font("Microsoft Sans Serif", 11);
+            inputCombobox.DropDownHeight = 300;
+            FillCombobox(FILE_PATH_PREFS);
+            inputCombobox.SelectedIndex = 0;
+            expandAllButton.Focus();
+        }
+
+        private void SufForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+
+
+        private void FillCombobox(string fileName)
+        {
+            StreamReader sr = File.OpenText(fileName);
+            String input;
+            List<string> prefixList = new List<string>();
+
+            while ((input = sr.ReadLine()) != null && input != "" && input != "\n" && input != "\r" && input != "\r\n")
+            {
+                prefixList.Add(input);
+            }
+
+            inputCombobox.Items.AddRange(prefixList.ToArray());
+        }
 
         public static List<List<string>> CreatePreparedAffixSetTurbo(List<string> affixSet)
         {
-            for (int i = 0; i < affixSet.Count; i++){
+            for (int i = 0; i < affixSet.Count; i++)
+            {
                 int separator = affixSet[i].IndexOf(SEPARATOR) + 2;
                 int end = affixSet[i].Count();
 
@@ -56,68 +89,54 @@ namespace RootSearch
 
             return list;
         }
-        /*
-        public static List<List<string>> CreatePreparedAffixSet(List<string> affixSet)
+
+        public void CreateTreeTurbo(List<List<string>> affixSet)
         {
-            List<List<string>> list = new List<List<string>>();
-
-            Pair pair;
-            foreach (var affix in affixSet)
-            {
-                pair = Pair.FromString(affix);
-                if (!pair.IsNoSuf())
-                {
-                    list.Add(pair.suffixies);
-                }
-            }
-
-            foreach (var affixEnviroment in list)
-            {
-                affixEnviroment.RemoveAll(x => x == "");
-                affixEnviroment.Add(END_SYMBOL);
-            }
-
-            return list;
-        }
-        */
-
-        public void CreateTree(List<List<string>> affixSet)
-        {            
+            TreeNode root = new TreeNode();
             foreach (var affixEnviroment in affixSet)
             {
-                TreeNode child = IfTreeContains(treeView1, affixEnviroment[0]);
-                if (child == null)
+                TreeNode tmpNode = root;
+                TreeNode prevNode = tmpNode;
+                int i = 0;
+                while (i < affixEnviroment.Count)
                 {
-                    TreeNode brunch = CreateBrunch(affixEnviroment);
-                    treeView1.Nodes.Add(brunch);
+                    prevNode = tmpNode;
+                    tmpNode = IfNodeContains(tmpNode, affixEnviroment[i]);
+                    if (tmpNode == null)
+                        break;
+                    i++;
                 }
-                else
-                {                   
-                    TreeNode tmpNode = child;
-                    TreeNode prevNode = tmpNode;
-                    int i = 1;
-                    while (i < affixEnviroment.Count)
-                    {
-                        prevNode = tmpNode;
-                        tmpNode = IfNodeContains(tmpNode, affixEnviroment[i]);
-                        if (tmpNode == null)
-                            break;
-                        i++;
-                    }
 
-                    if (i != affixEnviroment.Count) //если есть ещё суффиксы для вставки
-                    {
-                        affixEnviroment.RemoveRange(0, i);
-                        TreeNode brunch = CreateBrunch(affixEnviroment);
-                        prevNode.Nodes.Add(brunch);
-                    }
+                if (i != affixEnviroment.Count) //если есть ещё суффиксы для вставки
+                {
+                    affixEnviroment.RemoveRange(0, i);
+                    TreeNode brunch = CreateBrunch(affixEnviroment);
+                    prevNode.Nodes.Add(brunch);
                 }
+            }
+
+            foreach (TreeNode node in root.Nodes)
+            {
+                treeView1.Nodes.Add(node);
             }
         }
 
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
             treeView1.ExpandAll();
+        }
+
+        private void treeView1_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Node.IsExpanded)
+                e.Node.Collapse();
+            else
+                e.Node.Expand();
+        }
+
+        private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            e.Node.ExpandAll();
         }
     }
 }

@@ -137,7 +137,36 @@ namespace RootSearch
             }
 
             return new Pair(pref, suf);
-        }       
+        }
+
+        /*Пример:   без прИ по √ ьн 0 н ьн  */
+        public static Pair FromStringResized(string str)
+        {
+            List<string> pref = new List<string>();
+            List<string> suf = new List<string>();
+
+            str = str.Trim(' ');
+
+            var output = str.Split(SEPARATOR); //поделили на кусок приставок и кусок суффиксов
+
+            pref = output[0].Split(' ').ToList();
+            pref.RemoveAt(pref.Count - 1); //последний всегда пустой или ненужный
+
+            suf = output[1].Split(' ').ToList();
+            suf.RemoveAt(0); //первый всегда пустой или ненужный
+
+            if (pref.Count == 0)
+            {
+                pref = null;
+            }
+
+            if (suf.Count == 0)
+            {
+                suf = null;
+            }
+
+            return new Pair(pref, suf);
+        }
     }
 }
 

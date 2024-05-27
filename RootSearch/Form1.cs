@@ -30,7 +30,7 @@ namespace RootSearch
             // InitializeComboboxesSuf(ref comboBoxesPref, 4, 50);
             InitializeComboboxesSuf(ref comboBoxesSuf, 9, 150, ref labelsSuf);
             InitializeComboboxesPref(ref comboBoxesPref, 4, 50, ref labelsPref);
-            
+
             labelFilePath.Text = labelText + folderName;
 
             //TODO: test
@@ -43,16 +43,17 @@ namespace RootSearch
         private void Form1_Load(object sender, EventArgs e)
         {
             const string FILE_PATH_PREFS = "prefixes.txt";
-            const string FILE_PATH_SUFS = "suffixes.txt";    
-            
+            const string FILE_PATH_SUFS = "suffixes.txt";
+
+            PrepareComboboxForEnviroments();
             FillComboBoxes(FILE_PATH_PREFS, FILE_PATH_SUFS);
-           // FillComboBoxForEnviroment(FILE_PATH_ALL_AFFIX_ENVIROMENTS);
+            FillComboBoxForEnviroment(FILE_PATH_ALL_AFFIX_ENVIROMENTS);
 
             SetSelectedIndex();
             BlockComboBoxes();
             SetEvents();
             this.OpenFilesButton.Visible = true;
-         //   PrepareComboboxForEnviroments();
+            comboboxForEnviroments.SelectedIndex = 0;        
         }
 
         //Дописать + проверки аналогичные предыдущим комбобоксам
@@ -61,7 +62,6 @@ namespace RootSearch
             this.comboboxForEnviroments.Visible = true;
             comboboxForEnviroments.Font = new Font("Microsoft Sans Serif", 11);
             comboboxForEnviroments.DropDownHeight = 300;
-            comboboxForEnviroments.SelectedIndex = 0;
         }
 
         private void InitializeComboboxesSuf(ref List<System.Windows.Forms.ComboBox> comboBoxes, int size, int position, ref List<Label> labels)
@@ -89,10 +89,10 @@ namespace RootSearch
                 labels[j].Location = new System.Drawing.Point(45 + j * 85, position + 30);
                 labels[j].Size = new System.Drawing.Size(80, 200);
                 labels[j].Font = new Font("Microsoft Sans Serif", 11);
-                labels[j].Text = (j+1).ToString();
+                labels[j].Text = (j + 1).ToString();
                 Controls.Add(labels[j]);
 
-                j++;                
+                j++;
             }
         }
         //???
@@ -112,17 +112,17 @@ namespace RootSearch
             //0..3 or 4 = max count of prefix
             foreach (var combo in comboBoxes)
             {
-                combo.Location = new System.Drawing.Point(15 + (3-j) * 85, position);
+                combo.Location = new System.Drawing.Point(15 + (3 - j) * 85, position);
                 combo.Size = new System.Drawing.Size(80, 200);
                 combo.Font = new Font("Microsoft Sans Serif", 11);
                 combo.DropDownHeight = 300;
                 // comboBoxes[j].TabIndex = j;
                 Controls.Add(comboBoxes[j]);
 
-                labels[j].Location = new System.Drawing.Point(45 + (3-j) * 85, position + 30);
+                labels[j].Location = new System.Drawing.Point(45 + (3 - j) * 85, position + 30);
                 labels[j].Size = new System.Drawing.Size(80, 200);
                 labels[j].Font = new Font("Microsoft Sans Serif", 11);
-                labels[j].Text = (j+1).ToString();
+                labels[j].Text = (j + 1).ToString();
                 Controls.Add(labels[j]);
 
                 j++;
@@ -135,24 +135,31 @@ namespace RootSearch
             StreamReader sr = File.OpenText(fileEnv);
             String input = "<пусто>";
 
-            comboboxForEnviroments.Items.Add(input);
+            List<string> enviroments = new List<string>();
+            enviroments.Add(input);
+
             while ((input = sr.ReadLine()) != null && input != "" && input != "\n" && input != "\r" && input != "\r\n")
             {
-                comboboxForEnviroments.Items.Add(input);
+                enviroments.Add(input);
             }
+            comboboxForEnviroments.Items.AddRange(enviroments.ToArray());
         }
         private void FillComboBoxes(string filePref, string fileSuf)
         {
             StreamReader sr;
             String input;
 
+            List<string> prefixList = new List<string>();
+
             sr = File.OpenText(filePref);
             foreach (var combo in comboBoxesPref)
             {
-                while ((input = sr.ReadLine()) != null && input !="" && input != "\n" && input != "\r" && input != "\r\n")
+                while ((input = sr.ReadLine()) != null && input != "" && input != "\n" && input != "\r" && input != "\r\n")
                 {
-                    combo.Items.Add(input);
+                    prefixList.Add(input);
                 }
+                combo.Items.AddRange(prefixList.ToArray());
+                prefixList = new List<string>();
             }
 
             sr = File.OpenText(fileSuf);
@@ -160,8 +167,10 @@ namespace RootSearch
             {
                 while ((input = sr.ReadLine()) != null && input != "" && input != "\n" && input != "\r" && input != "\r\n")
                 {
-                    combo.Items.Add(input);
+                    prefixList.Add(input);
                 }
+                combo.Items.AddRange(prefixList.ToArray());
+                prefixList = new List<string>();
             }
         }
 
@@ -203,7 +212,7 @@ namespace RootSearch
                 combo.DropDown += new System.EventHandler(this.comboBox_DropDown);
                 combo.Enter += new System.EventHandler(this.comboBox_Enter);
             }
-        }        
+        }
 
         private void ColorComboboboxesWhite()
         {
@@ -225,7 +234,7 @@ namespace RootSearch
             if (IsPrefValid && IsSufValid)
             {
                 List<string> prefixes = ReadComboBoxes(comboBoxesPref);
-                if (prefixes!= null)
+                if (prefixes != null)
                     prefixes.Reverse();
 
                 List<string> suffixes = ReadComboBoxes(comboBoxesSuf);
@@ -327,7 +336,7 @@ namespace RootSearch
         {
             System.Windows.Forms.ComboBox combo = (System.Windows.Forms.ComboBox)sender;
 
-            int index = comboBoxesPref.IndexOf(combo);            
+            int index = comboBoxesPref.IndexOf(combo);
             if (index != -1 && index != comboBoxesPref.Count - 1)
             {
                 if (comboBoxesPref[index].SelectedIndex != 0 && comboBoxesPref[index].SelectedIndex != -1)
@@ -364,7 +373,7 @@ namespace RootSearch
             DialogResult result = openFileDialog1.ShowDialog();
             if (result == DialogResult.OK)
             {
-                fileNamesForSets = openFileDialog1.FileNames;                              
+                fileNamesForSets = openFileDialog1.FileNames;
                 textBoxOutput.Text = "";
                 textBoxOutput.Text = Set.FindMainSetIntersection(fileNamesForSets, folderName);
             }
@@ -384,7 +393,7 @@ namespace RootSearch
 
         private void buttonInputEnviroment_Click(object sender, EventArgs e)
         {
-            Pair inputPair = Pair.FromString(comboboxForEnviroments.Text);
+            Pair inputPair = Pair.FromStringResized(comboboxForEnviroments.Text);
 
             //!!!
             parser = new Parser("Words.txt", folderName);

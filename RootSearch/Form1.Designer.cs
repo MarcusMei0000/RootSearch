@@ -179,7 +179,7 @@ namespace RootSearch
             this.buttonInputEnviroment.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.buttonInputEnviroment.Location = new System.Drawing.Point(707, 273);
             this.buttonInputEnviroment.Name = "buttonInputEnviroment";
-            this.buttonInputEnviroment.Size = new System.Drawing.Size(311, 48);
+            this.buttonInputEnviroment.Size = new System.Drawing.Size(327, 48);
             this.buttonInputEnviroment.TabIndex = 14;
             this.buttonInputEnviroment.Text = "Ввод целого окружения";
             this.buttonInputEnviroment.UseVisualStyleBackColor = true;
