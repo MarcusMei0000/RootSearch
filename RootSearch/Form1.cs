@@ -388,7 +388,9 @@ namespace RootSearch
 
         private void prefFormButton_Click(object sender, EventArgs e)
         {
-
+            List<string> set = Streamer.CreateListFromFile(FILE_PATH_ALL_AFFIX_ENVIROMENTS);
+            PrefForm f2 = new PrefForm(set);
+            f2.ShowDialog();
         }
 
         private void buttonInputEnviroment_Click(object sender, EventArgs e)

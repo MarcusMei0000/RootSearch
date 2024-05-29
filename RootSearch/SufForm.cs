@@ -15,7 +15,7 @@ namespace RootSearch
 {
     public partial class SufForm : UniForm
     {
-        const string FILE_PATH_PREFS = "prefixes.txt";
+        const string FILE_PATH_SUFS = "suffixes.txt";
         List<string> AFFIX_SET = new List<string>();
         public SufForm()
         {
@@ -39,7 +39,7 @@ namespace RootSearch
 
             inputCombobox.Font = new Font("Microsoft Sans Serif", 11);
             inputCombobox.DropDownHeight = 300;
-            FillCombobox(FILE_PATH_PREFS);
+            FillCombobox(FILE_PATH_SUFS);
             inputCombobox.SelectedIndex = 0;
             expandAllButton.Focus();
         }
