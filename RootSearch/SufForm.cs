@@ -138,5 +138,17 @@ namespace RootSearch
         {
             e.Node.ExpandAll();
         }
+
+        private void inputCombobox_SelectedValueChanged(object sender, EventArgs e)
+        {
+            foreach (TreeNode node in treeView1.Nodes)
+            {
+                if (node.Text == inputCombobox.Text)
+                {
+                    node.ExpandAll();
+                    break;
+                }
+            }
+        }
     }
 }

@@ -65,6 +65,7 @@
             this.inputCombobox.Name = "inputCombobox";
             this.inputCombobox.Size = new System.Drawing.Size(475, 37);
             this.inputCombobox.TabIndex = 12;
+            this.inputCombobox.SelectedValueChanged += new System.EventHandler(this.inputCombobox_SelectedValueChanged);
             // 
             // expandAllButton
             // 
