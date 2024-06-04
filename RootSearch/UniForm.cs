@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -52,15 +53,28 @@ namespace RootSearch
             }
         }
 
-        public TreeNode IfTreeContains(TreeView tree, string str)
+        public void PrintTree(TreeView treeView)
         {
-            for (int i = 0; i <= tree.Nodes.Count - 1; i++)
+            StringBuilder sb = new StringBuilder();
+            StreamWriter streamWriter = new StreamWriter("TREETEST.txt", false);
+            for (int i=0; i < 15; i++)
+          //  foreach (TreeNode node in treeView.Nodes)
             {
-                if (tree.Nodes[i].Text == str)
-                    return tree.Nodes[i];
+                RecursiveTreeTraversal(treeView.Nodes[i], sb, streamWriter);
             }
 
-            return null;
+        }
+
+        private void RecursiveTreeTraversal(TreeNode treeNode, StringBuilder sb, StreamWriter streamWriter)
+        {
+            sb.Append(treeNode.ToString());
+            foreach (TreeNode node in treeNode.Nodes)
+            {
+                sb.Append(node.Text);
+                sb.Append(" ");
+                RecursiveTreeTraversal(node);
+                streamWriter.WriteLine(sb.ToString());
+            }
         }
 
         public TreeNode IfNodeContains(TreeNode node, string str)

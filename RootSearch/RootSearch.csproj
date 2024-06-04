@@ -149,6 +149,12 @@
   <ItemGroup>
     <Compile Include="AllAffixEnvironments.cs" />
     <Compile Include="ExtractRoot.cs" />
+    <Compile Include="FormTimer.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormTimer.Designer.cs">
+      <DependentUpon>FormTimer.cs</DependentUpon>
+    </Compile>
     <Compile Include="SufForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -176,7 +182,6 @@
     <Compile Include="Set.cs" />
     <Compile Include="StatisticsAffixEnvironment.cs" />
     <Compile Include="Streamer.cs" />
-    <Compile Include="TreeAffixNodeCreator.cs" />
     <Compile Include="UniForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -186,6 +191,9 @@
     <Compile Include="Word.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormTimer.resx">
+      <DependentUpon>FormTimer.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PrefForm.resx">
       <DependentUpon>PrefForm.cs</DependentUpon>
@@ -201,6 +209,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

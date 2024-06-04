@@ -191,7 +191,7 @@ namespace RootSearch
                 sb.Append(tmp.Substring(0, tmp.Length - 4));
                 sb.Append('_');
             }
-            sb.Remove(sb.Length - 2, sb.Length - 1);
+            sb.Remove(sb.Length - 1, 1);
 
             while (File.Exists(sb + EXTENSION))
                 sb.Append('1');

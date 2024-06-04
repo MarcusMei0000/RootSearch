@@ -50,6 +50,7 @@ namespace RootSearch
             this.prefFormButton = new System.Windows.Forms.Button();
             this.sufFormButton = new System.Windows.Forms.Button();
             this.buttonInputEnviroment = new System.Windows.Forms.Button();
+            this.labelHelper = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderPrefix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderSuffix)).BeginInit();
             this.SuspendLayout();
@@ -67,7 +68,7 @@ namespace RootSearch
             // buttonInput
             // 
             this.buttonInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonInput.Location = new System.Drawing.Point(707, 349);
+            this.buttonInput.Location = new System.Drawing.Point(576, 274);
             this.buttonInput.Name = "buttonInput";
             this.buttonInput.Size = new System.Drawing.Size(112, 48);
             this.buttonInput.TabIndex = 4;
@@ -122,7 +123,7 @@ namespace RootSearch
             // 
             this.labelFilePath.AutoSize = true;
             this.labelFilePath.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelFilePath.Location = new System.Drawing.Point(816, 87);
+            this.labelFilePath.Location = new System.Drawing.Point(813, 87);
             this.labelFilePath.Name = "labelFilePath";
             this.labelFilePath.Size = new System.Drawing.Size(322, 29);
             this.labelFilePath.TabIndex = 9;
@@ -141,16 +142,16 @@ namespace RootSearch
             // 
             // openFileDialog1
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
             this.openFileDialog1.Multiselect = true;
             // 
             // comboboxForEnviroments
             // 
             this.comboboxForEnviroments.FormattingEnabled = true;
-            this.comboboxForEnviroments.Location = new System.Drawing.Point(18, 273);
+            this.comboboxForEnviroments.Location = new System.Drawing.Point(12, 352);
             this.comboboxForEnviroments.Name = "comboboxForEnviroments";
-            this.comboboxForEnviroments.Size = new System.Drawing.Size(670, 24);
+            this.comboboxForEnviroments.Size = new System.Drawing.Size(568, 24);
             this.comboboxForEnviroments.TabIndex = 11;
+            this.comboboxForEnviroments.Enter += new System.EventHandler(this.comboboxForEnviroments_Enter);
             // 
             // prefFormButton
             // 
@@ -177,7 +178,7 @@ namespace RootSearch
             // buttonInputEnviroment
             // 
             this.buttonInputEnviroment.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonInputEnviroment.Location = new System.Drawing.Point(707, 273);
+            this.buttonInputEnviroment.Location = new System.Drawing.Point(586, 349);
             this.buttonInputEnviroment.Name = "buttonInputEnviroment";
             this.buttonInputEnviroment.Size = new System.Drawing.Size(327, 48);
             this.buttonInputEnviroment.TabIndex = 14;
@@ -185,11 +186,23 @@ namespace RootSearch
             this.buttonInputEnviroment.UseVisualStyleBackColor = true;
             this.buttonInputEnviroment.Click += new System.EventHandler(this.buttonInputEnviroment_Click);
             // 
+            // labelHelper
+            // 
+            this.labelHelper.AutoSize = true;
+            this.labelHelper.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelHelper.Location = new System.Drawing.Point(1384, 20);
+            this.labelHelper.Name = "labelHelper";
+            this.labelHelper.Size = new System.Drawing.Size(134, 29);
+            this.labelHelper.TabIndex = 15;
+            this.labelHelper.Text = "СПРАВКА";
+            this.labelHelper.Click += new System.EventHandler(this.labelHelper_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1530, 526);
+            this.ClientSize = new System.Drawing.Size(1582, 526);
+            this.Controls.Add(this.labelHelper);
             this.Controls.Add(this.buttonInputEnviroment);
             this.Controls.Add(this.sufFormButton);
             this.Controls.Add(this.prefFormButton);
@@ -235,6 +248,7 @@ namespace RootSearch
         private Button prefFormButton;
         private Button sufFormButton;
         private Button buttonInputEnviroment;
+        private Label labelHelper;
     }
 }
 

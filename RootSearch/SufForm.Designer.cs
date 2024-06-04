@@ -32,6 +32,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.inputCombobox = new System.Windows.Forms.ComboBox();
             this.expandAllButton = new System.Windows.Forms.Button();
+            this.labelHelper = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // treeView1
@@ -76,11 +77,24 @@
             this.expandAllButton.TabIndex = 13;
             this.expandAllButton.Text = "Раскрыть все узлы";
             this.expandAllButton.UseVisualStyleBackColor = true;
+            this.expandAllButton.Click += new System.EventHandler(this.expandAllButton_Click);
+            // 
+            // labelHelper
+            // 
+            this.labelHelper.AutoSize = true;
+            this.labelHelper.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.labelHelper.Location = new System.Drawing.Point(681, 433);
+            this.labelHelper.MaximumSize = new System.Drawing.Size(800, 0);
+            this.labelHelper.Name = "labelHelper";
+            this.labelHelper.Size = new System.Drawing.Size(79, 29);
+            this.labelHelper.TabIndex = 14;
+            this.labelHelper.Text = "label2";
             // 
             // SufForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.ClientSize = new System.Drawing.Size(1530, 903);
+            this.Controls.Add(this.labelHelper);
             this.Controls.Add(this.expandAllButton);
             this.Controls.Add(this.inputCombobox);
             this.Controls.Add(this.label1);
@@ -88,6 +102,7 @@
             this.Name = "SufForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Суффиксальные окружения";
+            this.Load += new System.EventHandler(this.SufForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -99,5 +114,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox inputCombobox;
         private System.Windows.Forms.Button expandAllButton;
+        private System.Windows.Forms.Label labelHelper;
     }
 }

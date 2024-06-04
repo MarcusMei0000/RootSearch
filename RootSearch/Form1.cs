@@ -13,12 +13,19 @@ namespace RootSearch
         const string FILE_PATH_PREF = "prefix.txt";
         const string FILE_PATH_SUF = "suffix.txt";
         const string FILE_PATH_ALL_AFFIX_ENVIROMENTS = "allAffixEnviroment.txt";
+        string HELP_STR = "Последовательно ВЫБИРАЙТЕ из выпадающих списков без пропусков. Набор символов существует исключительно для поиска. Затем нажмите кнопку Ввод." 
+            + Environment.NewLine + "Ввод целого окружения независим. Выбирайте из выпадающего списка. Значок корня можно скопировать из любой выбранной строки. Затем нажмите кнопку Ввод целого окружения."
+            + Environment.NewLine + "В окне Найти пересечение множеств выбирайте файлы с помощью ЛКМ+Shift или ЛКМ+Ctrl.";
 
 
         string[] fileNamesForSets = null;
 
         string labelText = "Текущая папка для сохранения" + Environment.NewLine;
         string folderName = AppDomain.CurrentDomain.BaseDirectory;
+
+
+        SufForm sufForm = new SufForm();
+        PrefForm prefForm = new PrefForm();
 
         Parser parser;
 
@@ -27,7 +34,6 @@ namespace RootSearch
         public Form1()
         {
             InitializeComponent();
-            // InitializeComboboxesSuf(ref comboBoxesPref, 4, 50);
             InitializeComboboxesSuf(ref comboBoxesSuf, 9, 150, ref labelsSuf);
             InitializeComboboxesPref(ref comboBoxesPref, 4, 50, ref labelsPref);
 
@@ -53,7 +59,10 @@ namespace RootSearch
             BlockComboBoxes();
             SetEvents();
             this.OpenFilesButton.Visible = true;
-            comboboxForEnviroments.SelectedIndex = 0;        
+            comboboxForEnviroments.SelectedIndex = 0;
+            //helpProvider1.SetHelpString(labelHelper, HELP_STR);
+            //helpProvider1.SetShowHelp(labelHelper, true);
+            //toolTip1.SetToolTip(labelHelper, HELP_STR);
         }
 
         //Дописать + проверки аналогичные предыдущим комбобоксам
@@ -95,7 +104,7 @@ namespace RootSearch
                 j++;
             }
         }
-        //???
+
         private void InitializeComboboxesPref(ref List<System.Windows.Forms.ComboBox> comboBoxes, int size, int position, ref List<Label> labels)
         {
             comboBoxes = new List<System.Windows.Forms.ComboBox>();
@@ -133,15 +142,14 @@ namespace RootSearch
         private void FillComboBoxForEnviroment(string fileEnv)
         {
             StreamReader sr = File.OpenText(fileEnv);
-            String input = "<пусто>";
-
+            String input;
             List<string> enviroments = new List<string>();
-            enviroments.Add(input);
 
             while ((input = sr.ReadLine()) != null && input != "" && input != "\n" && input != "\r" && input != "\r\n")
             {
-                enviroments.Add(input);
+                enviroments.Add(input.Trim(' '));
             }
+            enviroments.Sort();
             comboboxForEnviroments.Items.AddRange(enviroments.ToArray());
         }
         private void FillComboBoxes(string filePref, string fileSuf)
@@ -256,7 +264,7 @@ namespace RootSearch
         }
 
 
-        //Пользователь обязан выбрать извыпадающих списков, а не вводить.
+        //Пользователь обязан выбрать из выпадающих списков, а не вводить.
         private bool IsComboboxesFilled(List<System.Windows.Forms.ComboBox> comboBoxes)
         {
             bool isValid = true;
@@ -360,6 +368,7 @@ namespace RootSearch
         private void buttonChooseFilePath_Click(object sender, EventArgs e)
         {
             DialogResult result = folderBrowserDialog1.ShowDialog();
+           
             if (result == DialogResult.OK)
             {
                 folderName = folderBrowserDialog1.SelectedPath;
@@ -381,33 +390,55 @@ namespace RootSearch
 
         private void sufFormButton_Click(object sender, EventArgs e)
         {
+
             List<string> set = Streamer.CreateListFromFile(FILE_PATH_ALL_AFFIX_ENVIROMENTS);
-            SufForm f2 = new SufForm(set);
-            f2.ShowDialog();
+            sufForm = new SufForm(set);
+            sufForm.Show();
         }
 
         private void prefFormButton_Click(object sender, EventArgs e)
         {
             List<string> set = Streamer.CreateListFromFile(FILE_PATH_ALL_AFFIX_ENVIROMENTS);
-            PrefForm f2 = new PrefForm(set);
-            f2.ShowDialog();
+            prefForm = new PrefForm(set);
+            prefForm.Show();
+        }
+
+        private void prefFromFocus()
+        {
+            prefForm.Focus();
+        }
+
+        private void sufFormFocus()
+        {
+            sufForm.Focus();
         }
 
         private void buttonInputEnviroment_Click(object sender, EventArgs e)
+        {            
+            if (comboboxForEnviroments.SelectedIndex == -1)
+                MessageBox.Show("Некорректный ввод данных!");
+            else
+            {
+                Pair inputPair = Pair.FromStringResized(comboboxForEnviroments.Text);
+
+                parser = new Parser(FILE_PATH, folderName);
+
+                string[] filePathes = parser.CreateMainFiles(inputPair.prefixes, inputPair.suffixies);
+
+                textBoxOutput.Text = "";
+                foreach (string s in filePathes)
+                    textBoxOutput.Text += s + Environment.NewLine;
+            }            
+        }
+
+        private void comboboxForEnviroments_Enter(object sender, EventArgs e)
         {
-            Pair inputPair = Pair.FromStringResized(comboboxForEnviroments.Text);
+            comboboxForEnviroments.SelectedIndex = -1;
+        }
 
-            //!!!
-            parser = new Parser("Words.txt", folderName);
-            //parser = new Parser(FILE_PATH, folderName);
-
-            string[] filePathes = parser.CreateMainFiles(inputPair.prefixes, inputPair.suffixies);
-
-            textBoxOutput.Text = "";
-            foreach (string s in filePathes)
-                textBoxOutput.Text += s + Environment.NewLine;
-
-            //MessageBox.Show("Некорректный ввод данных!");
+        private void labelHelper_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(HELP_STR);
         }
     }
 }

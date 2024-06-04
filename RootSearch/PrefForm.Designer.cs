@@ -28,10 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.treeView1 = new System.Windows.Forms.TreeView();
             this.label1 = new System.Windows.Forms.Label();
             this.inputCombobox = new System.Windows.Forms.ComboBox();
             this.expandAllButton = new System.Windows.Forms.Button();
+            this.labelHelper = new System.Windows.Forms.Label();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // treeView1
@@ -42,7 +45,7 @@
             this.treeView1.Location = new System.Drawing.Point(12, 12);
             this.treeView1.Name = "treeView1";
             this.treeView1.ShowRootLines = false;
-            this.treeView1.Size = new System.Drawing.Size(624, 750);
+            this.treeView1.Size = new System.Drawing.Size(624, 736);
             this.treeView1.TabIndex = 0;
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
@@ -53,9 +56,9 @@
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.Location = new System.Drawing.Point(676, 32);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(432, 29);
+            this.label1.Size = new System.Drawing.Size(448, 29);
             this.label1.TabIndex = 10;
-            this.label1.Text = "Выберите первый суффикс цепочки";
+            this.label1.Text = "Выберите первую приставку цепочки";
             // 
             // inputCombobox
             // 
@@ -78,17 +81,31 @@
             this.expandAllButton.UseVisualStyleBackColor = true;
             this.expandAllButton.Click += new System.EventHandler(this.expandAllButton_Click);
             // 
+            // labelHelper
+            // 
+            this.labelHelper.AutoSize = true;
+            this.labelHelper.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F);
+            this.labelHelper.Location = new System.Drawing.Point(676, 444);
+            this.labelHelper.MaximumSize = new System.Drawing.Size(800, 0);
+            this.labelHelper.Name = "labelHelper";
+            this.labelHelper.Size = new System.Drawing.Size(79, 29);
+            this.labelHelper.TabIndex = 14;
+            this.labelHelper.Text = "label2";
+            // 
             // PrefForm
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(1530, 903);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1530, 760);
+            this.Controls.Add(this.labelHelper);
             this.Controls.Add(this.expandAllButton);
             this.Controls.Add(this.inputCombobox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.treeView1);
             this.Name = "PrefForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Суффиксальные окружения";
+            this.Text = "Приставочные окружения";
+            this.Load += new System.EventHandler(this.PrefForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -100,5 +117,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox inputCombobox;
         private System.Windows.Forms.Button expandAllButton;
+        private System.Windows.Forms.Label labelHelper;
+        private System.Windows.Forms.Timer timer1;
     }
 }

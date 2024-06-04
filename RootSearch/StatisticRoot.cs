@@ -92,6 +92,5 @@ namespace RootSearch
             streamWriter.Close();
             streamReader.Close();
         }
-
     }
 }
