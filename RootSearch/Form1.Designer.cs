@@ -201,7 +201,7 @@ namespace RootSearch
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1582, 526);
+            this.ClientSize = new System.Drawing.Size(1782, 526);
             this.Controls.Add(this.labelHelper);
             this.Controls.Add(this.buttonInputEnviroment);
             this.Controls.Add(this.sufFormButton);
@@ -214,6 +214,7 @@ namespace RootSearch
             this.Controls.Add(this.labelPrefix);
             this.Controls.Add(this.textBoxOutput);
             this.Controls.Add(this.buttonInput);
+            this.MinimumSize = new System.Drawing.Size(1800, 0);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Классификация корней русского языка";

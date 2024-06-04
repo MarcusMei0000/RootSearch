@@ -47,9 +47,8 @@ namespace RootSearch
 
             inputCombobox.Font = new Font("Microsoft Sans Serif", 11);
             inputCombobox.DropDownHeight = 300;
-           // Assembly assembly = Assembly.GetExecutingAssembly();
-          //  assembly.GetManifestResourceStream(FILE_PATH_PREFS).ToString()
-            FillCombobox(FILE_PATH_PREFS);
+            FillCombobox();
+            //FillCombobox(FILE_PATH_PREFS);
             inputCombobox.SelectedIndex = 0;
             expandAllButton.Focus();
 
@@ -60,9 +59,9 @@ namespace RootSearch
             //PrintTree(treeView1);
         }
 
-      /*  private void FillCombobox(Stream fileName)
+        private void FillCombobox()
         {
-            StreamReader sr = File.OpenText(fileName);
+            StreamReader sr = new StreamReader(Properties.Resources.prefixes);
             String input;
             List<string> prefixList = new List<string>();
 
@@ -72,7 +71,7 @@ namespace RootSearch
             }
 
             inputCombobox.Items.AddRange(prefixList.ToArray());
-        }*/
+        }
 
 
         private void FillCombobox(string fileName)

@@ -61,11 +61,11 @@ namespace RootSearch.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на .
+        ///   Ищет локализованную строку, похожую на prefixes.txt.
         /// </summary>
-        internal static string prefixes_txt {
+        internal static string prefixes {
             get {
-                return ResourceManager.GetString("prefixes.txt", resourceCulture);
+                return ResourceManager.GetString("prefixes", resourceCulture);
             }
         }
     }

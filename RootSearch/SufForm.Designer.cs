@@ -43,7 +43,7 @@
             this.treeView1.Location = new System.Drawing.Point(12, 12);
             this.treeView1.Name = "treeView1";
             this.treeView1.ShowRootLines = false;
-            this.treeView1.Size = new System.Drawing.Size(624, 750);
+            this.treeView1.Size = new System.Drawing.Size(624, 736);
             this.treeView1.TabIndex = 0;
             this.treeView1.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseClick);
             this.treeView1.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView1_NodeMouseDoubleClick);
@@ -92,8 +92,9 @@
             // 
             // SufForm
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
-            this.ClientSize = new System.Drawing.Size(1530, 903);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(1530, 760);
             this.Controls.Add(this.labelHelper);
             this.Controls.Add(this.expandAllButton);
             this.Controls.Add(this.inputCombobox);
