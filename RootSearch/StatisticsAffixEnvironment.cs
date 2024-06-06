@@ -14,7 +14,7 @@ namespace RootSearch
     public class StatisticsAffixEnvironment
     {
         static StreamReader streamReader;
-        const string FILE_PATH = "Words.txt";
+       // const string FILE_PATH = "Words.txt";
         static string folderName = AppDomain.CurrentDomain.BaseDirectory;
     }
 }

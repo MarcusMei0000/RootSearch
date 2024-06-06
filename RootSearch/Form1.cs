@@ -42,6 +42,7 @@ namespace RootSearch
             //TODO: test
             //ParserAffix pars = new ParserAffix();
             // StatisticRoot.CreateMainFiles();
+            //AllAffixEnvironments.Main();
 
             int a = 0;
         }
@@ -52,8 +53,8 @@ namespace RootSearch
             const string FILE_PATH_SUFS = "suffixes.txt";
 
             PrepareComboboxForEnviroments();
-            FillComboBoxes(FILE_PATH_PREFS, FILE_PATH_SUFS);
-            FillComboBoxForEnviroment(FILE_PATH_ALL_AFFIX_ENVIROMENTS);
+            FillComboBoxes(Properties.Resources.prefixes, Properties.Resources.suffixes);
+            FillComboBoxForEnviroment(Properties.Resources.allAffixEnviroment);
 
             SetSelectedIndex();
             BlockComboBoxes();
@@ -150,6 +151,9 @@ namespace RootSearch
                 enviroments.Add(input.Trim(' '));
             }
             enviroments.Sort();
+
+            //Streamer.Print(enviroments, new StreamWriter("все окружения в алфавитном порядке.txt"));
+
             comboboxForEnviroments.Items.AddRange(enviroments.ToArray());
         }
         private void FillComboBoxes(string filePref, string fileSuf)

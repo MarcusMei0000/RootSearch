@@ -117,7 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="allAffixEnviroment" xml:space="preserve">
+    <value>allAffixEnviroment.txt</value>
+  </data>
+  <data name="enclictic" xml:space="preserve">
+    <value>enclictic.txt</value>
+  </data>
+  <data name="prefix" xml:space="preserve">
+    <value>prefix.txt</value>
+  </data>
   <data name="prefixes" xml:space="preserve">
     <value>prefixes.txt</value>
+  </data>
+  <data name="proclictic" xml:space="preserve">
+    <value>proclictic.txt</value>
+  </data>
+  <data name="suffix" xml:space="preserve">
+    <value>suffix.txt</value>
+  </data>
+  <data name="suffixes" xml:space="preserve">
+    <value>suffixes.txt</value>
+  </data>
+  <data name="Words" xml:space="preserve">
+    <value>Words.txt</value>
   </data>
 </root>

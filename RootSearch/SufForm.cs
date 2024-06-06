@@ -41,7 +41,7 @@ namespace RootSearch
 
             inputCombobox.Font = new Font("Microsoft Sans Serif", 11);
             inputCombobox.DropDownHeight = 300;
-            FillCombobox(FILE_PATH_SUFS);
+            FillCombobox(Properties.Resources.suffixes);
             inputCombobox.SelectedIndex = 0;
             expandAllButton.Focus();
 
@@ -55,7 +55,7 @@ namespace RootSearch
 
         private void FillCombobox(string fileName)
         {
-            StreamReader sr = File.OpenText(fileName);
+            StreamReader sr = new StreamReader(Properties.Resources.suffixes);
             String input;
             List<string> prefixList = new List<string>();
 
@@ -88,6 +88,10 @@ namespace RootSearch
                 tmp.Add(END_SYMBOL);
                 list.Add(tmp);
             }
+
+
+
+            //Streamer.Print(tmpIEnumerable, new StreamWriter("все суффиксальные окружения в алфавитном порядке.txt"));
 
             return list;
         }

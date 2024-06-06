@@ -47,7 +47,7 @@ namespace RootSearch
 
             inputCombobox.Font = new Font("Microsoft Sans Serif", 11);
             inputCombobox.DropDownHeight = 300;
-            FillCombobox();
+            FillCombobox(Properties.Resources.prefixes);
             //FillCombobox(FILE_PATH_PREFS);
             inputCombobox.SelectedIndex = 0;
             expandAllButton.Focus();
@@ -59,9 +59,9 @@ namespace RootSearch
             //PrintTree(treeView1);
         }
 
-        private void FillCombobox()
+        private void FillCombobox(string filePath)
         {
-            StreamReader sr = new StreamReader(Properties.Resources.prefixes);
+            StreamReader sr = new StreamReader(filePath);
             String input;
             List<string> prefixList = new List<string>();
 
@@ -73,20 +73,6 @@ namespace RootSearch
             inputCombobox.Items.AddRange(prefixList.ToArray());
         }
 
-
-        private void FillCombobox(string fileName)
-        {
-            StreamReader sr = File.OpenText(fileName);
-            String input;
-            List<string> prefixList = new List<string>();
-
-            while ((input = sr.ReadLine()) != null && input != "" && input != "\n" && input != "\r" && input != "\r\n")
-            {
-                prefixList.Add(input);
-            }
-
-            inputCombobox.Items.AddRange(prefixList.ToArray());
-        }
 
         public static List<List<string>> CreatePreparedAffixSetTurbo(List<string> affixSet)
         {
@@ -108,7 +94,7 @@ namespace RootSearch
                 list.Add(tmp);
             }
 
-            Streamer.Print(tmpIEnumerable, new StreamWriter("AFFIXENV.txt"));
+            //Streamer.Print(tmpIEnumerable, new StreamWriter("все приставочные окружения в алфавитном порядке.txt"));
 
             return list;
         }

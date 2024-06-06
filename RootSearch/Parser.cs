@@ -38,8 +38,8 @@ namespace RootSearch
         {
             this.filePath = filePath;
             this.folderName = folderName;
-            proclitic = Streamer.CreateListFromFile(PROCLITIC_PATH);
-            enclitic = Streamer.CreateListFromFile(ENCLITIC_PATH);
+            proclitic = Streamer.CreateListFromFile(Properties.Resources.proclictic);
+            enclitic = Streamer.CreateListFromFile(Properties.Resources.enclictic);
         }
 
         private bool IsProclitic(Word w)
@@ -61,7 +61,7 @@ namespace RootSearch
         {
             if (word != null && !IsProclitic(word) && !IsEnclitic(word))
             {
-                if (word.IsClassifiedPreffixes(prefixes) && word.IsClassifiedSuffixes(suffixies) )
+                if (word.IsClassifiedPreffixes(prefixes) && word.IsClassifiedSuffixes(suffixies))
                 {
                     setYes.Add(word.ToStringRoot());
                 }
@@ -88,7 +88,7 @@ namespace RootSearch
         }
 
         private List<string> ParseFileWithoutAffix(out List<string> setNoComplimentary)
-        {            
+        {
             List<string> setYes = new List<string>();
             List<string> setNo = new List<string>();
             string remainder = null, fullWord = null, transcription = null;
@@ -139,8 +139,8 @@ namespace RootSearch
 
             setNoComplimentary = setNo;
             return setYes;
-        }        
-        
+        }
+
         private List<string> ClassifyWordsFromFile(List<string> prefixes, List<string> suffixies, out List<string> setNoComplimentary)
         {
             setNoComplimentary = new List<string>();
@@ -246,7 +246,7 @@ namespace RootSearch
                 new Word(fullWord, transcripton, prefixes, root, suffixes, word.Substring(word.IndexOf('_'), word.Length - word.IndexOf('_')));
         }
 
-        
+
         public static Word ParseStringIntoWords(string word, out string secondRootWord, ref string fullWord, ref string transcription)
         {
             string firstRootWord;
@@ -255,16 +255,11 @@ namespace RootSearch
             transcription = pieces.Length >= 2 ? pieces[2] : transcription;
             string part = pieces.Length >= 2 ? pieces[2] : pieces[0];
 
-            if (part.Contains(' '))
-            {
-                firstRootWord = part.Substring(0, part.IndexOf(' '));
-                secondRootWord = part.Substring(part.IndexOf(' ') + 1, part.Length - part.IndexOf(' ') - 1);
-                return ParsePartWord(firstRootWord, fullWord, transcription);
-            }
-            else if (part.Contains('['))
+
+            if (part.Contains('['))
             {
                 firstRootWord = part.Substring(0, part.IndexOf('['));
-                secondRootWord = part.Substring(part.IndexOf('[') + 2, part.Length - part.IndexOf('[') - 2);
+                secondRootWord = part.Substring(part.IndexOf('[') + 3, part.Length - part.IndexOf('[') - 3);
                 return ParsePartWord(firstRootWord, fullWord, transcription);
             }
             else if (part.Contains('{'))
@@ -279,6 +274,12 @@ namespace RootSearch
                 secondRootWord = part.Substring(part.IndexOf('|') + 1, part.Length - part.IndexOf('|') - 1);
                 if (secondRootWord[0] == '_' || secondRootWord[0] == '=')
                     secondRootWord = null;
+                return ParsePartWord(firstRootWord, fullWord, transcription);
+            }
+            else if (part.Contains(' '))
+            {
+                firstRootWord = part.Substring(0, part.IndexOf(' '));
+                secondRootWord = part.Substring(part.IndexOf(' ') + 1, part.Length - part.IndexOf(' ') - 1);
                 return ParsePartWord(firstRootWord, fullWord, transcription);
             }
             else

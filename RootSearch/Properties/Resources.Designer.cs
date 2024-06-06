@@ -61,11 +61,74 @@ namespace RootSearch.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на allAffixEnviroment.txt.
+        /// </summary>
+        internal static string allAffixEnviroment {
+            get {
+                return ResourceManager.GetString("allAffixEnviroment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на enclictic.txt.
+        /// </summary>
+        internal static string enclictic {
+            get {
+                return ResourceManager.GetString("enclictic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на prefix.txt.
+        /// </summary>
+        internal static string prefix {
+            get {
+                return ResourceManager.GetString("prefix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на prefixes.txt.
         /// </summary>
         internal static string prefixes {
             get {
                 return ResourceManager.GetString("prefixes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на proclictic.txt.
+        /// </summary>
+        internal static string proclictic {
+            get {
+                return ResourceManager.GetString("proclictic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на suffix.txt.
+        /// </summary>
+        internal static string suffix {
+            get {
+                return ResourceManager.GetString("suffix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на suffixes.txt.
+        /// </summary>
+        internal static string suffixes {
+            get {
+                return ResourceManager.GetString("suffixes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на Words.txt.
+        /// </summary>
+        internal static string Words {
+            get {
+                return ResourceManager.GetString("Words", resourceCulture);
             }
         }
     }
