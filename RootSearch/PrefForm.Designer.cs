@@ -35,6 +35,7 @@
             this.expandAllButton = new System.Windows.Forms.Button();
             this.labelHelper = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // treeView1
@@ -92,11 +93,24 @@
             this.labelHelper.TabIndex = 14;
             this.labelHelper.Text = "label2";
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.checkBox1.Location = new System.Drawing.Point(1178, 78);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(286, 33);
+            this.checkBox1.TabIndex = 15;
+            this.checkBox1.Text = "Алфавитный порядок";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // PrefForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1530, 760);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.labelHelper);
             this.Controls.Add(this.expandAllButton);
             this.Controls.Add(this.inputCombobox);
@@ -119,5 +133,6 @@
         private System.Windows.Forms.Button expandAllButton;
         private System.Windows.Forms.Label labelHelper;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

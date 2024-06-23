@@ -51,6 +51,10 @@ namespace RootSearch
             this.sufFormButton = new System.Windows.Forms.Button();
             this.buttonInputEnviroment = new System.Windows.Forms.Button();
             this.labelHelper = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.checkBox2 = new System.Windows.Forms.CheckBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderPrefix)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderSuffix)).BeginInit();
             this.SuspendLayout();
@@ -68,9 +72,9 @@ namespace RootSearch
             // buttonInput
             // 
             this.buttonInput.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonInput.Location = new System.Drawing.Point(576, 274);
+            this.buttonInput.Location = new System.Drawing.Point(576, 219);
             this.buttonInput.Name = "buttonInput";
-            this.buttonInput.Size = new System.Drawing.Size(112, 48);
+            this.buttonInput.Size = new System.Drawing.Size(119, 49);
             this.buttonInput.TabIndex = 4;
             this.buttonInput.Text = "Ввод";
             this.buttonInput.UseVisualStyleBackColor = true;
@@ -80,7 +84,7 @@ namespace RootSearch
             // 
             this.textBoxOutput.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.textBoxOutput.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBoxOutput.Location = new System.Drawing.Point(12, 413);
+            this.textBoxOutput.Location = new System.Drawing.Point(12, 426);
             this.textBoxOutput.Multiline = true;
             this.textBoxOutput.Name = "textBoxOutput";
             this.textBoxOutput.ReadOnly = true;
@@ -102,7 +106,7 @@ namespace RootSearch
             // 
             this.labelSuffix.AutoSize = true;
             this.labelSuffix.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelSuffix.Location = new System.Drawing.Point(12, 139);
+            this.labelSuffix.Location = new System.Drawing.Point(6, 101);
             this.labelSuffix.Name = "labelSuffix";
             this.labelSuffix.Size = new System.Drawing.Size(689, 36);
             this.labelSuffix.TabIndex = 7;
@@ -132,9 +136,9 @@ namespace RootSearch
             // OpenFilesButton
             // 
             this.OpenFilesButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.OpenFilesButton.Location = new System.Drawing.Point(1092, 219);
+            this.OpenFilesButton.Location = new System.Drawing.Point(1226, 157);
             this.OpenFilesButton.Name = "OpenFilesButton";
-            this.OpenFilesButton.Size = new System.Drawing.Size(225, 103);
+            this.OpenFilesButton.Size = new System.Drawing.Size(292, 103);
             this.OpenFilesButton.TabIndex = 10;
             this.OpenFilesButton.Text = "Найти пересечение множеств";
             this.OpenFilesButton.UseVisualStyleBackColor = true;
@@ -147,16 +151,16 @@ namespace RootSearch
             // comboboxForEnviroments
             // 
             this.comboboxForEnviroments.FormattingEnabled = true;
-            this.comboboxForEnviroments.Location = new System.Drawing.Point(12, 352);
+            this.comboboxForEnviroments.Location = new System.Drawing.Point(12, 298);
             this.comboboxForEnviroments.Name = "comboboxForEnviroments";
-            this.comboboxForEnviroments.Size = new System.Drawing.Size(568, 24);
+            this.comboboxForEnviroments.Size = new System.Drawing.Size(557, 24);
             this.comboboxForEnviroments.TabIndex = 11;
             this.comboboxForEnviroments.Enter += new System.EventHandler(this.comboboxForEnviroments_Enter);
             // 
             // prefFormButton
             // 
             this.prefFormButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.prefFormButton.Location = new System.Drawing.Point(921, 349);
+            this.prefFormButton.Location = new System.Drawing.Point(1226, 283);
             this.prefFormButton.Name = "prefFormButton";
             this.prefFormButton.Size = new System.Drawing.Size(292, 48);
             this.prefFormButton.TabIndex = 12;
@@ -178,9 +182,9 @@ namespace RootSearch
             // buttonInputEnviroment
             // 
             this.buttonInputEnviroment.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonInputEnviroment.Location = new System.Drawing.Point(586, 349);
+            this.buttonInputEnviroment.Location = new System.Drawing.Point(576, 295);
             this.buttonInputEnviroment.Name = "buttonInputEnviroment";
-            this.buttonInputEnviroment.Size = new System.Drawing.Size(327, 48);
+            this.buttonInputEnviroment.Size = new System.Drawing.Size(337, 48);
             this.buttonInputEnviroment.TabIndex = 14;
             this.buttonInputEnviroment.Text = "Ввод целого окружения";
             this.buttonInputEnviroment.UseVisualStyleBackColor = true;
@@ -190,18 +194,62 @@ namespace RootSearch
             // 
             this.labelHelper.AutoSize = true;
             this.labelHelper.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelHelper.Location = new System.Drawing.Point(1384, 20);
+            this.labelHelper.Location = new System.Drawing.Point(1370, 20);
             this.labelHelper.Name = "labelHelper";
             this.labelHelper.Size = new System.Drawing.Size(134, 29);
             this.labelHelper.TabIndex = 15;
             this.labelHelper.Text = "СПРАВКА";
             this.labelHelper.Click += new System.EventHandler(this.labelHelper_Click);
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.checkBox1.Location = new System.Drawing.Point(701, 227);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(221, 33);
+            this.checkBox1.TabIndex = 18;
+            this.checkBox1.Text = "Жёсткий режим";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // checkBox2
+            // 
+            this.checkBox2.AutoSize = true;
+            this.checkBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.checkBox2.Location = new System.Drawing.Point(917, 304);
+            this.checkBox2.Name = "checkBox2";
+            this.checkBox2.Size = new System.Drawing.Size(221, 33);
+            this.checkBox2.TabIndex = 19;
+            this.checkBox2.Text = "Жёсткий режим";
+            this.checkBox2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.button1.Location = new System.Drawing.Point(576, 363);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(337, 48);
+            this.button1.TabIndex = 21;
+            this.button1.Text = "Ввод корня";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(12, 366);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(557, 24);
+            this.comboBox1.TabIndex = 20;
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1782, 526);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(1532, 653);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.checkBox2);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.labelHelper);
             this.Controls.Add(this.buttonInputEnviroment);
             this.Controls.Add(this.sufFormButton);
@@ -214,10 +262,10 @@ namespace RootSearch
             this.Controls.Add(this.labelPrefix);
             this.Controls.Add(this.textBoxOutput);
             this.Controls.Add(this.buttonInput);
-            this.MinimumSize = new System.Drawing.Size(1800, 0);
+            this.MinimumSize = new System.Drawing.Size(1550, 700);
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Классификация корней русского языка";
+            this.Text = "Классификативность морфем русского языка";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderPrefix)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorProviderSuffix)).EndInit();
@@ -250,6 +298,10 @@ namespace RootSearch
         private Button sufFormButton;
         private Button buttonInputEnviroment;
         private Label labelHelper;
+        private CheckBox checkBox2;
+        private CheckBox checkBox1;
+        private Button button1;
+        private ComboBox comboBox1;
     }
 }
 

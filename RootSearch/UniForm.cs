@@ -18,16 +18,17 @@ namespace RootSearch
 
         public static Color[] TREE_NODE_COLORS = {
             Color.Black,
+            Color.Red,
+            Color.Orange,
+            Color.Yellow,
+            Color.Green,
+            Color.Blue,
+            Color.Magenta,
             Color.Indigo,
             Color.DarkOrchid,
             Color.DarkBlue,
             Color.RoyalBlue,
-            Color.DodgerBlue,
-            Color.SkyBlue,
-            Color.Cyan,
-            Color.LightSkyBlue,
-            Color.LightBlue,
-            Color.LightGray
+            Color.DodgerBlue
         };
 
         public UniForm()

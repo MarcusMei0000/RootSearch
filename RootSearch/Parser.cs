@@ -38,8 +38,8 @@ namespace RootSearch
         {
             this.filePath = filePath;
             this.folderName = folderName;
-            proclitic = Streamer.CreateListFromFile(Properties.Resources.proclictic);
-            enclitic = Streamer.CreateListFromFile(Properties.Resources.enclictic);
+            proclitic = Streamer.CreateListFromFile(Properties.Resources.proclictic_str);
+            enclitic = Streamer.CreateListFromFile(Properties.Resources.enclictic_str);
         }
 
         private bool IsProclitic(Word w)
@@ -71,8 +71,23 @@ namespace RootSearch
                 }
             }
         }
+        private void ClassifyWordStrict(Word word, List<string> prefixes, List<string> suffixies, ref List<string> setYes, ref List<string> setNo)
+        {
+            if (word != null && !IsProclitic(word) && !IsEnclitic(word))
+            {
+                if (word.IsClassifiedPreffixesStrict(prefixes) && word.IsClassifiedSuffixesStrict(suffixies))
+                {
+                    setYes.Add(word.ToStringRoot());
+                }
+                else
+                {
+                    setNo.Add(word.ToStringRoot());
+                }
+            }
 
-        private void ClassifyWord(Word word, ref List<string> setYes, ref List<string> setNo)
+        }
+
+            private void ClassifyWord(Word word, ref List<string> setYes, ref List<string> setNo)
         {
             if (word != null && !IsProclitic(word) && !IsEnclitic(word))
             {
@@ -114,7 +129,7 @@ namespace RootSearch
             return setYes;
         }
 
-        private List<string> ParseFileWithAffix(List<string> prefixes, List<string> suffixies, out List<string> setNoComplimentary)
+        private List<string> ParseFileWithAffix(List<string> prefixes, List<string> suffixies, out List<string> setNoComplimentary, bool isStrict)
         {
             List<string> setYes = new List<string>();
             List<string> setNo = new List<string>();
@@ -127,12 +142,26 @@ namespace RootSearch
                 if (!s.Contains("+"))
                 {
                     word = ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
-                    ClassifyWord(word, prefixes, suffixies, ref setYes, ref setNo);
+                    if (isStrict)
+                    {
+                        ClassifyWordStrict(word, prefixes, suffixies, ref setYes, ref setNo);
+                    }
+                    else
+                    {
+                        ClassifyWord(word, prefixes, suffixies, ref setYes, ref setNo);
+                    }
 
                     while (remainder != null)
                     {
                         word = ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
-                        ClassifyWord(word, prefixes, suffixies, ref setYes, ref setNo);
+                        if (isStrict)
+                        {
+                            ClassifyWordStrict(word, prefixes, suffixies, ref setYes, ref setNo);
+                        }
+                        else
+                        {
+                            ClassifyWord(word, prefixes, suffixies, ref setYes, ref setNo);
+                        }
                     }
                 }
             }
@@ -141,14 +170,14 @@ namespace RootSearch
             return setYes;
         }
 
-        private List<string> ClassifyWordsFromFile(List<string> prefixes, List<string> suffixies, out List<string> setNoComplimentary)
+        private List<string> ClassifyWordsFromFile(List<string> prefixes, List<string> suffixies, out List<string> setNoComplimentary, bool isStrict)
         {
             setNoComplimentary = new List<string>();
             List<string> setYes = new List<string>();
 
             if (!IsNoInputAffix(prefixes, suffixies))
             {
-                return ParseFileWithAffix(prefixes, suffixies, out setNoComplimentary);
+                return ParseFileWithAffix(prefixes, suffixies, out setNoComplimentary, isStrict);
             }
             else
             {
@@ -156,7 +185,7 @@ namespace RootSearch
             }
         }
 
-        public string[] CreateMainFiles(List<string> prefixes, List<string> suffixies)
+        public string[] CreateMainFiles(List<string> prefixes, List<string> suffixies, bool isStrict)
         {
             string[] filePathes = new string[2];
             filePathes[0] = Streamer.CreateFileName(prefixes, suffixies, folderName);
@@ -169,7 +198,7 @@ namespace RootSearch
             streamWriterNo = new StreamWriter(filePathes[1], false);
 
             List<string> setNoComplimantery = new List<string>();
-            List<string> setYesComplimentary = ClassifyWordsFromFile(prefixes, suffixies, out setNoComplimantery);
+            List<string> setYesComplimentary = ClassifyWordsFromFile(prefixes, suffixies, out setNoComplimantery, isStrict);
 
             Streamer.Print(setYesComplimentary, streamWriterYes);
             Streamer.Print(setNoComplimantery, streamWriterNo);

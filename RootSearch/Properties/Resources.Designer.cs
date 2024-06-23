@@ -61,74 +61,74 @@ namespace RootSearch.Properties {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на allAffixEnviroment.txt.
+        ///   Ищет локализованную строку, похожую на Resources/allAffixEnviroment.txt.
         /// </summary>
-        internal static string allAffixEnviroment {
+        internal static string allAffixEnviroment_str {
             get {
-                return ResourceManager.GetString("allAffixEnviroment", resourceCulture);
+                return ResourceManager.GetString("allAffixEnviroment_str", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на enclictic.txt.
+        ///   Ищет локализованную строку, похожую на Resources/enclictic.txt.
         /// </summary>
-        internal static string enclictic {
+        internal static string enclictic_str {
             get {
-                return ResourceManager.GetString("enclictic", resourceCulture);
+                return ResourceManager.GetString("enclictic_str", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на prefix.txt.
+        ///   Ищет локализованную строку, похожую на Resources/prefix.txt.
         /// </summary>
-        internal static string prefix {
+        internal static string prefix_str {
             get {
-                return ResourceManager.GetString("prefix", resourceCulture);
+                return ResourceManager.GetString("prefix_str", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на prefixes.txt.
+        ///   Ищет локализованную строку, похожую на Resources/prefixes.txt.
         /// </summary>
-        internal static string prefixes {
+        internal static string prefixes_str {
             get {
-                return ResourceManager.GetString("prefixes", resourceCulture);
+                return ResourceManager.GetString("prefixes_str", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на proclictic.txt.
+        ///   Ищет локализованную строку, похожую на Resources/proclictic.txt.
         /// </summary>
-        internal static string proclictic {
+        internal static string proclictic_str {
             get {
-                return ResourceManager.GetString("proclictic", resourceCulture);
+                return ResourceManager.GetString("proclictic_str", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на suffix.txt.
+        ///   Ищет локализованную строку, похожую на Resources/suffix.txt.
         /// </summary>
-        internal static string suffix {
+        internal static string suffix_str {
             get {
-                return ResourceManager.GetString("suffix", resourceCulture);
+                return ResourceManager.GetString("suffix_str", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на suffixes.txt.
+        ///   Ищет локализованную строку, похожую на Resources/suffixes.txt.
         /// </summary>
-        internal static string suffixes {
+        internal static string suffixes_str {
             get {
-                return ResourceManager.GetString("suffixes", resourceCulture);
+                return ResourceManager.GetString("suffixes_str", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Words.txt.
+        ///   Ищет локализованную строку, похожую на Resources/Words.txt.
         /// </summary>
-        internal static string Words {
+        internal static string Words_str {
             get {
-                return ResourceManager.GetString("Words", resourceCulture);
+                return ResourceManager.GetString("Words_str", resourceCulture);
             }
         }
     }

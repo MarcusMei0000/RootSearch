@@ -126,7 +126,7 @@ namespace RootSearch
 
         public static HashSet<string> Test(List<string> prefixes = null, List<string> suffixies = null)
         {
-            streamReader = new StreamReader(Properties.Resources.Words, Encoding.Default);
+            streamReader = new StreamReader(Properties.Resources.Words_str, Encoding.Default);
 
             return FindAllAvailableAffixEnvironments();
         }
@@ -138,7 +138,7 @@ namespace RootSearch
             StreamWriter streamWriter;
 
             //streamReader = new StreamReader(FILE_PATH, Encoding.Default);
-            streamReader = new StreamReader(Properties.Resources.Words, Encoding.Default);
+            streamReader = new StreamReader(Properties.Resources.Words_str, Encoding.Default);
             streamWriter = new StreamWriter(outputPath, false);
 
             HashSet<string> affixEnvironments = new HashSet<string>();

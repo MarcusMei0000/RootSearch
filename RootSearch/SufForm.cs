@@ -17,7 +17,9 @@ namespace RootSearch
     public partial class SufForm : UniForm
     {
         const string FILE_PATH_SUFS = "suffixes.txt";
+        string[] AFFIX_SET_COLLECTION;
         List<string> AFFIX_SET = new List<string>();
+        List<string> AFFIX_SET_ORDER = new List<string>();
         FormTimer f = new FormTimer();
         public SufForm()
         {
@@ -41,7 +43,7 @@ namespace RootSearch
 
             inputCombobox.Font = new Font("Microsoft Sans Serif", 11);
             inputCombobox.DropDownHeight = 300;
-            FillCombobox(Properties.Resources.suffixes);
+            FillCombobox(Properties.Resources.suffixes_str);
             inputCombobox.SelectedIndex = 0;
             expandAllButton.Focus();
 
@@ -55,7 +57,7 @@ namespace RootSearch
 
         private void FillCombobox(string fileName)
         {
-            StreamReader sr = new StreamReader(Properties.Resources.suffixes);
+            StreamReader sr = new StreamReader(Properties.Resources.suffixes_str);
             String input;
             List<string> prefixList = new List<string>();
 
@@ -64,7 +66,11 @@ namespace RootSearch
                 prefixList.Add(input);
             }
 
+            AFFIX_SET_COLLECTION = new string[prefixList.Count];
+            prefixList.CopyTo(AFFIX_SET_COLLECTION);
             inputCombobox.Items.AddRange(prefixList.ToArray());
+            prefixList.Sort();
+            AFFIX_SET_ORDER = prefixList;
         }
 
         public static List<List<string>> CreatePreparedAffixSetTurbo(List<string> affixSet)
@@ -115,8 +121,16 @@ namespace RootSearch
 
                 if (i != affixEnviroment.Count) //если есть ещё суффиксы для вставки
                 {
+
+                    /*
+                    var testList = affixEnviroment.GetRange(i+1, affixEnviroment.Count-i);
+                    int a;
+                    if (testList.Count == 0)
+                        a = 0;
+                    affixEnviroment.GetRange(i+1, affixEnviroment.Count - i - 1)
+                    */
+
                     affixEnviroment.RemoveRange(0, i);
-                    //affixEnviroment.GetRange(i+1, affixEnviroment.Count);
                     TreeNode brunch = CreateBrunch(affixEnviroment);
                     prevNode.Nodes.Add(brunch);
                 }
@@ -159,10 +173,10 @@ namespace RootSearch
         private void expandAllButton_Click(object sender, EventArgs e)
         {
 
-            Thread th = new Thread(Countdown);
-            th.Start();
+            //Thread th = new Thread(Countdown);
+            ///th.Start();
             treeView1.ExpandAll();
-            int a = 0;
+            //int a = 0;
             /*
             //5:50:09
             Stopwatch stopwatch = new Stopwatch();
@@ -191,6 +205,20 @@ namespace RootSearch
             //Thread.Yield();
             f.Close();
             f.Dispose();
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+                inputCombobox.Items.Clear();
+                inputCombobox.Items.AddRange(AFFIX_SET_ORDER.ToArray());
+            }
+            else
+            {
+                inputCombobox.Items.Clear();
+                inputCombobox.Items.AddRange(AFFIX_SET_COLLECTION);
+            }
         }
     }
 }

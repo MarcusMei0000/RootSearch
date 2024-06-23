@@ -23,7 +23,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>1</ApplicationRevision>
+    <ApplicationRevision>2</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -269,6 +269,30 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="bin\Debug\enclictic.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="bin\Debug\allAffixEnviroment.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="bin\Debug\Words.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="bin\Debug\proclictic.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="bin\Debug\suffixes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="bin\Debug\prefixes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="bin\Debug\suffix.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="bin\Debug\prefix.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

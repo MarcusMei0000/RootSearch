@@ -21,7 +21,7 @@ namespace RootSearch
 
         public StatisticRoot()
         {
-            parser = new Parser(Properties.Resources.Words, folderName);
+            parser = new Parser(Properties.Resources.Words_str, folderName);
         }
 
         //можно из List можно сделать Set без повторений и дублей, можно сделать Set с указанием частоты встречаемости для каждого аффиксального окружения
@@ -73,7 +73,7 @@ namespace RootSearch
             StreamWriter streamWriter;
 
             //streamReader = new StreamReader(FILE_PATH, Encoding.Default);
-            streamReader = new StreamReader(Properties.Resources.Words, Encoding.Default);
+            streamReader = new StreamReader(Properties.Resources.Words_str, Encoding.Default);
             streamWriter = new StreamWriter(outputPath, false);
 
             List<string> roots = new List<string> { "б>г", "д>", "берг" };

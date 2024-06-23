@@ -13,7 +13,7 @@ namespace RootSearch
         const string FILE_PATH_PREF = "prefix.txt";
         const string FILE_PATH_SUF = "suffix.txt";
         const string FILE_PATH_ALL_AFFIX_ENVIROMENTS = "allAffixEnviroment.txt";
-        string HELP_STR = "Последовательно ВЫБИРАЙТЕ из выпадающих списков без пропусков. Набор символов существует исключительно для поиска. Затем нажмите кнопку Ввод." 
+        string HELP_STR = "Поместите ВСЕ txt-файлы в папку Resources с программой. Не редактируйте и не удаляйте их!!!" + Environment.NewLine + "Последовательно ВЫБИРАЙТЕ из выпадающих списков без пропусков. Набор символов существует исключительно для поиска. Сначала нажать на стрелочку выпадающего списка, потом вводить. Затем нажмите кнопку Ввод." 
             + Environment.NewLine + "Ввод целого окружения независим. Выбирайте из выпадающего списка. Значок корня можно скопировать из любой выбранной строки. Затем нажмите кнопку Ввод целого окружения."
             + Environment.NewLine + "В окне Найти пересечение множеств выбирайте файлы с помощью ЛКМ+Shift или ЛКМ+Ctrl.";
 
@@ -53,8 +53,8 @@ namespace RootSearch
             const string FILE_PATH_SUFS = "suffixes.txt";
 
             PrepareComboboxForEnviroments();
-            FillComboBoxes(Properties.Resources.prefixes, Properties.Resources.suffixes);
-            FillComboBoxForEnviroment(Properties.Resources.allAffixEnviroment);
+            FillComboBoxes(Properties.Resources.prefixes_str, Properties.Resources.suffixes_str);
+            FillComboBoxForEnviroment(Properties.Resources.allAffixEnviroment_str);
 
             SetSelectedIndex();
             BlockComboBoxes();
@@ -255,7 +255,7 @@ namespace RootSearch
                 parser = new Parser("Words.txt", folderName);
                 //parser = new Parser(FILE_PATH, folderName);
 
-                string[] filePathes = parser.CreateMainFiles(prefixes, suffixes);
+                string[] filePathes = parser.CreateMainFiles(prefixes, suffixes, checkBox1.Checked);
 
                 textBoxOutput.Text = "";
                 foreach (string s in filePathes)
@@ -427,7 +427,7 @@ namespace RootSearch
 
                 parser = new Parser(FILE_PATH, folderName);
 
-                string[] filePathes = parser.CreateMainFiles(inputPair.prefixes, inputPair.suffixies);
+                string[] filePathes = parser.CreateMainFiles(inputPair.prefixes, inputPair.suffixies, checkBox2.Checked);
 
                 textBoxOutput.Text = "";
                 foreach (string s in filePathes)
@@ -443,6 +443,11 @@ namespace RootSearch
         private void labelHelper_Click(object sender, EventArgs e)
         {
             MessageBox.Show(HELP_STR);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

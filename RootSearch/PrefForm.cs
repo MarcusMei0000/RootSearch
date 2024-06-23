@@ -20,7 +20,9 @@ namespace RootSearch
     public partial class PrefForm : UniForm
     {
         const string FILE_PATH_PREFS = "prefixes.txt";
+        string[] AFFIX_SET_COLLECTION;
         List<string> AFFIX_SET = new List<string>();
+        List<string> AFFIX_SET_ORDER = new List<string>();
         FormTimer f = new FormTimer();
 
         public PrefForm()
@@ -47,7 +49,7 @@ namespace RootSearch
 
             inputCombobox.Font = new Font("Microsoft Sans Serif", 11);
             inputCombobox.DropDownHeight = 300;
-            FillCombobox(Properties.Resources.prefixes);
+            FillCombobox(Properties.Resources.prefixes_str);
             //FillCombobox(FILE_PATH_PREFS);
             inputCombobox.SelectedIndex = 0;
             expandAllButton.Focus();
@@ -70,7 +72,11 @@ namespace RootSearch
                 prefixList.Add(input);
             }
 
+            AFFIX_SET_COLLECTION = new string[prefixList.Count];
+            prefixList.CopyTo(AFFIX_SET_COLLECTION);
             inputCombobox.Items.AddRange(prefixList.ToArray());
+            prefixList.Sort();
+            AFFIX_SET_ORDER = prefixList;
         }
 
 
@@ -145,10 +151,10 @@ namespace RootSearch
 
         private void expandAllButton_Click(object sender, EventArgs e)
         {
-            Thread th = new Thread(Countdown);
-            th.Start();
+            //Thread th = new Thread(Countdown);
+            //th.Start();
             treeView1.ExpandAll();
-            int a = 0;
+            //int a = 0;
         }
 
         /*
@@ -217,6 +223,20 @@ namespace RootSearch
                     node.ExpandAll();
                     break;
                 }
+            }
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked)
+            {
+               inputCombobox.Items.Clear();
+               inputCombobox.Items.AddRange(AFFIX_SET_ORDER.ToArray());
+            }
+            else
+            {
+                inputCombobox.Items.Clear();
+                inputCombobox.Items.AddRange(AFFIX_SET_COLLECTION);
             }
         }
     }

@@ -117,28 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="allAffixEnviroment" xml:space="preserve">
-    <value>allAffixEnviroment.txt</value>
+  <data name="allAffixEnviroment_str" xml:space="preserve">
+    <value>Resources/allAffixEnviroment.txt</value>
   </data>
-  <data name="enclictic" xml:space="preserve">
-    <value>enclictic.txt</value>
+  <data name="enclictic_str" xml:space="preserve">
+    <value>Resources/enclictic.txt</value>
   </data>
-  <data name="prefix" xml:space="preserve">
-    <value>prefix.txt</value>
+  <data name="prefixes_str" xml:space="preserve">
+    <value>Resources/prefixes.txt</value>
   </data>
-  <data name="prefixes" xml:space="preserve">
-    <value>prefixes.txt</value>
+  <data name="prefix_str" xml:space="preserve">
+    <value>Resources/prefix.txt</value>
   </data>
-  <data name="proclictic" xml:space="preserve">
-    <value>proclictic.txt</value>
+  <data name="proclictic_str" xml:space="preserve">
+    <value>Resources/proclictic.txt</value>
   </data>
-  <data name="suffix" xml:space="preserve">
-    <value>suffix.txt</value>
+  <data name="suffixes_str" xml:space="preserve">
+    <value>Resources/suffixes.txt</value>
   </data>
-  <data name="suffixes" xml:space="preserve">
-    <value>suffixes.txt</value>
+  <data name="suffix_str" xml:space="preserve">
+    <value>Resources/suffix.txt</value>
   </data>
-  <data name="Words" xml:space="preserve">
-    <value>Words.txt</value>
+  <data name="Words_str" xml:space="preserve">
+    <value>Resources/Words.txt</value>
   </data>
 </root>

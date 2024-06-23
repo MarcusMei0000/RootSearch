@@ -83,6 +83,31 @@ namespace RootSearch
             return true;
         }
 
+        public bool IsClassifiedPreffixesStrict(List<string> givenPrefixes)
+        {
+            if (prefixes == null && givenPrefixes != null)
+                return false;
+
+            if (prefixes != null && givenPrefixes == null)
+                return false;
+
+            if (prefixes == null && givenPrefixes == null)
+                return true;
+
+            if (givenPrefixes.Count != prefixes.Count)
+                return false;
+
+            int j = prefixes.Count - 1;
+            for (int i = givenPrefixes.Count - 1; i >= 0; i--)
+            {
+                if (givenPrefixes[i] != prefixes[j])
+                    return false;
+                j--;
+            }
+
+            return true;
+        }
+
         /*Если суффиксов нигде нет - true
           Если суффиксов у одного есть, у другого нет - false
           Если количество введённых суффиксов больше, чем суффиксов в слове - false
@@ -103,6 +128,27 @@ namespace RootSearch
                 return true;
 
             if (givenSuffixes.Count > suffixes.Count)
+                return false;
+
+            for (int i = 0; i < givenSuffixes.Count; i++)
+                if (givenSuffixes[i] != suffixes[i])
+                    return false;
+
+            return true;
+        }
+
+        public bool IsClassifiedSuffixesStrict(List<string> givenSuffixes)
+        {
+            if (suffixes == null && givenSuffixes != null)
+                return false;
+
+            if (suffixes != null && givenSuffixes == null)
+                return false;
+
+            if (suffixes == null && givenSuffixes == null)
+                return true;
+
+            if (givenSuffixes.Count != suffixes.Count)
                 return false;
 
             for (int i = 0; i < givenSuffixes.Count; i++)
