@@ -43,7 +43,7 @@ namespace RootSearch
             //ParserAffix pars = new ParserAffix();
             // StatisticRoot.CreateMainFiles();
             //AllAffixEnvironments.Main();
-
+            //ExtractRoot.MainExtractRoot();
             int a = 0;
         }
 
@@ -53,14 +53,17 @@ namespace RootSearch
             const string FILE_PATH_SUFS = "suffixes.txt";
 
             PrepareComboboxForEnviroments();
+            PrepareComboboxForRoots();
             FillComboBoxes(Properties.Resources.prefixes_str, Properties.Resources.suffixes_str);
             FillComboBoxForEnviroment(Properties.Resources.allAffixEnviroment_str);
+            FillComboBoxForRoot(Properties.Resources.root_str);
 
             SetSelectedIndex();
             BlockComboBoxes();
             SetEvents();
             this.OpenFilesButton.Visible = true;
             comboboxForEnviroments.SelectedIndex = 0;
+            comboboxForRoot.SelectedIndex = 0;
             //helpProvider1.SetHelpString(labelHelper, HELP_STR);
             //helpProvider1.SetShowHelp(labelHelper, true);
             //toolTip1.SetToolTip(labelHelper, HELP_STR);
@@ -72,6 +75,13 @@ namespace RootSearch
             this.comboboxForEnviroments.Visible = true;
             comboboxForEnviroments.Font = new Font("Microsoft Sans Serif", 11);
             comboboxForEnviroments.DropDownHeight = 300;
+        }
+
+        private void PrepareComboboxForRoots()
+        {
+            this.comboboxForRoot.Visible = true;
+            comboboxForRoot.Font = new Font("Microsoft Sans Serif", 11);
+            comboboxForRoot.DropDownHeight = 300;
         }
 
         private void InitializeComboboxesSuf(ref List<System.Windows.Forms.ComboBox> comboBoxes, int size, int position, ref List<Label> labels)
@@ -156,6 +166,21 @@ namespace RootSearch
 
             comboboxForEnviroments.Items.AddRange(enviroments.ToArray());
         }
+
+        private void FillComboBoxForRoot(string fileRoot)
+        {
+            StreamReader sr = File.OpenText(fileRoot);
+            String input;
+            List<string> roots = new List<string>();
+
+            while ((input = sr.ReadLine()) != null && input != "" && input != "\n" && input != "\r" && input != "\r\n")
+            {
+                roots.Add(input);
+            }
+
+            comboboxForRoot.Items.AddRange(roots.ToArray());
+        }
+
         private void FillComboBoxes(string filePref, string fileSuf)
         {
             StreamReader sr;
@@ -445,9 +470,20 @@ namespace RootSearch
             MessageBox.Show(HELP_STR);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void buttonInputRoot_Click(object sender, EventArgs e)
         {
+            if (comboboxForRoot.SelectedIndex == -1)
+                MessageBox.Show("Некорректный ввод данных!");
+            else
+            {
+                parser = new Parser(FILE_PATH, folderName);
 
+                string[] filePathes = parser.CreateFilesForRoot(comboboxForRoot.Text);
+
+                textBoxOutput.Text = "";
+                foreach (string s in filePathes)
+                    textBoxOutput.Text += s + Environment.NewLine;
+            }
         }
     }
 }

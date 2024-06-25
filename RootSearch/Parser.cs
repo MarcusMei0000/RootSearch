@@ -34,6 +34,15 @@ namespace RootSearch
         List<string> proclitic = new List<string>();
         List<string> enclitic = new List<string>();
 
+
+        List<char> ROOT_SEPARATORS = new List<char> { '[', '{', '|', ' ' };
+        /*Можно преобразовать алгоритм ParseStringIntoWords, 
+          написать там цикл, что первый найденный из этого списка, потом case, 
+          потом "remainder на этот же цикл"*/
+        //спросить у Кости и Дениса - оптимальный алгоритм первого вхождения любого из этого списка
+        //и что бы потом адекватно выдавало какой из элементов был первый
+
+
         public Parser(string filePath, string folderName)
         {
             this.filePath = filePath;
@@ -92,6 +101,21 @@ namespace RootSearch
             if (word != null && !IsProclitic(word) && !IsEnclitic(word))
             {
                 if (word.IsNoAffix())
+                {
+                    setYes.Add(word.ToStringRoot());
+                }
+                else
+                {
+                    setNo.Add(word.ToStringRoot());
+                }
+            }
+        }
+
+        private void ClassifyWord(Word word, string root, ref List<string> setYes, ref List<string> setNo)
+        {
+            if (word != null && !IsProclitic(word) && !IsEnclitic(word))
+            {
+                if (word.HasRoot(root))
                 {
                     setYes.Add(word.ToStringRoot());
                 }
@@ -184,6 +208,67 @@ namespace RootSearch
                 return ParseFileWithoutAffix(out setNoComplimentary);
             }
         }
+
+        private List<string> ParseFileByRoot(string root, out List<string> setNoComplimentary)
+        {
+            List<string> setYes = new List<string>();
+            List<string> setNo = new List<string>();
+            string remainder = null, fullWord = null, transcription = null;
+            Word word;
+            string s;
+
+            while ((s = streamReader.ReadLine()) != null)
+            {
+                if (!s.Contains("+"))
+                {
+                    word = ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
+                    ClassifyWord(word, root, ref setYes, ref setNo);
+
+                    while (remainder != null)
+                    {
+                        word = ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
+                        ClassifyWord(word, root, ref setYes, ref setNo);
+                    }
+                }
+            }
+
+            setNoComplimentary = setNo;
+            return setYes;
+        }
+
+        private List<string> ClassifyWordsFromFileByRoot(string root, out List<string> setNoComplimentary)
+        {
+            setNoComplimentary = new List<string>();
+            List<string> setYes = new List<string>();
+
+            return ParseFileByRoot(root, out setNoComplimentary);
+        }
+
+        public string[] CreateFilesForRoot(string root)
+        {
+            string[] filePathes = new string[2];
+            filePathes[0] = Streamer.CreateFileName(new List<string> { root }, null, folderName);
+            filePathes[1] = Streamer.CreateFileName(new List<string> { root }, null, folderName, OUTPUT_NO);
+
+            StreamWriter streamWriterYes, streamWriterNo;
+
+            streamReader = new StreamReader(filePath, Encoding.Default);
+            streamWriterYes = new StreamWriter(filePathes[0], false);
+            streamWriterNo = new StreamWriter(filePathes[1], false);
+
+            List<string> setNoComplimantery = new List<string>();
+            List<string> setYesComplimentary = ClassifyWordsFromFileByRoot(root, out setNoComplimantery);
+
+            Streamer.Print(setYesComplimentary, streamWriterYes);
+            Streamer.Print(setNoComplimantery, streamWriterNo);
+
+            streamWriterYes.Close();
+            streamWriterNo.Close();
+            streamReader.Close();
+
+            return filePathes;
+        }
+
 
         public string[] CreateMainFiles(List<string> prefixes, List<string> suffixies, bool isStrict)
         {
@@ -283,8 +368,7 @@ namespace RootSearch
             fullWord = pieces.Length >= 2 ? pieces[1] : fullWord;
             transcription = pieces.Length >= 2 ? pieces[2] : transcription;
             string part = pieces.Length >= 2 ? pieces[2] : pieces[0];
-
-
+            
             if (part.Contains('['))
             {
                 firstRootWord = part.Substring(0, part.IndexOf('['));

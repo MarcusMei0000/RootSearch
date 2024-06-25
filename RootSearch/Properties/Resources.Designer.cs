@@ -106,6 +106,15 @@ namespace RootSearch.Properties {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на Resources/root.txt.
+        /// </summary>
+        internal static string root_str {
+            get {
+                return ResourceManager.GetString("root_str", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на Resources/suffix.txt.
         /// </summary>
         internal static string suffix_str {

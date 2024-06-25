@@ -132,6 +132,9 @@
   <data name="proclictic_str" xml:space="preserve">
     <value>Resources/proclictic.txt</value>
   </data>
+  <data name="root_str" xml:space="preserve">
+    <value>Resources/root.txt</value>
+  </data>
   <data name="suffixes_str" xml:space="preserve">
     <value>Resources/suffixes.txt</value>
   </data>

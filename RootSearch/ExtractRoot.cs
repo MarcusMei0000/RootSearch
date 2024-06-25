@@ -20,9 +20,9 @@ namespace RootSearch
             parser = new Parser(FILE_PATH, folderName);
         }
 
-        public static HashSet<string> AllAvailableRootSet()
+        public static IEnumerable<string> AllAvailableRootSet()
         {
-            HashSet<string> set = new HashSet<string>();
+            List<string> set = new List<string>();
 
             string remainder = null, fullWord = null, transcription = null;
             Word word;
@@ -46,7 +46,10 @@ namespace RootSearch
                 //count++;
             }
 
-            return set;
+            set.Sort();
+            IEnumerable<string> tmpIEnumerable = set.Distinct();
+
+            return tmpIEnumerable;
         }
 
         public static void MainExtractRoot()
