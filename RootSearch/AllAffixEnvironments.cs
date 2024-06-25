@@ -8,6 +8,8 @@ using Excel = Microsoft.Office.Interop.Excel;
 using static RootSearch.Pair;
 using Microsoft.Office.Interop.Excel;
 using System.Windows.Forms;
+using DocumentFormat.OpenXml.Spreadsheet;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 /* Нахождение всех аффиксальных окружений встречающихся в словаре, 
    вывод в текстовый файл и в эксель таблицу*/
@@ -33,12 +35,11 @@ namespace RootSearch
             string remainder = null, fullWord = null, transcription = null;
             Word word;
             string s;
-              
+
             while ((s = streamReader.ReadLine()) != null)
             {
                 word = Parser.ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
                 set.Add(new Pair(word).ToString());
-
 
                 while (remainder != null)
                 {
@@ -129,6 +130,99 @@ namespace RootSearch
             streamReader = new StreamReader(Properties.Resources.Words_str, Encoding.Default);
 
             return FindAllAvailableAffixEnvironments();
+        }
+
+        private static List<Pair> PrepareAllPairs()
+        {
+            streamReader = new StreamReader(Properties.Resources.allAffixEnviroment_str, Encoding.Default);
+            List<string> allAffixEnviroments = Streamer.CreateListFromFile(Properties.Resources.allAffixEnviroment_str);
+            List<Pair> allPairs = new List<Pair>();
+
+            foreach (string env in allAffixEnviroments)
+            {
+                allPairs.Add(FromStringResized(env));
+            }
+
+            return allPairs;
+        }
+
+        static public Record[] FindAffixStatistics()
+        {
+            List<Pair> allPairs = PrepareAllPairs();
+            Record[] pairRootCollection = new Record[allPairs.Count];
+
+            for (int i = 0; i < allPairs.Count; i++)
+            {
+                pairRootCollection[i] = new Record(allPairs[i]);
+            }
+
+            string remainder = null, fullWord = null, transcription = null;
+            Word word;
+            string s;
+            bool IsClassified = false;
+
+            //int count = 0;
+            //int limit = 100000;
+
+            streamReader = new StreamReader(Properties.Resources.Words_str, Encoding.Default);
+            //&& count < limit
+            while ((s = streamReader.ReadLine()) != null)
+            {
+                //count++;
+                if (!s.Contains("+"))
+                {
+                    word = Parser.ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
+                    int i = 0;
+                    IsClassified = false;
+                    while (i < allPairs.Count && IsClassified == false) {
+                        if (word.IsClassifiedStrict(allPairs[i]))
+                        {
+                            pairRootCollection[i].Add(word.Root);
+                            IsClassified = true;
+                        }
+                        i++;
+                    }
+
+                    while (remainder != null)
+                    {
+                        word = Parser.ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
+                        int j = 0;
+                        IsClassified = false;
+                        while (j < allPairs.Count && IsClassified == false)
+                        {
+                            if (word.IsClassifiedStrict(allPairs[j]))
+                            {
+                                pairRootCollection[j].Add(word.Root);
+                                IsClassified = true;
+                            }
+                            j++;
+                        }
+                    }
+                }
+            }
+
+            return pairRootCollection;
+        }
+
+        public static void TestAffixEnviromentsStatistics()
+        {
+            StreamWriter streamWriter = new StreamWriter("TestAffixEnviromentsStatistics.txt", false);
+            Record[] res = FindAffixStatistics();
+            var result = res.OrderByDescending(record => record.Count());
+            //Array.Sort(res);
+            //res.Reverse();
+
+            List<string> output = new List<string>();
+
+            foreach(var record in result)
+            {
+                output.Add(record.ToString2());
+            }
+
+            Streamer.Print(output, streamWriter);
+
+            streamWriter.Close();
+            streamReader.Close();
         }
 
         public static void Main(List<string> prefixes = null, List<string> suffixies = null)

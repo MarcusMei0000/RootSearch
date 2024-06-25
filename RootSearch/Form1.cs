@@ -44,6 +44,9 @@ namespace RootSearch
             // StatisticRoot.CreateMainFiles();
             //AllAffixEnvironments.Main();
             //ExtractRoot.MainExtractRoot();
+
+            //AllAffixEnvironments.TestAffixEnviromentsStatistics();
+            
             int a = 0;
         }
 

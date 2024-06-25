@@ -158,6 +158,20 @@ namespace RootSearch
             return true;
         }
 
+        public bool IsClassifiedStrict(Pair pair)
+        {
+            //если приставки уже не подходят, нет смысла проверять дальше
+            if (!IsClassifiedPreffixesStrict(pair.prefixes))
+                return false;
+
+            //обе проверки успешно пройдены
+            if (IsClassifiedSuffixesStrict(pair.suffixies))
+                return true;
+
+            //вторая проверка не пройдена
+            return false;
+        }
+
         public bool IsClassified(List<string> pref, List<string> suf)
         {
             //если приставки уже не подходят, нет смысла проверять дальше

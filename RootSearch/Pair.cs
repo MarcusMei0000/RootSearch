@@ -71,6 +71,7 @@ namespace RootSearch
                 foreach (string pref in prefixes)
                     strPref += pref + " ";
             }
+            //else strPref = "           ";
 
             string strSuf = "";
 

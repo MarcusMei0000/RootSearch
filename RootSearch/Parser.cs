@@ -136,7 +136,7 @@ namespace RootSearch
 
             while ((s = streamReader.ReadLine()) != null)
             {
-                if (!s.Contains("+"))
+                //if (!s.Contains("+"))
                 {
                     word = ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
                     ClassifyWord(word, ref setYes, ref setNo);
@@ -163,7 +163,7 @@ namespace RootSearch
 
             while ((s = streamReader.ReadLine()) != null)
             {
-                if (!s.Contains("+"))
+                //if (!s.Contains("+"))
                 {
                     word = ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
                     if (isStrict)
@@ -219,7 +219,7 @@ namespace RootSearch
 
             while ((s = streamReader.ReadLine()) != null)
             {
-                if (!s.Contains("+"))
+                //if (!s.Contains("+"))
                 {
                     word = ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
                     ClassifyWord(word, root, ref setYes, ref setNo);

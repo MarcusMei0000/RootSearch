@@ -155,6 +155,7 @@
     <Compile Include="FormTimer.Designer.cs">
       <DependentUpon>FormTimer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Record.cs" />
     <Compile Include="SufForm.cs">
       <SubType>Form</SubType>
     </Compile>
