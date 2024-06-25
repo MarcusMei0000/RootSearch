@@ -195,6 +195,22 @@ namespace RootSearch
             else return root + ending + ";" + word + ";" + transcription;
         }
 
+        public string ToStringEnviromentRoot(bool isPref)
+        {
+            string str = "";
+            if (isPref)
+            {
+                str += string.Join(" ", prefixes);
+            }
+            else
+                str += string.Join(" ", suffixes);
+
+            if (ending == null)
+                return str + ";" + root + ";" + word + ";" + transcription;
+            else 
+                return str + ";" + root + ending + ";" + word + ";" + transcription;
+        }
+
         override public string ToString()
         {
             string str = "";

@@ -244,7 +244,7 @@ namespace RootSearch
             Streamer.Print(affixEnvironments, streamWriter);
 
             streamWriter.Close();
-            streamReader.Close();
+            streamReader.Close();            
         }
     }
 }

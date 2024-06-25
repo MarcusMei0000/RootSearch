@@ -66,9 +66,9 @@ namespace RootSearch
 
         }
 
-        private void RecursiveTreeTraversal(TreeNode treeNode, StringBuilder sb, StreamWriter streamWriter)
+        public void RecursiveTreeTraversal(TreeNode treeNode, StringBuilder sb, StreamWriter streamWriter)
         {
-            sb.Append(treeNode.ToString());
+            sb.Append(treeNode.Text);
             foreach (TreeNode node in treeNode.Nodes)
             {
                 sb.Append(node.Text);

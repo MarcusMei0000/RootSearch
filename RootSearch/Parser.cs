@@ -12,6 +12,7 @@ using RootSearch;
 using System.Security.Permissions;
 using DocumentFormat.OpenXml.Bibliography;
 using System.Runtime.InteropServices.ComTypes;
+using DocumentFormat.OpenXml.Spreadsheet;
 
 /*Общий парсер. На вход аффиксальные окружения. 
   На выход 2 файла с/без подходящими корнями (перечислены все слова, т.е. корни повторяются)
@@ -96,7 +97,18 @@ namespace RootSearch
 
         }
 
-            private void ClassifyWord(Word word, ref List<string> setYes, ref List<string> setNo)
+        private void ClassifyWord(Word word, List<string> prefixes, List<string> suffixies, ref List<string> setYes, bool isPref)
+        {
+            if (word != null && !IsProclitic(word) && !IsEnclitic(word))
+            {
+                if (prefixes == null && word.IsClassifiedSuffixes(suffixies))
+                    setYes.Add(word.ToStringEnviromentRoot(isPref));
+                if (word.IsClassifiedPreffixes(prefixes) && suffixies == null)
+                    setYes.Add(word.ToStringEnviromentRoot(isPref));
+            }
+        }
+
+        private void ClassifyWord(Word word, ref List<string> setYes, ref List<string> setNo)
         {
             if (word != null && !IsProclitic(word) && !IsEnclitic(word))
             {
@@ -150,6 +162,32 @@ namespace RootSearch
             }
 
             setNoComplimentary = setNo;
+            return setYes;
+        }
+
+        public List<string> ParseFileWithAffix(List<string> prefixes, List<string> suffixies, bool isPref)
+        {
+            streamReader = new StreamReader(filePath, Encoding.Default);
+
+            List<string> setYes = new List<string>();
+            string remainder = null, fullWord = null, transcription = null;
+            Word word;
+            string s;
+
+            while ((s = streamReader.ReadLine()) != null)
+            {
+                {
+                    word = ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
+                    ClassifyWord(word, prefixes, suffixies, ref setYes, isPref);
+
+                    while (remainder != null)
+                    {
+                        word = ParseStringIntoWords(remainder, out remainder, ref fullWord, ref transcription);
+                        ClassifyWord(word, prefixes, suffixies, ref setYes, isPref);
+                    }
+                }
+            }
+
             return setYes;
         }
 
@@ -368,7 +406,7 @@ namespace RootSearch
             fullWord = pieces.Length >= 2 ? pieces[1] : fullWord;
             transcription = pieces.Length >= 2 ? pieces[2] : transcription;
             string part = pieces.Length >= 2 ? pieces[2] : pieces[0];
-            
+
             if (part.Contains('['))
             {
                 firstRootWord = part.Substring(0, part.IndexOf('['));
