@@ -10,20 +10,26 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Irony.Parsing;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace RootSearch
 {
     public partial class SufForm : UniForm
     {
+        string folderName = AppDomain.CurrentDomain.BaseDirectory;
+        const string FILE_PATH_GROWING = "дерево развёртывания";
         const string FILE_PATH_SUFS = "suffixes.txt";
+
         string[] AFFIX_SET_COLLECTION;
         List<string> AFFIX_SET = new List<string>();
         List<string> AFFIX_SET_ORDER = new List<string>();
         FormTimer f = new FormTimer();
+        Parser parser;
         public SufForm()
         {
             InitializeComponent();
+            parser = new Parser(Properties.Resources.Words_str, folderName);
         }
 
         public SufForm(List<string> affixSet)
@@ -48,9 +54,11 @@ namespace RootSearch
             expandAllButton.Focus();
 
             labelHelper.Text = "Нажмите 1 раз ЛКМ по узлу, чтобы открыть следующие аффиксы или скрыть их."
-            + Environment.NewLine + "Нажмите дважды ЛКМ по узлу, чтобы раскрыть всё поддерево (все аффиксальные цепочки)."
-            + Environment.NewLine + "Выберите из выпадающего списка первый аффикс, чтобы осуществить автоматическую прокрутку и раскрытие поддерева. "
-            + Environment.NewLine + "Осторожно!!! Раскрытие всех узлов дерева (всех аффиксальных цепочек) может занимать до 5 минут!!!";
+              + Environment.NewLine + "Нажмите дважды ЛКМ по узлу, чтобы раскрыть всё поддерево (все аффиксальные цепочки)."
+              + Environment.NewLine + "Выберите из выпадающего списка первый аффикс, чтобы осуществить автоматическую прокрутку и раскрытие поддерева. "
+              + Environment.NewLine + "После выбора примыкающего к корню аффикса нажмите на кнопку, чтобы осуществить вывод поддерева с примерами. "
+              + Environment.NewLine + "Осторожно!!! Раскрытие всех узлов дерева (всех аффиксальных цепочек) может занимать до 5 минут!!!"
+              + Environment.NewLine + "Осторожно!!! Формирование поддерева с примерами может занимать до 5 минут!!!";
 
         }
 
@@ -165,6 +173,7 @@ namespace RootSearch
                 if (node.Text == inputCombobox.Text)
                 {
                     node.ExpandAll();
+                    treeView1.SelectedNode = node;
                     break;
                 }
             }
@@ -219,6 +228,43 @@ namespace RootSearch
                 inputCombobox.Items.Clear();
                 inputCombobox.Items.AddRange(AFFIX_SET_COLLECTION);
             }
+        }
+
+        private void buttonCreateSubtree_Click(object sender, EventArgs e)
+        {
+            string rootOfSubTree = treeView1.SelectedNode.Text;
+            StringBuilder sb = new StringBuilder();
+            string outputPath = Streamer.CreateFileName(new List<string> { rootOfSubTree }, new List<string> { FILE_PATH_GROWING }, folderName);
+            StreamWriter streamWriter = new StreamWriter(outputPath, false);
+
+            //RecursiveTreeTraversal(rootOfSubTree, sb, streamWriter);            
+
+            var enviroments =
+                AFFIX_SET.FindAll(enviroment => enviroment.StartsWith(rootOfSubTree + " "));
+            //AFFIX_SET.FindAll(enviroment => enviroment.StartsWith(rootOfSubTree+" "));
+
+            enviroments.Add(rootOfSubTree);
+            enviroments.Sort();
+            var res = enviroments.OrderBy(str => str.Count(f => f == ' ')).ThenBy(str => str).Distinct();
+            // res.OrderBy(str => str.Count);
+
+            foreach (string enviroment in res)
+            {
+                List<string> affixes = enviroment.Split(new char[] { ' ' }).ToList();
+                parser = new Parser(Properties.Resources.Words_str, folderName);
+                List<string> setYesComplimentary = parser.ParseFileWithAffixStrict(null, affixes, false);
+
+                foreach (string s in setYesComplimentary)
+                    streamWriter.WriteLine(s);
+            }
+            streamWriter.Close();
+
+            //Streamer.Print(res, streamWriter);
+
+            textBoxOutput.Text = "";
+            textBoxOutput.Text = outputPath;
+
+            int a = 0;
         }
     }
 }

@@ -34,6 +34,8 @@
             this.expandAllButton = new System.Windows.Forms.Button();
             this.labelHelper = new System.Windows.Forms.Label();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.textBoxOutput = new System.Windows.Forms.TextBox();
+            this.buttonCreateSubtree = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // treeView1
@@ -103,11 +105,36 @@
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
+            // textBoxOutput
+            // 
+            this.textBoxOutput.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.textBoxOutput.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBoxOutput.Location = new System.Drawing.Point(1084, 199);
+            this.textBoxOutput.Multiline = true;
+            this.textBoxOutput.Name = "textBoxOutput";
+            this.textBoxOutput.ReadOnly = true;
+            this.textBoxOutput.Size = new System.Drawing.Size(434, 107);
+            this.textBoxOutput.TabIndex = 19;
+            this.textBoxOutput.Text = "Здесь будет название сгенерированного файла.";
+            // 
+            // buttonCreateSubtree
+            // 
+            this.buttonCreateSubtree.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.buttonCreateSubtree.Location = new System.Drawing.Point(681, 199);
+            this.buttonCreateSubtree.Name = "buttonCreateSubtree";
+            this.buttonCreateSubtree.Size = new System.Drawing.Size(397, 107);
+            this.buttonCreateSubtree.TabIndex = 18;
+            this.buttonCreateSubtree.Text = "Создать выборку по выбранному первому аффиксу (поддереву)";
+            this.buttonCreateSubtree.UseVisualStyleBackColor = true;
+            this.buttonCreateSubtree.Click += new System.EventHandler(this.buttonCreateSubtree_Click);
+            // 
             // SufForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1530, 760);
+            this.Controls.Add(this.textBoxOutput);
+            this.Controls.Add(this.buttonCreateSubtree);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.labelHelper);
             this.Controls.Add(this.expandAllButton);
@@ -131,5 +158,7 @@
         private System.Windows.Forms.Button expandAllButton;
         private System.Windows.Forms.Label labelHelper;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.TextBox textBoxOutput;
+        private System.Windows.Forms.Button buttonCreateSubtree;
     }
 }

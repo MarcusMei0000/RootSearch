@@ -16,12 +16,12 @@ using System.Timers;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Runtime.InteropServices.ComTypes;
+using DocumentFormat.OpenXml.Drawing;
 
 namespace RootSearch
 {
     public partial class PrefForm : UniForm
     {
-
         const string FILE_PATH_GROWING = "дерево развёртывания";
         const string FILE_PATH_PREFS = "prefixes.txt";
         string folderName = AppDomain.CurrentDomain.BaseDirectory;
@@ -277,11 +277,11 @@ namespace RootSearch
 
             var enviroments =
                 AFFIX_SET.FindAll(enviroment => enviroment.EndsWith(" " + rootOfSubTree));
-            //AFFIX_SET.FindAll(enviroment => enviroment.StartsWith(rootOfSubTree+" "));
 
             enviroments.Add(rootOfSubTree);
             enviroments.Sort();
-            var res = enviroments.Distinct();
+            var res = enviroments.OrderBy(str => str.Count(f => f == ' ')).ThenBy(str => str).Distinct();
+           
 
             foreach (string enviroment in res)
             {
