@@ -101,10 +101,22 @@ namespace RootSearch
         {
             if (word != null && !IsProclitic(word) && !IsEnclitic(word))
             {
-                if (prefixes == null && word.IsClassifiedSuffixes(suffixies))
-                    setYes.Add(word.ToStringEnviromentRoot(isPref));
-                if (word.IsClassifiedPreffixes(prefixes) && suffixies == null)
-                    setYes.Add(word.ToStringEnviromentRoot(isPref));
+                if (isPref)
+                {
+                    if (prefixes == null && word.IsClassifiedSuffixes(suffixies))
+                        setYes.Add(word.ToStringEnviromentRoot(isPref));
+
+                    if (word.IsClassifiedPreffixesStrict(prefixes) && suffixies == null)
+                        setYes.Add(word.ToStringEnviromentRoot(isPref));
+                }
+                else
+                {
+                    if (prefixes == null && word.IsClassifiedSuffixesStrict(suffixies))
+                        setYes.Add(word.ToStringEnviromentRoot(isPref));
+
+                    if (word.IsClassifiedPreffixes(prefixes) && suffixies == null)
+                        setYes.Add(word.ToStringEnviromentRoot(isPref));
+                }
             }
         }
 
@@ -165,7 +177,7 @@ namespace RootSearch
             return setYes;
         }
 
-        public List<string> ParseFileWithAffix(List<string> prefixes, List<string> suffixies, bool isPref)
+        public List<string> ParseFileWithAffixStrict(List<string> prefixes, List<string> suffixies, bool isPref)
         {
             streamReader = new StreamReader(filePath, Encoding.Default);
 
@@ -178,6 +190,7 @@ namespace RootSearch
             {
                 {
                     word = ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
+                    
                     ClassifyWord(word, prefixes, suffixies, ref setYes, isPref);
 
                     while (remainder != null)

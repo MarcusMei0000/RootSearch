@@ -423,14 +423,14 @@ namespace RootSearch
         private void sufFormButton_Click(object sender, EventArgs e)
         {
 
-            List<string> set = Streamer.CreateListFromFile(FILE_PATH_ALL_AFFIX_ENVIROMENTS);
+            List<string> set = Streamer.CreateListFromFile(Properties.Resources.allAffixEnviroment_str);
             sufForm = new SufForm(set);
             sufForm.Show();
         }
 
         private void prefFormButton_Click(object sender, EventArgs e)
         {
-            List<string> set = Streamer.CreateListFromFile(FILE_PATH_ALL_AFFIX_ENVIROMENTS);
+            List<string> set = Streamer.CreateListFromFile(Properties.Resources.allAffixEnviroment_str);
             prefForm = new PrefForm(set);
             prefForm.Show();
         }

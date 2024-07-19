@@ -65,7 +65,9 @@ namespace RootSearch
             labelHelper.Text = "Нажмите 1 раз ЛКМ по узлу, чтобы открыть следующие аффиксы или скрыть их."
                 + Environment.NewLine + "Нажмите дважды ЛКМ по узлу, чтобы раскрыть всё поддерево (все аффиксальные цепочки)."
                 + Environment.NewLine + "Выберите из выпадающего списка первый аффикс, чтобы осуществить автоматическую прокрутку и раскрытие поддерева. "
-                + Environment.NewLine + "Осторожно!!! Раскрытие всех узлов дерева (всех аффиксальных цепочек) может занимать до 5 минут!!!";
+                + Environment.NewLine + "После выбора примыкающего к корню аффикса нажмите на кнопку, чтобы осуществить вывод поддерева с примерами. "
+                + Environment.NewLine + "Осторожно!!! Раскрытие всех узлов дерева (всех аффиксальных цепочек) может занимать до 5 минут!!!"
+                + Environment.NewLine + "Осторожно!!! Формирование поддерева с примерами может занимать до 5 минут!!!";
             //PrintTree(treeView1);
         }
 
@@ -112,7 +114,8 @@ namespace RootSearch
             foreach (var affix in tmpIEnumerable)
             {
                 tmp = affix.Split(new char[] { ' ' }).ToList();
-                tmp.Add(END_SYMBOL);
+                //tmp.Add(END_SYMBOL);
+                tmp.Reverse();
                 list.Add(tmp);
             }
 
@@ -272,8 +275,9 @@ namespace RootSearch
 
             //RecursiveTreeTraversal(rootOfSubTree, sb, streamWriter);            
 
-            var enviroments = 
-                AFFIX_SET.FindAll(enviroment => enviroment.StartsWith(rootOfSubTree+" "));
+            var enviroments =
+                AFFIX_SET.FindAll(enviroment => enviroment.EndsWith(" " + rootOfSubTree));
+            //AFFIX_SET.FindAll(enviroment => enviroment.StartsWith(rootOfSubTree+" "));
 
             enviroments.Add(rootOfSubTree);
             enviroments.Sort();
@@ -282,12 +286,13 @@ namespace RootSearch
             foreach (string enviroment in res)
             {
                 List<string> affixes = enviroment.Split(new char[] {' '} ).ToList();
-                parser = new Parser("Words.txt", folderName);
-                List<string> setYesComplimentary = parser.ParseFileWithAffix(affixes, null, true);
+                parser = new Parser(Properties.Resources.Words_str, folderName);
+                List<string> setYesComplimentary = parser.ParseFileWithAffixStrict(affixes, null, true);
 
                 foreach (string s in setYesComplimentary)
                     streamWriter.WriteLine(s);
             }
+            streamWriter.Close();
 
             //Streamer.Print(res, streamWriter);
 
