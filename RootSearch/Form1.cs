@@ -70,6 +70,8 @@ namespace RootSearch
             //helpProvider1.SetHelpString(labelHelper, HELP_STR);
             //helpProvider1.SetShowHelp(labelHelper, true);
             //toolTip1.SetToolTip(labelHelper, HELP_STR);
+            //StatisticRoot.CreateMainFiles();
+            int a = 0;
         }
 
         //Дописать + проверки аналогичные предыдущим комбобоксам

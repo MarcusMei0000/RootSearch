@@ -29,6 +29,7 @@ namespace RootSearch
 
         public Dictionary<string, int> dictionary; //аффиксальное окружение в виже строки и его частота
 
+        public List<string> affixEnviromentString;
         public FullEnvironment() 
         {
             affixEnvironment = new List<Pair>();
@@ -39,11 +40,41 @@ namespace RootSearch
             this.root = root;
             affixEnvironment = new List<Pair>();
             dictionary = new Dictionary<string, int>();
+            affixEnviromentString = new List<string>();
         }
 
         public void AddEnvironment(Word w)
         {
             affixEnvironment.Add(new Pair(w.prefixes, w.suffixes));
+        }
+
+        public void OrderBy()
+        {
+            List<string> tmp = new List<string>();
+            List<string> tmp2 = new List<string>();
+            foreach (var env in affixEnvironment)
+            {
+                string s = env.ToString().Trim(' ');
+                if (env.suffixies == null)
+                {
+                    affixEnviromentString.Add(s);
+                }
+                else if (env.prefixes == null)
+                {
+                    tmp.Add(s);
+                }
+                else { tmp2.Add(s); }
+            }
+            affixEnviromentString = 
+                affixEnviromentString.OrderBy(str => str.Count(f => f == ' ')).ThenBy(str => str)
+                .Distinct().ToList();             
+
+            affixEnviromentString.AddRange(tmp.OrderBy(str => str.Count(f => f == ' ')).ThenBy(str => str)
+                .Distinct().ToList());
+
+            affixEnviromentString.AddRange(tmp2.OrderBy(str => str.Count(f => f == ' ')).ThenBy(str => str)
+                .Distinct().ToList());
+
         }
 
 
@@ -73,9 +104,11 @@ namespace RootSearch
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(root + ";" + affixEnvironment.Count + ";" + dictionary.Count + ";");
-            foreach (var record in dictionary)
+            //foreach (var record in dictionary)
+            foreach (var record in affixEnviromentString)
             {
-                sb.Append(record.Key);
+                //sb.Append(record.Key);
+                sb.Append(record);
                 sb.Append(";");
             }
             return sb.ToString();

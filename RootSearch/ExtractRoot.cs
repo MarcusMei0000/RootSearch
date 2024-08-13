@@ -56,7 +56,7 @@ namespace RootSearch
         {
             streamReader = new StreamReader(Properties.Resources.Words_str, Encoding.Default);
             //streamReader = new StreamReader(FILE_PATH, Encoding.Default);
-            StreamWriter testStreamWriter = new StreamWriter(folderName + "\\" + "testRoot", false);
+            StreamWriter testStreamWriter = new StreamWriter(folderName + "\\" + "AllAvailableRoots", false);
 
             var set = ExtractRoot.AllAvailableRootSet();
             Streamer.Print(set, testStreamWriter);

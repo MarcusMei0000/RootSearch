@@ -37,8 +37,15 @@ namespace RootSearch
             Word word;
             string s;
 
+            int kounter = 0;
+
             while ((s = streamReader.ReadLine()) != null)
             {
+                kounter++;
+                if (kounter % 20000 == 0)
+                {
+                    int a=0;
+                }
                 word = Parser.ParseStringIntoWords(s, out remainder, ref fullWord, ref transcription);
                 for (int i = 0; i < roots.Count; i++)
                 {
@@ -66,9 +73,9 @@ namespace RootSearch
             return environments;
         }
 
-        public static void CreateMainFiles(List<string> prefixes = null, List<string> suffixies = null)
+        public static void CreateMainFiles()
         {
-            string outputPath = Streamer.CreateFileName(prefixes, suffixies, folderName, "test");
+            string outputPath = Streamer.CreateFileName(null, null, folderName, "StatisticRoot");
 
             StreamWriter streamWriter;
 
@@ -76,14 +83,16 @@ namespace RootSearch
             streamReader = new StreamReader(Properties.Resources.Words_str, Encoding.Default);
             streamWriter = new StreamWriter(outputPath, false);
 
-            List<string> roots = new List<string> { "б>г", "д>", "берг" };
-            //List<string> roots = Streamer.CreateListFromFile("roots.txt");
+            List<string> list = Streamer.CreateListFromFile(Properties.Resources.root_str);
 
-            List<FullEnvironment> fullEnvironments = ParseFile(roots);
+           // List<string> list = new List<string> { "б>г", "д>", "берг" };
+
+            List<FullEnvironment> fullEnvironments = ParseFile(list);
 
             //Для смены вывода Pair, т.е. 1го аффиксального окружения, необходимо убрать true из ToString() в ToStringSet() для FullEnvironment
             foreach (var env in fullEnvironments) {
                 env.ToStringSet();
+                env.OrderBy();
                 streamWriter.WriteLine(env.ToStringFull());
                // streamWriter.WriteLine();
             }
